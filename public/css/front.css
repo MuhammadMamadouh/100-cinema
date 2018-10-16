@@ -1,0 +1,282 @@
+body {
+    padding-top: 70px;
+}
+
+/* Main Navbar */
+
+.navbar {
+    min-height: 70px
+}
+
+/* Navbar Link */
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #BBB;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 16px
+}
+
+/* Brand Name */
+
+.navbar-inverse .navbar-brand {
+    color: #BBB;
+    font-size: 30px;
+    line-height: 40px
+}
+
+/* Dropdown Menu */
+
+.dropdown-menu {
+    background-color: #333;
+    min-width: 200px;
+    color: #FFFFFF;
+    padding-left: 5px;
+    width: 80%;
+}
+
+.navbar-right .dropdown-menu {
+    left: 0;
+    right: auto
+}
+
+.dropdown-menu > li > a {
+    color: #FFF;
+    padding: 6px 20px
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #1d1b1b;
+    font-weight: 600;
+    padding-left: 25px;
+}
+
+.dropdown-menu .divider {
+    background-color: #871818
+}
+
+/* Navbar Toggle */
+
+.navbar-toggle {
+    margin-top: 18px
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.content-wrapper {
+    background-color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    color: #fff;
+    background-color: #ac2925;
+}
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+    color: #fff;
+    background-color: #ac2925;
+}
+
+.form-inline {
+    padding-bottom: 0;
+    padding-top: 18px;
+    margin-left: 20px;
+
+}
+
+.form-inline > input[type=search] {
+    width: 80%;
+    font-size: 16px;
+    position: relative;
+    border-radius: 5px;
+}
+
+.nav-search .form-inline .btn {
+    background-color: #FFFFFF
+}
+
+.nav-item .form-inline i {
+    position: absolute;
+    top: 16px;
+    right: 23px;
+    color: #969292;
+    font-size: 20px;
+}
+
+.sidebar {
+    /*position: absolute;*/
+    /*right: 0;*/
+    padding-right: 0 !important;
+}
+
+/* Comment Box */
+#commentBox {
+    margin-bottom: 10px
+}
+
+.rating-inputs .btn-default {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.rating-inputs .fa-star {
+    color: #FFFFFF;
+    background-color: #f39c12;
+}
+
+/*end comment box*/
+
+/*.main {padding-left: 0!important;}*/
+/* Carousel */
+
+.carousel-caption {
+    /*bottom: 170px;*/
+    background: rgba(3, 3, 3, 0.3);
+    padding-right: 20px;
+    padding-left: 20px
+}
+
+.carousel-indicators {
+    bottom: 0
+}
+
+.carousel-indicators li {
+    height: 15px;
+    width: 15px;
+    border: 1px solid #EEE
+}
+
+.carousel-indicators .active {
+    height: 17px;
+    width: 17px
+}
+
+.carousel-inner > .item > img {
+    width: 100%;
+    height: 500px;
+}
+
+.comments {
+    margin-top: 40px
+}
+
+/******* End Overriding Bootstrap ******/
+
+.read-more-state {
+    display: none;
+}
+
+.read-more-target {
+    opacity: 0;
+    max-height: 0;
+    font-size: 0;
+    transition: .25s ease;
+}
+
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+    opacity: 1;
+    font-size: inherit;
+    max-height: 999em;
+}
+
+.read-more-state ~ .read-more-trigger:before {
+    content: 'Show more';
+}
+
+.read-more-state:checked ~ .read-more-trigger:before {
+    content: 'Show less';
+}
+
+.read-more-trigger {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 .5em;
+    color: #666;
+    font-size: .9em;
+    line-height: 2;
+    border: 1px solid #ddd;
+    border-radius: .25em;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+}
+
+/* user edit*/
+body {
+    background-color: #efefef;
+}
+
+.file-upload {
+    display: none !important;
+}
+
+.p-image {
+    position: absolute;
+    top: 167px;
+    right: 30px;
+    color: #666666;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+.p-image:hover {
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+.upload-button {
+    font-size: 3.2em;
+    position: absolute;
+    bottom: 0px;
+}
+
+.upload-button:hover {
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    color: #999;
+}
+
+/* read more button classes*/
+.b-description_readmore_ellipsis:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 75%;
+    height: 25px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 65%);
+}
+
+.b-description_readmore_button {
+    color: #ac2925;
+    font-size: 1em;
+    float: left;
+    display: inline-block;
+    width: 150px;
+    cursor: pointer;
+}
+
+/* profile*/
+
+.profile-reviews {
+    padding: 10px 10px;
+    margin-top: 0;
+    border: 1px solid #e0dbdb;
+}
+
+.profile-reviews p {
+    padding: 10px;
+}
+
+.portfolio_item img {
+    height: 125px;
+    width: 100%
+}
+
+/* Register Form*/
+
+.card-body .row {
+    margin-left: 15px;
+}

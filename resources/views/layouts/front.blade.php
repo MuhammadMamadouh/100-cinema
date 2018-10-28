@@ -129,25 +129,7 @@
 
     @if(config('adminlte.layout') != 'top-nav')
         <!-- Left side column. contains the logo and sidebar -->
-            <aside class="sidebar col-lg-3 pull-right">
-                <!-- sidebar: style can be found in sidebar.less -->
-                <section class="sidebar">
-                    <!-- Sidebar Menu -->
-                    <ul class="sidebar-menu">
-                        <li>
-                            <img class="img-thumbnail" src="{{asset('public/test/images/amanda1.jpg')}}">
-                        </li>
-                        <li>
-                            <img class="img-thumbnail" src="{{asset('public/test/images/amanda4.jpg')}}">
-                        </li>
-
-
-                        {{--@each('adminlte::partials.menu-item', $adminlte->menu(), 'item')--}}
-                    </ul>
-                    <!-- /.sidebar-menu -->
-                </section>
-                <!-- /.sidebar -->
-            </aside>
+        @include('layouts.sidebar')
     @endif
 
     <!-- Content Wrapper. Contains page content -->

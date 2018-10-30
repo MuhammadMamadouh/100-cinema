@@ -1,17 +1,16 @@
 @extends('adminlte::page')
 <!-- Main content -->
 @section('content')
-    @include('admin.ads.create')
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title"> Ads </h3>
+            <h3 class="box-title"> Movies </h3>
         </div>
+
         <div class="box-body">
-            {!! Form::open(['id'=>'form_data','url'=>aurl('ads/destroy/all'),'method'=>'delete']) !!}
+            {!! Form::open(['id'=>'form_data','url'=>aurl('movies/destroy/all'),'method'=>'delete']) !!}
             {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered'],true) !!}
             {!! Form::close() !!}
         </div>
-
     </div>
 
     <div id="mutlipleDelete" class="modal fade" role="dialog">

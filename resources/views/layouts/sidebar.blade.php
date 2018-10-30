@@ -13,10 +13,16 @@
         <ul class="">
             <!-- Sidebar Menu -->
             @foreach($ads as $ad)
+
                 <li>
-                    <a href="{{$ad->link}}" target="_blank">
-                        <img class="img-thumbnail" src="{{\Storage::url($ad->image)}}">
-                    </a>
+                    <div class="card">
+                        <img class="card-img-top" src="{{\Storage::url($ad->image)}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{$ad->name}}</h5>
+                            <p class="card-text">.</p>
+                            <a href="{{$ad->link}}" class="btn btn-primary">{{$ad->link}}</a>
+                        </div>
+                    </div>
                 </li>
             @endforeach
         </ul>

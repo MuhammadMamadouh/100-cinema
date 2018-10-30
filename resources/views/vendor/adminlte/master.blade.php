@@ -13,6 +13,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
 
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
 

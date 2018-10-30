@@ -6,91 +6,88 @@
             <h2 class="box-header">Poster</h2>
         </div>
         <div class="box poster-box ">
-            <img src="{{\Storage::url($movie->poster)}}" class="center-block img-thumbnail rounded-circle poster">
+            <img src="{{\Storage::url($ad->image)}}" class="center-block img-thumbnail rounded-circle poster">
         </div>
     </aside>
     <div class="col-md-6">
         <div class="box-header">
-            <h2 class="box-header">Edit movie</h2>
+            <h2 class="box-header">Edit Ad {{$ad->name}}</h2>
         </div>
 
         <div class="box-body">
 
-            {!! Form::open(['route' => ['movies.update', $movie->id], 'method'=> 'put', 'files'=> true]) !!}
+            {!! Form::open(['route' => ['ads.update', $ad->id], 'method'=> 'put', 'files'=> true]) !!}
 
             <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
-                {!! Form::text('title',$movie->title,['class'=>'form-control','placeholder'=>'title']) !!}
-                <span class="glyphicon glyphicon-tag form-control-feedback"></span>
-                @if ($errors->has('title'))
+                {!! Form::label('name') !!}
+                {!! Form::text('name',$ad->name,['class'=>'form-control  input','placeholder'=>'Ad Name' ]) !!}
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                @if ($errors->has('name'))
                     <span class="help-block">
-                            <strong>{{ $errors->first('title') }}</strong>
-                        </span>
-                @endif
-            </div>
-            <div class="form-group has-feedback {{ $errors->has('playtime') ? 'has-error' : '' }}">
-                {!! Form::text('playtime',$movie->playtime,['class'=>'form-control','placeholder'=>'playtime' ]) !!}
-
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                @if ($errors->has('playtime'))
-                    <span class="help-block">
-                            <strong>{{ $errors->first('playtime') }}</strong>
-                        </span>
-                @endif
-            </div>
-            <div class="form-group has-feedback {{ $errors->has('country') ? 'has-error' : '' }}">
-                <input type="country" name="country" class="form-control"
-                       placeholder="country" v>
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                @if ($errors->has('country'))
-                    <span class="help-block">
-                            <strong>{{ $errors->first('country') }}</strong>
+                            <strong>{{ $errors->first('name') }}</strong>
                         </span>
                 @endif
             </div>
 
-            <div class="form-group has-feedback {{ $errors->has('language') ? 'has-error' : '' }}">
-                {!! Form::text('language',$movie->language,['class'=>'form-control','placeholder'=>'language' ]) !!}
+            <div class="form-group has-feedback {{ $errors->has('link') ? 'has-error' : '' }}">
+                {!! Form::label('link') !!}
+                {!! Form::text('link',$ad->link,['class'=>'form-control input','placeholder'=>'Link' ]) !!}
                 <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
-                @if ($errors->has('language'))
+                @if ($errors->has('link'))
                     <span class="help-block">
-                            <strong>{{ $errors->first('language') }}</strong>
+                            <strong>{{ $errors->first('link') }}</strong>
                         </span>
                 @endif
             </div>
-            <div class="form-group has-feedback {{ $errors->has('year') ? 'has-error' : '' }}">
-                {!! Form::text('year',$movie->year,['class'=>'form-control','placeholder'=>'year' ]) !!}
-                <span class="glyphicon glyphicon-link form-control-feedback"></span>
-                @if ($errors->has('year'))
+
+            <div class="form-group has-feedback {{ $errors->has('start_at') ? 'has-error' : '' }}">
+                {!! Form::label('start_at') !!}
+                {!! Form::text('start_at',date('d-m-y', $ad->start_at),['class'=>'form-control input','placeholder'=>'Start_at' ]) !!}
+                <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
+                @if ($errors->has('start_at'))
                     <span class="help-block">
-                            <strong>{{ $errors->first('year') }}</strong>
+                            <strong>{{ $errors->first('start_at') }}</strong>
                         </span>
                 @endif
             </div>
-            <div class="form-group has-feedback {{ $errors->has('trailer') ? 'has-error' : '' }}">
-                {!! Form::text('trailer','https://www.youtube.com/watch?v='.$movie->trailer,['class'=>'form-control','placeholder'=>'trailer' ]) !!}
-                <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
-                @if ($errors->has('trailer'))
+
+            <div class="form-group has-feedback {{ $errors->has('end_at') ? 'has-error' : '' }}">
+                {!! Form::label('end_at') !!}
+                {!! Form::text('end_at',date('d-m-y', $ad->end_at),['class'=>'form-control input','placeholder'=>'End_at' ]) !!}
+                <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
+                @if ($errors->has('end_at'))
                     <span class="help-block">
-                            <strong>{{ $errors->first('trailer') }}</strong>
+                            <strong>{{ $errors->first('end_at') }}</strong>
                         </span>
                 @endif
             </div>
-            <div class="form-group has-feedback {{ $errors->has('story') ? 'has-error' : '' }}">
-                {!! Form::textarea('story',$movie->story,['class'=>'form-control','placeholder'=>'story' ]) !!}
-                <span class="glyphicon glyphicon-align-center form-control-feedback"></span>
-                @if ($errors->has('story'))
-                    <span class="help-block">
-                            <strong>{{ $errors->first('story') }}</strong>
-                        </span>
-                @endif
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" name="status">
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
             </div>
-            <div class="form-group has-feedback {{ $errors->has('poster') ? 'has-error' : '' }}">
-                {!! Form::label('poster','poster') !!}
-                {!! Form::file('poster',['class'=>'form-control']) !!}
+
+            <div class="form-group">
+                <label for="page">Page</label>
+                <select name="page" id="page" class="form-control">
+                    @foreach($pages as $page)
+                        <option value="{{$page}}"
+                                @if($ad->page == $page) ? selected : @endif>{{$page}}>
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
+                {!! Form::label('image','Profile Picture') !!}
+                {!! Form::file('image',['class'=>'form-control']) !!}
                 <span class="glyphicon glyphicon-picture form-control-feedback"></span>
-                @if ($errors->has('poster'))
+                @if ($errors->has('image'))
                     <span class="help-block">
-                            <strong>{{ $errors->first('poster') }}</strong>
+                            <strong>{{ $errors->first('image') }}</strong>
                         </span>
                 @endif
             </div>

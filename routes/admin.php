@@ -33,13 +33,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
 //        ------------- Ads links ------------------------
         Route::resource('ads', 'AdsController');
         Route::delete('ads/destroy/all', 'AdsController@multiDestroy');
-        Route::get('ads/{id}/add-images', 'AdsController@addImages');
-        Route::post('ads/store-images', 'AdsController@storeImages')->name('addAdsImage');
 
-        Route::get('ads/{id}/add-jobs', 'AdsController@addJobs');
-        Route::get('ads/add-jobs', 'AdsController@addJobs')->name('addAdsJobs');
-
-
+//        ------------- Jobs links ------------------------
         Route::resource('jobs', 'JobController');
         Route::delete('jobs/destroy/all', 'JobController@multiDestroy');
 

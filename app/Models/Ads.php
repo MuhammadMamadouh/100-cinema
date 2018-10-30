@@ -19,28 +19,4 @@ class Ads extends Model
         'page',
         'status',
     ];
-
-    /**
-     * Get Enabled Ads for the current page
-     *
-     * @return array
-     */
-    public function enabled()
-    {
-        $currentRoute = url()->current();
-        $router = app()->make('router');
-
-//        dd($router->getCurrentRoute()->uri);
-//        $currentRoute = Route::current()->uri();
-//        $currentRoute = Route::getFacadeRoot()->current()->uri();
-//        $currentRoute = new Request();
-//        $currentRoute = $router->getCurrentRoute()->uri();
-        $now = time();
-
-        return Ads::where('status', 'enabled')
-            ->where('page', $currentRoute)
-            ->where('start_at', '<=', $now)
-            ->where('end_at', '>=', $now)
-            ->get();
-    }
 }

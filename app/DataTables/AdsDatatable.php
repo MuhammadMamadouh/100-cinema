@@ -17,9 +17,8 @@ class AdsDatatable extends DataTable
         return datatables($query)
             ->addColumn('Edit', 'admin.ads.btn.edit')
             ->addColumn('Delete', 'admin.ads.btn.delete')
-            ->addColumn('Show', 'admin.ads.btn.show')
             ->addColumn('checkbox', 'admin.ads.btn.checkbox')
-            ->rawColumns(['Show', 'Edit', 'Delete', 'checkbox']);
+            ->rawColumns(['Edit', 'Delete', 'checkbox']);
     }
 
     /**
@@ -30,7 +29,7 @@ class AdsDatatable extends DataTable
      */
     public function query(Ads $model)
     {
-        return $model->newQuery()->select('id', 'name', 'created_at', 'updated_at');
+        return $model->newQuery()->select();
     }
 
     /**
@@ -90,6 +89,26 @@ class AdsDatatable extends DataTable
                 'title' => 'Name',
             ],
             [
+                'name' => 'link',
+                'data' => 'link',
+                'title' => 'Link',
+            ],
+            [
+                'name' => 'page',
+                'data' => 'page',
+                'title' => 'Page',
+            ],
+            [
+                'name' => 'name',
+                'data' => 'name',
+                'title' => 'Name',
+            ],
+            [
+                'name' => 'name',
+                'data' => 'name',
+                'title' => 'Name',
+            ],
+            [
                 'name' => 'created_at',
                 'data' => 'created_at',
                 'title' => 'created_at',
@@ -98,15 +117,6 @@ class AdsDatatable extends DataTable
                 'name' => 'updated_at',
                 'data' => 'updated_at',
                 'title' => 'updated_at',
-            ],
-            [
-                'name' => 'Show',
-                'data' => 'Show',
-                'title' => 'Show',
-                'exportable' => false,
-                'printable' => false,
-                'orderable' => false,
-                'searchable' => false,
             ],
             [
                 'name' => 'Edit',

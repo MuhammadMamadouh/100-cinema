@@ -26,10 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $post = Post::find(2);
-        $user = User::find($post->user_id);
-        $posts = Post::all();
+        $user = new User();
+        $posts = $user->followedPosts()->limit(3)->get();
 
         $movies = DB::table('movies')->orderBy('created_at')->limit(3)->get();
 
@@ -42,7 +40,7 @@ class HomeController extends Controller
 //        $video = $listFromYouTube->items[$key];
 
 
-        return view('home', compact('movies', 'video', 'post', 'user', 'posts'));
+        return view('home', compact('movies', 'video', 'posts'));
     }
 
     public function search()

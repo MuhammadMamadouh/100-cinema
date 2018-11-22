@@ -71,60 +71,65 @@
                                     </div>
                                 </article>
                             @endguest
-                            <div id="reviews">
-                                @foreach($posts as $post)
-                                    <article class="row" id="comment{{$post->id}}">
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="panel panel-default arrow left">
-                                                <div class="panel-body">
-                                                    <header class="text-left">
-                                                        <div class="col-md-2 col-sm-2 hidden-xs">
-                                                            <figure class="thumbnail">
 
-                                                                <img class="img-responsive"
-                                                                     @if($post->user()->first()->image)
-                                                                     src="{{\Storage::url($post->user()->first()->image)}}"
-                                                                     alt="{{$post->user()->first()->image}}"
-                                                                     @else
-                                                                     src="{{asset('public/images/user.png')}}"
-                                                                        @endif
-                                                                >
-                                                                <figcaption class="text-center"><a
-                                                                            href="#">{{$post->user()->first()->name}}</a>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="comment-user"><i class="fa fa-user"></i>
-                                                            <h4>{{$post->title}}</h4>
-                                                        </div>
-                                                        <time class="comment-date" datetime="{{$post->created_at}}"><i
-                                                                    class="fa fa-clock-o"></i> {{$post->created_at}}
-                                                        </time>
-                                                    </header>
+                                <div>
+                                    @foreach($posts as $post)
+                                        <?php
+                                        $user = \App\User::find($post->user_id);
+                                        ?>
+                                        <article class="row" id="comment{{$post->id}}">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="panel panel-default arrow left">
+                                                    <div class="panel-body">
+                                                        <header class="text-left">
+                                                            <div class="col-md-2 col-sm-2 hidden-xs">
+                                                                <figure class="thumbnail">
 
-                                                    <div class="comment-post">
-                                                        <div class="b-description_readmore js-description_readmore">{{nl2br($post->details)}}</div>
-                                                    </div>
-                                                    <div class="post_image">
-                                                        <img src="{{\Storage::url($post->image)}}"
-                                                             class="img-responsive" style="max-height: 500px">
-                                                    </div>
-                                                    <div class="post-box-footer">
-                                                        <a href="#" class="user col-md-6">
-                                                            By:
-                                                            <span class="main">{{$post->user()->first()->name}}</span>
-                                                        </a>
-                                                        <a href="#" class="category col-md-6">
-                                                            In:
-                                                            <span class="main">category</span>
-                                                        </a>
+                                                                    <img class="img-responsive"
+                                                                         @if($user->image)
+                                                                         src="{{\Storage::url($user->image)}}"
+                                                                         alt="{{$user->name}}"
+                                                                         @else
+                                                                         src="{{asset('public/images/user.png')}}"
+                                                                            @endif
+                                                                    >
+                                                                    <figcaption class="text-center"><a
+                                                                                href="#">{{$user->name}}</a>
+                                                                    </figcaption>
+                                                                </figure>
+                                                            </div>
+                                                            <div class="comment-user"><i class="fa fa-user"></i>
+                                                                <h4>{{$post->title}}</h4>
+                                                            </div>
+                                                            <time class="comment-date" datetime="{{$post->created_at}}">
+                                                                <i
+                                                                        class="fa fa-clock-o"></i> {{$post->created_at}}
+                                                            </time>
+                                                        </header>
+
+                                                        <div class="comment-post">
+                                                            <div class="b-description_readmore js-description_readmore">{{nl2br($post->details)}}</div>
+                                                        </div>
+                                                        <div class="post_image">
+                                                            <img src="{{\Storage::url($post->image)}}"
+                                                                 class="img-responsive" style="max-height: 500px">
+                                                        </div>
+                                                        <div class="post-box-footer">
+                                                            <a href="#" class="user col-md-6">
+                                                                By:
+                                                                {{--<span class="main">{{$post->user()->first()->name}}</span>--}}
+                                                            </a>
+                                                            <a href="#" class="category col-md-6">
+                                                                In:
+                                                                <span class="main">category</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </article>
-                                @endforeach
-                            </div>
+                                        </article>
+                                    @endforeach
+                                </div>
                         </section>
                     </div>
                 </div>

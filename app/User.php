@@ -90,7 +90,7 @@ class User extends Authenticatable
     /**
      * Check if the auth user is following the other user
      * @param int $follower
-     * @return \Illuminate\Database\Query\Builder
+     * @return bool
      */
     public function isFollowedBy(int $follower)
     {
@@ -100,6 +100,24 @@ class User extends Authenticatable
             'followed' => $followed,
         ])->first();
 
-        return $following;
+        if ($following) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * Get posts of the users which auth user is following them
+     * @return \Illuminate\Support\Collection
+     */
+    public function followedPosts()
+    {
+        return DB::table('posts')
+            ->join('friend_with', 'friend_with.followed', 'posts.user_id')
+//            ->join('users', 'posts.user_id', '=', 'posts.user_id')
+            ->select('posts.*')
+            ->where('friend_with.follower', '=', auth()->user()->id)->orderBy('created_at', 'desc');
     }
 }

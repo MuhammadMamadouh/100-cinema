@@ -2,6 +2,9 @@
 <!-- Main content -->
 @section('title', $user->name . '')
 @section('content')
+
+
+
     <div class=" main_container">
         <div class="content_inner_bg row m0">
             <section class="about_person_area pad" id="about">
@@ -16,8 +19,17 @@
                             <h3><span>{{$user->name}}</span></h3>
                             @auth
                                 @if( request()->route()->parameter('id') != auth()->user()->id)
-                                    <button class="btn btn-danger">follow
-                                        <i class="fa fa-plus"></i>
+
+                                    <button class="btn btn-danger" id="follow" data-id="{{$user->id}}"
+                                            data-status=
+                                            @if($user->isFollowedBy(auth()->user()->id))
+                                                    "following">
+                                        @else
+                                            "follow">
+                                        @endif
+                                        @if($user->isFollowedBy(auth()->user()->id)) following @else follow <i
+                                                class="fa fa-plus"></i>@endif
+
                                     </button>
                                 @endif
                                 @if(request()->route()->parameter('id') == auth()->user()->id)
@@ -163,7 +175,8 @@
                                                 <div class="comment-user"><i class="fa fa-user"></i>
                                                     <a href="#">{{$user->name}}</a>
                                                 </div>
-                                                <time id="time" class="comment-date" datetime="{{$review->created_at}}"><i
+                                                <time id="time" class="comment-date" datetime="{{$review->created_at}}">
+                                                    <i
                                                             class="fa fa-clock-o"></i>
                                                 </time>
                                             </header>
@@ -185,6 +198,58 @@
 @push('js')
     <script>
 
+
+        $('#follow').on('click', function (e) {
+            id = $(this).data('id');
+            status = $(this).data('status');
+            if (status === 'follow') {
+                url = '{{url('user/follow')}}';
+                console.log(url);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{url('user/follow/')}}',
+                    datatype: 'json',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        id: id,
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        if (data.exception) {
+                            toastr.warning('there is something error');
+                        }
+                        $('#follow').data('status', 'following').text('following');
+                    },
+                    error: function (data) {
+
+                        console.log(data)
+                    }
+                });
+            } else if (status === 'following') {
+                url = '{{url('user/deleteFollow')}}';
+                console.log(url);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    datatype: 'json',
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        id: id,
+                    },
+                    success: function (data) {
+                        if (data.exception) {
+                            toastr.warning('there is something error');
+                        }
+                        $('#follow').data('status', 'follow').text('follow');
+                    },
+                    error: function (data) {
+
+                        toastr.danger('there is something error');
+                        window.location.reload();
+                    }
+                });
+            }
+        });
         $('.js-description_readmore').moreLines({
             linecount: 1,
             // default CSS classes
@@ -201,11 +266,10 @@
         });
 
 
-
-      var last = $('#time').attr('dateTime');
-      // var current = new Date().getVarDate;
-      // console.log(last);
-      // console.log('date is ' + current);
+        var last = $('#time').attr('dateTime');
+        // var current = new Date().getVarDate;
+        // console.log(last);
+        // console.log('date is ' + current);
 
         var date1 = new Date(last);
         var date2 = new Date();
@@ -218,13 +282,13 @@
         console.log('dif hours ' + diffHours);
         console.log('dif days ' + diffDays);
 
-        if(diffHours < 24 && diffDays < 1) {
+        if (diffHours < 24 && diffDays < 1) {
             $('#time').text(diffHours + 'hr');
             console.log(diffHours + ' hr');
-        }else if(diffDays > 10&& diffHours > 24) {
+        } else if (diffDays > 10 && diffHours > 24) {
             $('#time').text(diffDays + 'days ago');
             console.log('days');
-        }else {
+        } else {
             $('#time').text(diffDays + 'days ago');
             console.log('years');
         }

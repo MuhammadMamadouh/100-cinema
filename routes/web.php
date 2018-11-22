@@ -3,7 +3,7 @@
 
 \Config::set('auth.defaults.guard', 'web');
 Route::get('test', function () {
-    return view('test3');
+    return view('test4');
 });
 
 \Auth::routes();
@@ -31,10 +31,19 @@ Route::group(['namespace' => 'User'], function () {
         Route::get('{id}', 'UserController@profile')->name('profile');
         Route::get('{id}/edit', 'UserController@edit')->name('editProfile');
         Route::post('{id}/update', 'UserController@update')->name('editProfile');
+        Route::post('/follow', 'UserController@follow')->name('follow');
+        Route::post('/deleteFollow', 'UserController@deleteFollow')->name('deleteFollow');
     });
     Route::group(['prefix' => 'crew'], function () {
         Route::get('{id}', 'CastController@show');
         Route::get('job/{name}', 'CastController@viewCastsByJob');
     });
 
+    Route::resource('posts', 'PostsController');
+
+    Route::group(['prefix' => 'posts'], function () {
+        Route::post('{id}/addComment', 'CommentsController@store')->name('addComment');
+        Route::get('{id}/comments', 'PostsController@comments')->name('comments');
+        Route::get('all', 'PostsController@posts');
+    });
 });

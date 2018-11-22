@@ -148,10 +148,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Package Service Providers...
-         */
-
-        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -160,9 +156,16 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Package Service Providers...
+         */
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Alaouy\Youtube\YoutubeServiceProvider::class,
+        PulkitJalan\Google\GoogleServiceProvider::class,
+        Yoeunes\Toastr\ToastrServiceProvider::class
+
 
     ],
 
@@ -212,9 +215,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'upload'=> \App\Http\Controllers\UploadController::class,
 
-
+        'upload' => \App\Http\Controllers\UploadController::class,
+        'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
+        'Google' => PulkitJalan\Google\Facades\Google::class,
+        'Toastr' => Kamaln7\Toastr\Facades\Toastr::class,
     ],
 
 ];

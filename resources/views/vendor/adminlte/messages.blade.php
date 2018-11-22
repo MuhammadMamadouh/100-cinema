@@ -1,3 +1,4 @@
+
 @if(count($errors->all()) > 0)
     <div class="alert alert-danger message">
         <ul>

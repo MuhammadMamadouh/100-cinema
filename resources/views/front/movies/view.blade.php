@@ -138,8 +138,6 @@
                     </div>
                 </div>
             </section>
-<pre>
-</pre>
 
             <section class="news_area pad" id="news">
                 <div class="main_title">
@@ -189,32 +187,6 @@
                 @endif
             </section>
 
-            <section class="reviews pad">
-                <div class="container">
-
-                    <div class="row">
-
-                        {{--<div class="col-sm-3">--}}
-                        {{--<h4>Rating breakdown</h4>--}}
-                        {{--<div class="pull-left">--}}
-                        {{--<div class="pull-left" style="width:35px; line-height:1;">--}}
-                        {{--<div style="height:9px; margin:5px 0;">5 <span class="glyphicon glyphicon-star"></span></div>--}}
-                        {{--</div>--}}
-                        {{--<div class="pull-left" style="width:180px;">--}}
-                        {{--<div class="progress" style="height:9px; margin:8px 0;">--}}
-                        {{--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 1000%">--}}
-                        {{--<span class="sr-only">80% Complete (danger)</span>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="pull-right" style="margin-left:10px;">1</div>--}}
-                        {{--</div>--}}
-
-
-                    </div>
-                </div>
-
-            </section>
             <section class="portfolio_area pad" id="portfolio">
                 <div class="main_title">
                     <h2 class="pull-left">Reviews</h2>
@@ -314,14 +286,12 @@
                 })
 
                     .done(function (data) {
-                        console.log('done')
                         $('#commentBox').text('');
                         $('#msg').html('Admin has been added successfully').fadeOut(2000);
                         $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
                     })
                     .fail(function (data) {
                         $('#commentBox').text('');
-                        console.log(data.responseText)
                         $('#msg').text(data.responseText).fadeOut(2000);
 
                         $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');

@@ -6,12 +6,20 @@ if (!function_exists('aurl')) {
     }
 }
 if (!function_exists('v_image')) {
-    function v_image($ext = null)
+
+    /**
+     * Validate Image upload
+     *
+     * @param string $required
+     * @param null $ext
+     * @return string
+     */
+    function v_image($nullable = 'sometimes|nullable', $ext = null)
     {
         if ($ext === null) {
-            return 'sometimes|nullable|image|mimes:jpg,jpeg,png,gif,pmp';
+            return "$nullable|image|mimes:jpg,jpeg,png,gif,pmp";
         } else {
-            return 'sometimes|nullable|image|mimes:' . $ext;
+            return "$nullable|image|mimes:" . $ext;
         }
     }
 }

@@ -41,15 +41,6 @@
                         </header>
 
                         <div class="comment-post">
-                            <?php
-//                            $str = $review->review;
-////                            echo $str . '<br />';
-//
-//                            $order = array("\n", "\n\r");
-//                            $str = str_replace($order, '<br />', $str);
-//                            echo '<div class="b-description_readmore js-description_readmore">'.$str . '</div>';
-                            ?>
-
                             <div class="b-description_readmore js-description_readmore">{{nl2br($review->review)}}</div>
                         </div>
                     </div>

@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\DataTables\CastDatatable;
+
 use App\Http\Controllers\Controller;
-use App\DataTables\MoviesDatatable;
-use App\Models\Cast;
 use App\Models\Category;
-use App\Models\Job;
 use App\Models\Movies;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Html\Builder;
 
 
 class MoviesController extends Controller
@@ -26,6 +20,7 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
+
         $movie = Movies::find($id);
         $actors = $movie->actors(3);
         $directors = $movie->directors();
@@ -60,7 +55,7 @@ class MoviesController extends Controller
             Review::create([
                 'users_id' => $user,
                 'movies_id' => $movie,
-                'review' => $review,
+                'review' => $new_review,
                 'rate' => $rate,
             ]);
             return response('success');
@@ -70,11 +65,15 @@ class MoviesController extends Controller
     }
 
 
+    /**
+     * Get reviews of a work
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function reviews($id)
     {
         $reviews = Movies::find($id)->reviews();
-        $movie = Movies::find($id);
-        return view('front.movies.reviews', compact('reviews', 'r', 'span'));
+        return view('front.movies.reviews', compact('reviews'));
     }
 
 

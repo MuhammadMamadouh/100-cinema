@@ -1,16 +1,17 @@
 @extends('adminlte::page')
 @section('adminlte_css')
-    <link href="{{ asset('public/vendor/adminlte/dist/css/skins/skin-blue' . '.min.css')}} "
-          rel="stylesheet">
+    {{--<link href="{{ asset('public/vendor/adminlte/dist/css/skins/skin-blue' . '.min.css')}} "--}}
+    {{--rel="stylesheet">--}}
     {{--<link rel="stylesheet" href="{{asset('public/css/bootstrap.min.css')}}">--}}
 
     {{--<link href="{{asset('public/css/imdb.css')}}" rel="stylesheet">--}}
     <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/front/css/newstyle.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/toastr.min.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('public/front/css/newstyle.css')}}">--}}
     <link rel="stylesheet" href="{{asset('public/css/front.css')}}">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>
+    {{--<link rel="stylesheet"--}}
+    {{--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css"/>--}}
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>--}}
 
 
     @stack('css')
@@ -65,7 +66,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand wobble-horizontal" href="#">100 <span>Cinema</span></a>
+                <a class="navbar-brand wobble-horizontal" href="{{url('/')}}">100 <span>Cinema</span></a>
             </div>
 
             <div class="collapse navbar-collapse" id="ournavbar">
@@ -141,6 +142,7 @@
 
                 <!-- Content Header (Page header) -->
                     <section class="content-header">
+
                         @yield('content_header')
                     </section>
 
@@ -148,7 +150,6 @@
                     <section class="content">
                         @include('vendor.adminlte.messages')
                         @yield('content')
-
                     </section>
 
                     <!-- End Ultimate Footer Section -->
@@ -259,14 +260,16 @@
 
 @section('adminlte_js')
 
-    <script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    {{--<script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>--}}
     <script src="{{ asset('public/js/bootstrap-rating-input.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap-rating.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/toastr.min.js') }}"></script>
     <script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
     <script src="{{ asset('public/js/myFunctions.js') }}"></script>
-
+    {!! Toastr::render() !!}
     @stack('js')
     @yield('js')
+
 
 @stop

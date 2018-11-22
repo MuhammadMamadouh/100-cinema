@@ -67,6 +67,85 @@
 @endif
 
 @yield('adminlte_js')
+<script type="text/javascript">
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(document).ready(function () {
+
+        $('#frm-insert').on('submit', function (e) {
+
+            e.preventDefault();
+
+            var form = $('#frm-insert');
+
+            var url = form.attr('action');
+
+            var data = new FormData(form[0]);
+
+            var formResults = $('#add-error');
+
+            $.ajax({
+                url: url,
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function () {
+                    formResults.removeClass().addClass('alert alert-info').html('Loading...');
+                },
+                cache: false,
+                processData: false,
+                contentType: false,
+            })
+                .done(function (results) {
+                    if (results.success) {
+                        formResults.removeClass().addClass('alert alert-success').html(results.success);
+                        $('#add_modal').modal('hide').fadeOut(1500);
+                        $('#msg').html(data.success).fadeOut(2000);
+                        toastr.success('well done')
+                        $('#posts').DataTable().draw(true);
+                        $('#frm-insert').each(function () {
+                            this.reset();
+                        });
+                    }
+
+                    if (results.redirectTo) {
+                        window.location.href = results.redirectTo;
+                    }
+                })
+
+                .fail(function (results) {
+                    $.each(results.responseJSON.errors, function (index, val) {
+                        toastr.info(val)
+                    });
+                    formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
+                });
+        });
+    });
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    $('#click').click(function () {
+        toastr.info('Are you the 6 fingered man?')
+    });
+</script>
 
 </body>
 </html>

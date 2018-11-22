@@ -157,13 +157,6 @@ class CastController extends Controller
         }
         Cast::where('id', $id)->update($data);
 
-//        $job = DB::table('course_facilities')->where('course_code', $code)->delete();
-//        foreach ($ids as $id) {
-//            DB::table('course_facilities')->insert([
-//                'course_code' => $code,
-//                'facility_id' => $id,
-//            ]);
-//        }
         return redirect(aurl('cast'))->with('success', 'updated successfully');
     }
 

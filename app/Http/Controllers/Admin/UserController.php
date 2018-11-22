@@ -33,10 +33,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         //
         $data = $this->validate(request(), [
@@ -70,7 +69,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.users.edit', compact('admin'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**

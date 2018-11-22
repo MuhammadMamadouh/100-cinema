@@ -38,6 +38,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
         Route::resource('jobs', 'JobController');
         Route::delete('jobs/destroy/all', 'JobController@multiDestroy');
 
+//        ------------- Videos links ------------------------
+        Route::resource('videos', 'VideosController');
+        Route::delete('videos/destroy/all', 'VideosController@multiDestroy');
+
+//        ------------- Posts links ------------------------
+        Route::resource('posts', 'PostsController');
+        Route::delete('posts/destroy/all', 'PostsController@multiDestroy');
+
 
         Route::get('/', function () {
             return view('admin.index');

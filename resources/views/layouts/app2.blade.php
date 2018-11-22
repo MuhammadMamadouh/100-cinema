@@ -37,14 +37,14 @@
     <!--[endif]-->
 
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/front/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{asset('public/front/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/front/css/newstyle.css')}}">
-    <link rel="stylesheet" href="{{asset('public/front/css/responsive.css')}}">
-    <link rel="stylesheet" href="{{ asset('public/front/css/default_theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/front/css/hover.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/front/css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/front/css/front.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/newstyle.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/css/default_theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/hover.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css.css') }}">
 </head>
 
 <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="80"
@@ -186,16 +186,16 @@
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="{{ asset('public/front/js/jquery-2.1.4.min.js') }}"></script>
+<script src="{{ asset('public/js/jquery-2.1.4.min.js') }}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{{ asset('public/front/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('public/front/js/bootstrap-rating.js') }}"></script>
-<script src="{{ asset('public/front/js/bootstrap.min.js') }}"></script>
-<script src="{{asset('public/front/js/jquery.morelines.min.js')}}"></script>
-<script src="{{ asset('public/front/js/plugins.js') }}"></script>
-<script src="{{ asset('public/front/js/wow.min.js') }}"></script>
-<script src="{{ asset('public/front/js/jquery.nicescroll.min.js') }}"></script>
-<script src="{{ asset('public/front/js/myFunctions.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap-rating.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+<script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
+<script src="{{ asset('public/js/plugins.js') }}"></script>
+<script src="{{ asset('public/js/wow.min.js') }}"></script>
+<script src="{{ asset('public/js/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ asset('public/js/myFunctions.js') }}"></script>
 
 </body>
 </html>

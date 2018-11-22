@@ -7,7 +7,6 @@
             ->where('start_at', '<=', time())
             ->where('end_at', '>=', time())
             ->get();
-
         ?>
 
         <ul class="">

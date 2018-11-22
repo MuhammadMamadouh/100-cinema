@@ -1,1 +1,0 @@
-<a href="{{\URL::current().'/'.$id}}/edit" class="btn btn-info">Edit</a>

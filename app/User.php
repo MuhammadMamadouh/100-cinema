@@ -29,15 +29,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * SELECT movies_reviews.*, movies.title, movies.poster, movies.id as movie_id FROM `movies_reviews`
-     * INNER JOIN movies ON movies_reviews.movies_id = movies.id
-     * WHERE users_id=5
-     *
-     *  select `movies_reviews`.*, `movies`.`title`, `movies`.`poster` from `movies_reviews`
-     * inner join `movies` on `movies_reviews`.`movies_id ` = `movies`.`id` where `movies_reviews`.`users_id` = 5
-     * order by `created_at` desc
-     * Get the reviews of movies that user watched and reviewed it.
-     * @return mixed
+     * Reviews on movies which user has written it
      */
     public function reviews()
     {
@@ -47,5 +39,67 @@ class User extends Authenticatable
             ->select('movies_reviews.*', 'movies.title', 'movies.poster')
             ->where('users_id', '=', $user)
             ->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * Posts of specific user
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
+    /**
+     * Get Follower of the user
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followers()
+    {
+        return $this->belongsToMany('App\User', 'friend_with', 'follower', 'followed');
+    }
+
+    /**
+     * Insert a follower to the user
+     *
+     * @param int $followed
+     * @return void
+     */
+    public function insertFollower(int $followed)
+    {
+        DB::table('friend_with')->insert([
+            'follower' => auth()->user()->id,
+            'followed' => $followed,
+        ]);
+    }
+
+    /**
+     * Delete a follower to the user
+     *
+     * @param int $followed
+     * @return void
+     */
+    public function deleteFollower(int $followed)
+    {
+        DB::table('friend_with')->where([
+            'follower' => auth()->user()->id,
+            'followed' => $followed,
+        ])->delete();
+    }
+
+    /**
+     * Check if the auth user is following the other user
+     * @param int $follower
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function isFollowedBy(int $follower)
+    {
+        $followed = $this->getKey();
+        $following = DB::table('friend_with')->where([
+            'follower' => $follower,
+            'followed' => $followed,
+        ])->first();
+
+        return $following;
     }
 }

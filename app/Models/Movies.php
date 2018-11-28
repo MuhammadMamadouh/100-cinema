@@ -20,7 +20,18 @@ class Movies extends Model
         'poster',
     ];
 
-    public function actors($limit=null)
+    public function getCrewJob()
+    {
+        $movie = $this->getKey();
+        return DB::table('cast_of_movies')
+            ->join('job', 'cast_of_movies.job_id', '=', 'job.id')
+            ->join('cast', 'cast_of_movies.cast_id', '=', 'cast.id')
+            ->select('cast.id', 'cast.name', 'cast.image', 'job.id as job_id', 'job.name as job_name')
+            ->where('cast_of_movies.movies_id', '=', $movie)
+            ->get();
+    }
+
+    public function actors($limit = null)
     {
         $movie = $this->getKey();
         return DB::table('cast_of_movies')
@@ -72,7 +83,7 @@ class Movies extends Model
             ->join('users', 'movies_reviews.users_id', '=', 'users.id')
             ->select('movies_reviews.*', 'users.id AS user_id', 'users.image as user_image', 'users.name as user_name')
             ->where('movies_reviews.movies_id', '=', $movie)
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc');
     }
 
     /**

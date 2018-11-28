@@ -11,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Delete Post</h4>
             </div>
-            {!! Form::open(['route'=>['posts.destroy',$id],'method'=>'delete', 'id'=> 'frm_delete_'.$id]) !!}
+            {!! Form::open(['route'=>['posts.destroy',$id],'method'=>'delete', 'id'=> 'frm-delete-'.$id]) !!}
             <div class="modal-body">
                 <h4>You Want to delete {{$title}} ?</h4>
             </div>

@@ -20,35 +20,24 @@ class AdminController extends Controller
         return $admin->render('admin.admins.index', ['title' => '']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('admin.admins.create');
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
         $data = $this->validate(request(), [
             'name' => 'required',
             'email' => 'required|email|unique:admin',
             'password' => 'required|min:6',
         ]);
         $data['password'] = bcrypt(request('password'));
+
         Admin::create($data);
 
-        return redirect(aurl('admins'));
+        return response(['success' => 'admin has been added successfully']);
     }
 
     /**
@@ -84,18 +73,24 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:admin,id,' . $id,
-            'password' => 'sometimes|nullable|min:6']);
-        if ($request->has('password')) {
-            $data['password'] = bcrypt(request('password'));
+        $admin = Admin::find($id);
+        if ($admin) {
+
+            $data = $this->validate(request(), [
+                'name' => 'required',
+                'email' => 'required|email|unique:admin,id,' . $id,
+                'password' => 'sometimes|nullable|min:6']);
+            if ($request->has('password')) {
+                $data['password'] = bcrypt(request('password'));
+            }
+
+            Admin::where('id', $id)->update($data);
+
+            return response(['success' => 'admin has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
         }
 
-        $admin = Admin::where('id', $id)->update($data);
-
-        return response($admin);
-//        return redirect(aurl('admins'))->with('success', 'added successfully');
     }
 
     /**
@@ -106,8 +101,19 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $admin = Admin::find($id)->delete();
-        return response($admin);
+        $admin = Admin::find($id);
+        //check if admin exist
+        if ($admin) {
+
+            $admin->delete();
+
+            return response(['success' => 'admin has been deleted successfully']);
+
+        } else {
+            return response(['errors' => 'something error']);
+        }
+
+
     }
 
     /**

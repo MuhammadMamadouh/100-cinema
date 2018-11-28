@@ -1,4 +1,4 @@
-<div id="add_cast" class="modal fade" role="dialog">
+<div id="add_modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
@@ -8,7 +8,7 @@
             </div>
 
             <div class="modal-body">
-                {!! Form::open(['url' => aurl('cast'), 'method'=> 'post', 'files'=> true]) !!}
+                {!! Form::open(['url' => aurl('cast'), 'method'=> 'post', 'files'=> true, 'id'=> 'frm-insert']) !!}
 
                 <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
                     {!! Form::text('name','',['class'=>'form-control  input','placeholder'=>'Full Name' ]) !!}
@@ -65,9 +65,15 @@
                         </span>
                     @endif
                 </div>
+                <div class="modal-footer">
+                 <span class="help-block pull-left">
+                    <strong id="add-error"></strong>
+                </span>
 
-                {!! Form::submit('add', ['class'=> 'btn btn-primary btn-block btn-flat'])!!}
-                {!! Form::close() !!}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    {!! Form::close() !!}
+                    <button type="button" class="btn btn-info" data-dismiss="modal">cancel</button>
+                </div>
             </div>
         </div>
     </div>

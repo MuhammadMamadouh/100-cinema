@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     $('.input').on('focus', function () {
         $(this).attr('data-place', $(this).attr('placeholder'));
         $(this).attr('placeholder', '');
@@ -74,7 +75,7 @@ $(document).ready(function () {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('.profile-pic').attr('src', e.target.result);
+                $('.result-pic').attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -107,27 +108,7 @@ $(document).ready(function () {
 
 //search function
 //
-    $('#searchForm').on('submit', function (e) {
-        e.preventDefault();
-        var data = $(this).serialize();
-        var url = $(this).attr('action');
-        var get = $(this).attr('method');
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: data,
-            dataType: 'json'
-        })
 
-            .done(function (data) {
-                console.log('done');
-                $('#searchMenu').load('http://localhost/imdb/search?query=amanda+cerny');
-            })
-            .fail(function (data) {
-                console.log('fail')
-                $('#searchMenu').load('http://localhost/imdb/search?query=amanda+cerny');
-            })
-    });
     $('#search_bar').on('focus', function () {
         $('#SearchDropdown').addClass('show');
     })

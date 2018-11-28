@@ -21,16 +21,6 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.jobs.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -38,13 +28,12 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = $this->validate(request(), [
             'name' => 'required',
         ]);
         Job::create($data);
 
-        return redirect(aurl('jobs'));
+        return response(['success' => 'Job has been added successfully']);
     }
 
     /**
@@ -58,35 +47,25 @@ class JobController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $job = Job::find($id);
-        return view('admin.jobs.edit', compact('job'));
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
-        $data = $this->validate(request(), [
-            'name' => 'required|unique:job',]);
+        $job = Job::find($id);
+        if ($job) {
+            $data = $this->validate(request(), ['name' => 'required|unique:job',]);
 
+            Job::where('id', $id)->update($data);
 
-        Job::where('id', $id)->update($data);
-
-        return redirect(aurl('jobs'))->with('success', 'updated successfully');
+            return response(['success' => 'Job has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**
@@ -98,10 +77,16 @@ class JobController extends Controller
     public function destroy($id)
     {
         //
-        Job::find($id)->delete();
-        session()->flash('success', 'deleted successfully');
-        session()->flash('');
-        return redirect(aurl('jobs'));
+        $job = Job::find($id);
+        if ($job) {
+            Job::find($id)->delete();
+            session()->flash('success', 'deleted successfully');
+            session()->flash('');
+
+            return response(['success' => 'Job has been deleted successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**

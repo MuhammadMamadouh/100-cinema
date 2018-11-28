@@ -40,8 +40,7 @@
                         </span>
                     @endif
                 </div>
-                <input type="hidden" name="users_id" value="{{\auth()->user()->id}}">
-                {{--{!! Form::submit('send'), ['class'=> 'btn btn-primary btn-block btn-flat']!!}--}}
+                <input type="hidden" name="user_id" value="{{\auth('admin')->user()->id}}">
             </div>
             <div class="modal-footer">
                 <span class="help-block pull-left">

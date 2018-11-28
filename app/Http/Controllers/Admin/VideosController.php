@@ -58,7 +58,7 @@ class VideosController extends Controller
         ]);
         Video::create($data);
 
-        return redirect(aurl('videos'));
+        return response(['success' => 'Video has been added successfully']);
     }
 
     /**
@@ -73,9 +73,7 @@ class VideosController extends Controller
         $cliend_id = '87b4269f122b4ec9a1b23ec497b9f9ee';
         $accessToken = '1697392227.87b4269.48007fb74a4947eab45d5019343cf5b8';
 
-        $videos = DB::table('videos')
-            ->inRandomOrder()
-            ->first();
+        $videos = DB::table('videos')->inRandomOrder()->first();
 
         $channel_id = $videos->api_id;
         $api_key = config('youtube.API_Key');
@@ -83,7 +81,7 @@ class VideosController extends Controller
         $json_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=$channel_id" .
             "&maxResults=10&order=date&type=video&id=$channel_id&key=$api_key";
         $json_url2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=%D8%A7%D9%84%D8%B3%D9%8A%D9%86%D9%85%D8%A7%2C+cinema%2Cfilmmaking%2Cfilm+analysis&key=$api_key";
-        $listFromYouTube = json_decode(file_get_contents($json_url2));
+        $listFromYouTube = json_decode(file_get_contents($json_url));
 
         $key = array_rand($listFromYouTube->items, 1);
 
@@ -94,21 +92,28 @@ class VideosController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
-        //
-        $data = $this->validate(request(), [
-            'name' => 'required|string',
-            'link' => 'required|url',
-            'channel_id' => 'required',
-        ]);
+        //Check if Video is exist
+        $video = Video::find($id);
+        if ($video) {
+            $data = $this->validate(request(), [
+                'name' => 'required|string',
+                'link' => 'required|url',
+                'api_id' => 'required',
+                'type' => 'required'
 
-        Video::where('id', $id)->update($data);
-        return redirect(aurl('videos'))->with('success', 'added successfully');
+            ]);
+
+            Video::where('id', $id)->update($data);
+
+            return response(['success' => 'Video has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**
@@ -119,11 +124,16 @@ class VideosController extends Controller
      */
     public function destroy($id)
     {
-        $channel = Video::find($id);
-        $channel->delete();
-        session()->flash('success', trans('admin.deleted_record'));
-        session()->flash('');
-        return redirect(aurl('videos'));
+        $video = Video::find($id);
+        if ($video) {
+
+            $video->delete();
+
+            return response(['success' => 'Video has been deleted successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
+
     }
 
     /**

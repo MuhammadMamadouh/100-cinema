@@ -12,21 +12,36 @@
             </div>
             <div class="modal-body">
                 <div class="form-style-5">
-                    <form id="ins_job" class="form-horizontal" method="POST" action="{{route('addCrew')}}">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="cast_id" value="{{$id}}">
-                        <input type="hidden" name="movie_id" value="{{\request()->route()->parameter('id')}}">
-                        <fieldset>
-                            <legend><span class="number"></span>Select Job</legend>
-                            @foreach($jobs as $job)
-                                <label class="container">{{$job->name}}
-                                    <input name="jobs[]" value="{{$job->id}}" type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            @endforeach
-                        </fieldset>
-                        <button type="submit" class="btn btn-primary">add</button>
-                    </form>
+                    {!! Form::open(['url' => route('addCrew'), 'method'=> 'post', 'id'=> 'frm-insert']) !!}
+
+                    <input type="hidden" name="cast_id" value="{{$id}}">
+                    <input type="hidden" name="movie_id" value="{{\request()->route()->parameter('id')}}">
+                    <fieldset>
+                        <legend><span class="number"></span>Select Job</legend>
+                        <?php
+                        $movie = App\Models\Movies::find(\request()->route()->parameter('id'));
+                        $crew = $movie->getCrewJob();?>
+                        @foreach($jobs as $job)
+                            <label class="container">{{$job->name}}
+                                <input name="jobs[]"
+                                       @foreach($crew as $person)
+                                       @if($job->id === $person->job_id && $id === $person->id ) checked @endif
+                                       @endforeach
+                                       value="{{$job->id}}" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        @endforeach
+                    </fieldset>
+                    <div class="modal-footer">
+                         <span class="help-block pull-left">
+                            <strong id="add-error"></strong>
+                        </span>
+
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        {!! Form::close() !!}
+                        <button type="button" class="btn btn-info" data-dismiss="modal">cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

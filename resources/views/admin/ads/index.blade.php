@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+@section('title', 'Ads')
 <!-- Main content -->
 @section('content')
     <div class="box">
@@ -6,9 +7,9 @@
             <h3 class="box-title"> Movies </h3>
         </div>
 
-        <div class="box-body">
+        <div class="table-responsive">
             {!! Form::open(['id'=>'form_data','url'=>aurl('movies/destroy/all'),'method'=>'delete']) !!}
-            {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered'],true) !!}
+            {!! $dataTable->table(['class'=>'dataTable table table-responsive table-striped table-hover  table-bordered', 'id'=> 'table'],true) !!}
             {!! Form::close() !!}
         </div>
     </div>

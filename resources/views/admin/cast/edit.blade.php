@@ -6,8 +6,12 @@
             <h2 class="box-header">Poster</h2>
         </div>
         <div class="box poster-box ">
-            <img src="{{\Storage::url($cast->image)}}" class="center-block img-thumbnail rounded-circle poster">
+            <div class="">
+                <img src="{{\Storage::url($cast->image)}}" class="img-thumbnail rounded-circle poster">
+            </div>
+
         </div>
+
     </aside>
     <div class="col-md-6">
         <div class="box-header">

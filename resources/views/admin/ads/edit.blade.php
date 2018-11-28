@@ -6,7 +6,8 @@
             <h2 class="box-header">Poster</h2>
         </div>
         <div class="box poster-box ">
-            <img src="{{\Storage::url($ad->image)}}" class="center-block img-thumbnail rounded-circle poster">
+            <img src="{{\Storage::url($ad->image)}}"
+                 class="center-block img-thumbnail rounded-circle poster result-pic">
         </div>
     </aside>
     <div class="col-md-6">
@@ -83,7 +84,7 @@
 
             <div class="form-group has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
                 {!! Form::label('image','Profile Picture') !!}
-                {!! Form::file('image',['class'=>'form-control']) !!}
+                {!! Form::file('image',['class'=>'form-control file-upload', 'accept'=> "image/*"]) !!}
                 <span class="glyphicon glyphicon-picture form-control-feedback"></span>
                 @if ($errors->has('image'))
                     <span class="help-block">

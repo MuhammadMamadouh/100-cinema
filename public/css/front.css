@@ -79,6 +79,9 @@ body {
     background-color: #ac2925;
 }
 
+.search-box {
+    display: inline-block
+}
 .form-inline {
     padding-bottom: 0;
     padding-top: 18px;
@@ -87,7 +90,7 @@ body {
 }
 
 .form-inline > input[type=search] {
-    width: 80%;
+    /*width: 80%;*/
     font-size: 16px;
     position: relative;
     border-radius: 5px;

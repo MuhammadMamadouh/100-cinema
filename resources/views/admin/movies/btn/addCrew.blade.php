@@ -1,0 +1,1 @@
+<a href="{{\URL::current().'/'.$id}}/add_crew" class="btn btn-primary">Add Crew</a>

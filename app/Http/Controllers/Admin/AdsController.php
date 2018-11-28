@@ -63,7 +63,7 @@ class AdsController extends Controller
         $data['end_at'] = strtotime($data['end_at']);
         Ads::create($data);
 
-        return redirect(aurl('ads'));
+        return response(['success' => 'ad has been added successfully']);
     }
 
     /**
@@ -128,12 +128,15 @@ class AdsController extends Controller
      */
     public function destroy($id)
     {
-        $movie = Ads::find($id);
-        Storage::deleteDirectory('ads/' . $movie->title);
-        $movie->delete();
-        session()->flash('success', trans('admin.deleted_record'));
-        session()->flash('');
-        return redirect(aurl('ads'));
+        $ad = Ads::find($id);
+        if ($ad) {
+            Storage::deleteDirectory('ads/' . $ad->name);
+            $ad->delete();
+            return response(['success' => 'ad has been deleted successfully']);
+
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**

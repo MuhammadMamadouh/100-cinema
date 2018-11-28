@@ -52,7 +52,7 @@ class AdminDatatable extends DataTable
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New Admin', 'className' => 'btn btn-info', "action" => "function(){
 							
-							$('#add_admin').modal('show')
+							$('#add_modal').modal('show')
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],

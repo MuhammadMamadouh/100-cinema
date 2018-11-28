@@ -36,43 +36,6 @@
             </div>
         </article>
     @endforeach
-@else
-    <article class="row">
-        <div class="col-md-10 col-sm-10">
-            <div class="panel panel-default arrow left">
-                <div class="panel-body">
-                    <div class="comment-post">
-                        <p class="lead">
-                            This movie has not any reviews yet,
-                            be the first one
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
+
+
 @endif
-
-<script type="text/javascript">
-
-    $(function () {
-
-        $('.js-description_readmore').moreLines({
-            linecount: 1,
-            // default CSS classes
-            baseclass: 'b-description',
-            basejsclass: 'js-description',
-            classspecific: '_readmore',
-
-            // custom text
-            buttontxtmore: "read more",
-            buttontxtless: "read less",
-
-            // animation speed in milliseconds
-            animationspeed: 500
-
-        });
-    });
-
-
-</script>

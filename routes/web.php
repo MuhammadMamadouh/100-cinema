@@ -7,16 +7,10 @@ Route::get('test', function () {
 });
 
 \Auth::routes();
-
-//    Route::get('/login', 'UserAuth@login');
-//    Route::post('/login', 'UserAuth@userLogin')->name('login');
 Route::get('/', 'HomeController@index')->name('home');
 
-//Route::get('/', function () {
-//    return view('home');
-//});
 Route::get('/search', 'HomeController@search')->name('search');
-Route::group(['namespace' => 'User'], function () {
+Route::group(['namespace' => 'Blog'], function () {
 
 
     Route::group(['prefix' => 'movie'], function () {
@@ -33,6 +27,8 @@ Route::group(['namespace' => 'User'], function () {
         Route::post('{id}/update', 'UserController@update')->name('editProfile');
         Route::post('/follow', 'UserController@follow')->name('follow');
         Route::post('/deleteFollow', 'UserController@deleteFollow')->name('deleteFollow');
+        Route::get('{id}/reviews', 'UserController@reviews')->name('userReviews');
+        Route::get('{id}/posts', 'UserController@posts')->name('userPosts');
     });
     Route::group(['prefix' => 'crew'], function () {
         Route::get('{id}', 'CastController@show');
@@ -44,6 +40,5 @@ Route::group(['namespace' => 'User'], function () {
     Route::group(['prefix' => 'posts'], function () {
         Route::post('{id}/addComment', 'CommentsController@store')->name('addComment');
         Route::get('{id}/comments', 'PostsController@comments')->name('comments');
-        Route::get('all', 'PostsController@posts');
     });
 });

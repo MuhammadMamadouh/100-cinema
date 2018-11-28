@@ -23,7 +23,7 @@
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="comment-user"><i class="fa fa-user"></i>
+                            <div class="post-user"><i class="fa fa-user"></i>
                                 <h4>{{$post->title}}</h4>
                             </div>
                             <time class="comment-date" datetime="{{$post->created_at}}"><i
@@ -32,11 +32,11 @@
                         </header>
 
                         <div class="comment-post">
-                            <div class="">{{nl2br($post->details)}}</div>
+                            <div class="">{{htmlspecialchars_decode($post->details)}}</div>
                         </div>
                         <div class="post_image">
                             <img src="{{\Storage::url($post->image)}}"
-                                 class="img-responsive" style="max-height: 500px">
+                                 class="img-responsive" style="max-height: 800px">
                         </div>
                         <div class="post-box-footer">
                             <a href="#" class="user col-md-6">
@@ -64,7 +64,7 @@
                                     <figure class="thumbnail">
                                         <img class="img-responsive"
                                              src="{{\Storage::url(auth()->user()->image)}}"
-                                             alt="amanda cerny">
+                                             alt="profile_picture">
                                         <figcaption class="text-center">{{\Auth::user()->name}}</figcaption>
                                     </figure>
                                 </div>

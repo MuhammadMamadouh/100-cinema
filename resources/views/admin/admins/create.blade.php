@@ -1,4 +1,4 @@
-<div id="add_admin" class="modal fade" role="dialog">
+<div id="add_modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
@@ -54,9 +54,9 @@
                 {{--{!! Form::submit('send'), ['class'=> 'btn btn-primary btn-block btn-flat']!!}--}}
             </div>
             <div class="modal-footer">
-                <span class="help-block pull-left">
-                            <strong id="add-error"></strong>
-                        </span>
+                 <span class="help-block pull-left">
+                    <strong id="add-error"></strong>
+                </span>
 
                 <button type="submit" class="btn btn-primary">Add</button>
                 {!! Form::close() !!}

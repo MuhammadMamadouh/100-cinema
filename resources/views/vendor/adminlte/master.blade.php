@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title_prefix', config('adminlte.title_prefix', ''))
-@yield('title', config('adminlte.title', 'AdminLTE 2'))
-@yield('title_postfix', config('adminlte.title_postfix', ''))</title>
+        @yield('title', config('adminlte.title', 'AdminLTE 2'))
+        @yield('title_postfix', config('adminlte.title_postfix', ''))</title>
     <!-- Tell the browser to be responsive to screen width -->
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -16,29 +16,30 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('public/ltevendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
 
-
+    <link rel="stylesheet" href="{{asset('public/css/toastr.min.css')}}">
 @if(config('adminlte.plugins.select2'))
-        <!-- Select2 -->
+    <!-- Select2 -->
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
-    @endif
+@endif
 
-    <!-- Theme style -->
+<!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/dist/css/AdminLTE.min.css') }}">
 
-    @if(config('adminlte.plugins.datatables'))
-        <!-- DataTables with bootstrap 3 style -->
+@if(config('adminlte.plugins.datatables'))
+    <!-- DataTables with bootstrap 3 style -->
         <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css">
-    @endif
+        @endif
 
     @yield('adminlte_css')
 
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-    <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <!-- Google Font -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition @yield('body_class')">
 
@@ -67,6 +68,9 @@
 @endif
 
 @yield('adminlte_js')
+<script src="{{ asset('public/js/toastr.min.js') }}"></script>
+<script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
+{!! Toastr::render() !!}
 <script type="text/javascript">
 
     $.ajaxSetup({
@@ -104,10 +108,9 @@
                     if (results.success) {
                         formResults.removeClass().addClass('alert alert-success').html(results.success);
                         $('#add_modal').modal('hide').fadeOut(1500);
-                        $('#msg').html(data.success).fadeOut(2000);
-                        toastr.success('well done')
-                        $('#posts').DataTable().draw(true);
-                        $('#frm-insert').each(function () {
+                        toastr.success(results.success)
+                        $('.table').DataTable().draw(true);
+                        form.each(function () {
                             this.reset();
                         });
                     }
@@ -123,6 +126,117 @@
                     });
                     formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
                 });
+        });
+
+        $('body').delegate('#table #edit', 'click', function () {
+            var id = $(this).data('id');
+
+            $('#frm-update-' + id).on('submit', function (e) {
+
+                e.preventDefault();
+
+                var form = $('#frm-update-' + id);
+
+                var url = form.attr('action');
+
+                var data = new FormData(form[0]);
+
+                var formResults = $('#edit-error');
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        formResults.removeClass().addClass('alert alert-info').html('Loading...');
+                    },
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+
+                    success: (function (results) {
+
+                        if (results.success) {
+                            console.log()
+                            formResults.removeClass().addClass('alert alert-success').html(results.success);
+                            $('#edit_modal' + id).modal('hide').fadeOut(1500);
+                            toastr.success(results.success)
+                            $('.table').DataTable().draw(true);
+                            form.each(function () {
+                                this.reset();
+                            });
+                        }
+
+                        if (results.redirectTo) {
+                            window.location.href = results.redirectTo;
+                        }
+                    }),
+                    error: (function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                        formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
+
+                    }),
+                });
+            });
+        });
+        $('body').delegate('.table #delete', 'click', function (e) {
+
+            var id = $(this).data('id');
+
+            //Delete
+            $('#frm-delete-' + id).on('submit', function (e) {
+
+                e.preventDefault();
+
+                var form = $('#frm-delete-' + id);
+
+                var url = form.attr('action');
+
+                var data = new FormData(form[0]);
+
+                var formResults = $('#delete-error');
+                console.log(url)
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        formResults.removeClass().addClass('alert alert-info').html('Loading...');
+                    },
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+
+                    success: function (results) {
+                        console.log(results)
+                        if (results.success) {
+                            formResults.removeClass().addClass('alert alert-success').html(results.success);
+                            $('#delete_modal' + id).modal('hide').fadeOut(1500);
+                            toastr.success(results.success)
+                            $('.table').DataTable().draw(true);
+                            form.each(function () {
+                                this.reset();
+                            });
+                        }
+
+                        if (results.redirectTo) {
+                            window.location.href = results.redirectTo;
+                        }
+                    },
+
+                    error: function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                        formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
+                    },
+                })
+            });
         });
     });
     toastr.options = {
@@ -142,9 +256,7 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    $('#click').click(function () {
-        toastr.info('Are you the 6 fingered man?')
-    });
+
 </script>
 
 </body>

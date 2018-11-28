@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Video;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class VideosDatatable extends DataTable
@@ -15,7 +16,12 @@ class VideosDatatable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-            ->addColumn('Edit', 'admin.videos.btn.edit')
+//            ->addColumn('Edit', 'admin.videos.btn.edit')
+            ->addColumn('Edit', function (Video $video) {
+                $types = $this->getPossibleStatuses();
+                return view('admin.videos.btn.edit', [
+                    'types' => $types, 'video' => $video]);
+            })
             ->addColumn('Delete', 'admin.videos.btn.delete')
             ->addColumn('checkbox', 'admin.videos.btn.checkbox')
             ->rawColumns(['Edit', 'Delete', 'checkbox']);
@@ -48,7 +54,7 @@ class VideosDatatable extends DataTable
                 'buttons' => [
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New Channel', 'className' => 'btn btn-info', "action" => "function(){
-							$('#add_channel').modal('show');
+							$('#add_modal').modal('show');
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],
@@ -123,6 +129,24 @@ class VideosDatatable extends DataTable
             ],
 
         ];
+    }
+
+    /**
+     * Get Enum values from type field in videos table
+     *
+     * @return array
+     */
+    protected function getPossibleStatuses()
+    {
+        $enum = DB::select(DB::raw('SHOW COLUMNS FROM videos WHERE Field = "type"'))[0]->Type;
+        preg_match("/^enum\(\'(.*)\'\)$/", $enum, $matches);
+
+        $types = array();
+
+        foreach (explode(',', $matches[1]) as $value) {
+            $types[] = trim($value, "'");
+        }
+        return $types;
     }
 
     /**

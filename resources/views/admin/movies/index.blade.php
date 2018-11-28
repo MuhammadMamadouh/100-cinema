@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 <!-- Main content -->
 @section('content')
+    @include('admin.movies.create')
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"> Movies </h3>
@@ -8,7 +9,7 @@
 
         <div class="box-body">
             {!! Form::open(['id'=>'form_data','url'=>aurl('movies/destroy/all'),'method'=>'delete']) !!}
-            {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered'],true) !!}
+            {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered', 'id'=> 'table'],true) !!}
             {!! Form::close() !!}
         </div>
     </div>

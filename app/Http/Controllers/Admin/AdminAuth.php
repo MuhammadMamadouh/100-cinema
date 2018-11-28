@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,15 +13,17 @@ class AdminAuth extends Controller
         return view('admin.login');
     }
 
-    public function adminLogin(){
-        $rememner_me = \request('remember_me')==1?true:false;
+    public function adminLogin()
+    {
+        $remember_me = \request('remember_me') == 1 ? true : false;
         $email = \request('email');
         $password = \request('password');
 
-        if(Auth::guard('admin')->attempt(['email'=> $email, 'password'=> $password,], $rememner_me )){
-            return redirect()->intended('/admin');
-        }else {
-            session()->flash('error', 'Incorrect User Or Password');
+        if (Auth::guard('admin')->attempt(['email' => $email, 'password' => $password,], $remember_me)) {
+
+            return redirect('/admin');
+        } else {
+            session()->flash('Incorrect User Or Password');
             return redirect('admin/login');
         }
     }

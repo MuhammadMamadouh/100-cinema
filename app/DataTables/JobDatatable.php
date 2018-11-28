@@ -50,7 +50,7 @@ class JobDatatable extends DataTable
                 'buttons' => [
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New Job', 'className' => 'btn btn-info', "action" => "function(){
-							window.location.href = '" . \URL::current() . "/create';
+							$('#add_modal').modal('show');
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],
@@ -90,16 +90,6 @@ class JobDatatable extends DataTable
                 'data' => 'name',
                 'title' => 'Name',
             ],
-//            [
-//                'name' => 'created_at',
-//                'data' => 'created_at',
-//                'title' => 'created_at',
-//            ],
-//            [
-//                'name' => 'updated_at',
-//                'data' => 'updated_at',
-//                'title' => 'updated_at',
-//            ],
             [
                 'name' => 'Edit',
                 'data' => 'Edit',

@@ -40,7 +40,7 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate(request(), [
-            'users_id' => 'required',
+            'user_id' => 'required',
             'title' => 'required|string',
             'details' => 'required',
             'image' => v_image('required'),
@@ -87,11 +87,11 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public
-    function update(Request $request, $id)
+    function update($id)
     {
         //
         $data = $this->validate(request(), [
-            'users_id' => 'required',
+            'user_id' => 'required',
             'title' => 'required|string',
             'details' => 'required',
             'image' => v_image(),

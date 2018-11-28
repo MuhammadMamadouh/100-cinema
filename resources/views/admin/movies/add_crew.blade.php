@@ -3,13 +3,13 @@
 @section('content')
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title"> Movies </h3>
+            <h3 class="box-title"> Crew </h3>
         </div>
 
         <div class="box-body">
 
             {!! Form::open(['id'=>'form_data','url'=>aurl('movies/crew/add'),'method'=>'delete']) !!}
-            {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered'],true) !!}
+            {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover  table-bordered', 'id'=> 'table'],true) !!}
             {!! Form::close() !!}
         </div>
     </div>

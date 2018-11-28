@@ -10,9 +10,9 @@
                 <h4 class="modal-title">Edit Post</h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['route' => ['posts.update', $id], 'method'=> 'put','id'=>'frm_update_'.$id, 'files'=> true]) !!}
+                {!! Form::open(['route' => ['posts.update', $id], 'method'=> 'put','id'=>'frm-update-'.$id, 'files'=> true]) !!}
 
-                <input type="hidden" name="users_id" value="{{\auth('admin')->user()->id}}">
+                <input type="hidden" name="user_id" value="{{\auth('admin')->user()->id}}">
 
                 <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
                     {!! Form::label('title') !!}

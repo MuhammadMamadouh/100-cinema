@@ -52,6 +52,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
         });
         Route::any('/logout', 'AdminAuth@logout');
     });
-
-
 });

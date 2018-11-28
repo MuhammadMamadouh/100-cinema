@@ -68,7 +68,7 @@ class CastController extends Controller
                 'job_id' => $job,
             ]);
         }
-        return redirect(aurl("cast"));
+        return response(['success' => 'Cast has been added successfully']);
     }
 
     /**
@@ -99,6 +99,7 @@ class CastController extends Controller
         }
         return back();
     }
+
     /**
      * Display the specified resource.
      *
@@ -107,10 +108,14 @@ class CastController extends Controller
      */
     public function show($id)
     {
-//        $cast = Cast::find($id)->getCastWithJobs();
-        $jobs = Cast::find($id)->jobs();
-        $movies = Cast::find($id)->movies();
         $cast = Cast::find($id);
+        if ($cast) {
+            $jobs = $cast->jobs();
+            $movies = $cast->movies();
+
+        }
+//        $cast = Cast::find($id)->getCastWithJobs();
+
         return view('admin.cast.profile', compact('cast', 'jobs', 'movies'));
     }
 
@@ -123,41 +128,50 @@ class CastController extends Controller
     public function edit($id)
     {
         $cast = Cast::find($id);
-        $jobs = Job::all();
-        return view('admin.cast.edit', compact('cast', 'jobs'));
+        if ($cast) {
+            $cast = Cast::find($id);
+            $jobs = Job::all();
+            return view('admin.cast.edit', compact('cast', 'jobs'));
+        } else {
+            abort(404);
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-
-        $data = $this->validate(request(), [
-            'name' => 'required|string',
-            'country' => 'string|required',
-            'about' => 'string|nullable',
-            'image' => v_image(),
-            'date_of_birth' => 'date',
-        ]);
-
-        if (!empty($data['image'])) {
-//            $data['image'] = $request->file('image')->store('users');
-            $data['image'] = up()->upload([
-                'file' => 'image',
-                'path' => 'cast/' . Cast::find($id)->id,
-                'upload_type' => 'single',
-                'deleted_file' => Cast::find($id)->image,
-                'new_name' => time(),
+        $cast = Cast::find($id);
+        if ($cast) {
+            $data = $this->validate(request(), [
+                'name' => 'required|string',
+                'country' => 'string|required',
+                'about' => 'string|nullable',
+                'image' => v_image(),
+                'date_of_birth' => 'date',
             ]);
-        }
-        Cast::where('id', $id)->update($data);
 
-        return redirect(aurl('cast'))->with('success', 'updated successfully');
+            if (!empty($data['image'])) {
+
+                $data['image'] = up()->upload([
+                    'file' => 'image',
+                    'path' => 'cast/' . $cast->id,
+                    'upload_type' => 'single',
+                    'deleted_file' => $cast->image,
+                    'new_name' => time(),
+                ]);
+            }
+            Cast::where('id', $id)->update($data);
+
+            return response(['success' => 'Cast has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**
@@ -169,9 +183,14 @@ class CastController extends Controller
     public function destroy($id)
     {
         $cast = Cast::find($id);
-        Storage::deleteDirectory('cast/' . $cast->id);
-        $cast->delete();
-        return response($cast);
+        if ($cast) {
+            $cast = Cast::find($id);
+            Storage::deleteDirectory('cast/' . $cast->id);
+            $cast->delete();
+            return response(['success' => 'Cast has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**

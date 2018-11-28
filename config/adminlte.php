@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'purple',
+    'skin' => 'yellow',
 
     /*
     |--------------------------------------------------------------------------
@@ -131,7 +131,7 @@ return [
         [
             'text' => 'Casts',
             'url' => '/admin/cast',
-            'icon' => 'user',
+            'icon' => 'male',
             'label' => '',
             'label_color' => 'success',
         ],
@@ -145,14 +145,28 @@ return [
         [
             'text' => 'Cast Jobs',
             'url' => '/admin/jobs',
-            'icon' => 'job',
+            'icon' => 'briefcase',
             'label' => '',
             'label_color' => 'success',
         ],
         [
             'text' => 'Videos',
             'url' => '/admin/videos',
-            'icon' => 'film',
+            'icon' => 'youtube',
+            'label' => '',
+            'label_color' => 'success',
+        ],
+        [
+            'text' => 'Ads',
+            'url' => '/admin/ads',
+            'icon' => 'address-card',
+            'label' => '',
+            'label_color' => 'success',
+        ],
+        [
+            'text' => 'Posts',
+            'url' => '/admin/posts',
+            'icon' => 'pencil',
             'label' => '',
             'label_color' => 'success',
         ],

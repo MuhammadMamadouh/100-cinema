@@ -70,8 +70,6 @@
             </div>
 
             <div class="collapse navbar-collapse" id="ournavbar">
-
-
                 <div class="col-md-5 dropdown">
                     <form class="form-inline" id="searchForm" method="get" action="{{url('/search')}}" role="search">
                         {{--{{csrf_field()}}--}}
@@ -257,7 +255,7 @@
 
     <!-- ./wrapper -->
 @stop
-
+@yield('adminlte_js')
 @section('adminlte_js')
 
     {{--<script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>--}}

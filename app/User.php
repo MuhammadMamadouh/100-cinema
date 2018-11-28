@@ -38,7 +38,7 @@ class User extends Authenticatable
             ->join('movies', 'movies_reviews.movies_id', '=', 'movies.id')
             ->select('movies_reviews.*', 'movies.title', 'movies.poster')
             ->where('users_id', '=', $user)
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc');
     }
 
     /**
@@ -110,14 +110,17 @@ class User extends Authenticatable
 
     /**
      * Get posts of the users which auth user is following them
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Query\Builder
      */
     public function followedPosts()
     {
-        return DB::table('posts')
-            ->join('friend_with', 'friend_with.followed', 'posts.user_id')
-//            ->join('users', 'posts.user_id', '=', 'posts.user_id')
-            ->select('posts.*')
-            ->where('friend_with.follower', '=', auth()->user()->id)->orderBy('created_at', 'desc');
+        if (\Auth::check()) {
+            return DB::table('posts')
+                ->join('friend_with', 'friend_with.followed', 'posts.user_id')
+                ->select('posts.*')
+                ->where('friend_with.follower', '=', auth()->user()->id)->orderBy('created_at', 'desc');
+        } else {
+            return null;
+        }
     }
 }

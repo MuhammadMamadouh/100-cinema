@@ -1,6 +1,6 @@
-<aside class="sidebar col-lg-3 pull-right">
+<aside class="col-md-3 pull-right">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <section class="">
         <?php
         $ads = \App\Models\Ads::where('status', 'enabled')
             ->where('page', '=', \Route::current()->uri())

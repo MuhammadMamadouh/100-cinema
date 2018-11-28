@@ -12,7 +12,7 @@
         <!-- /.box-header -->
         <div class="box-body">
             {{--{!! Form::open(['id'=>'form_data','url'=>aurl('posts/destroy/all'),'method'=>'delete']) !!}--}}
-            {!! $dataTable->table(['class'=>'dataTable table table-responsive table-striped table-hover  table-bordered', 'id'=> 'posts'],true) !!}
+            {!! $dataTable->table(['class'=>'dataTable table table-responsive table-striped table-hover  table-bordered', 'id'=> 'table'],true) !!}
             {{--{!! Form::close() !!}--}}
         </div>
         <!-- /.box-body -->
@@ -56,139 +56,6 @@
     </div>
     @push('js')
         <script>
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $(document).ready(function () {
-
-                // $('#frm-insert').on('submit', function (e) {
-                //
-                //     e.preventDefault();
-                //
-                //     var form = $('#frm-insert');
-                //
-                //     var url = form.attr('action');
-                //
-                //     var data = new FormData(form[0]);
-                //
-                //     var formResults = $('#add-error');
-                //
-                //     $.ajax({
-                //         url: url,
-                //         data: data,
-                //         type: 'POST',
-                //         dataType: 'json',
-                //         beforeSend: function () {
-                //             formResults.removeClass().addClass('alert alert-info').html('Loading...');
-                //         },
-                //         cache: false,
-                //         processData: false,
-                //         contentType: false,
-                //     })
-                //         .done(function (results) {
-                //             if (results.success) {
-                //                 formResults.removeClass().addClass('alert alert-success').html(results.success);
-                //                 $('#add_modal').modal('hide').fadeOut(1500);
-                //                 $('#msg').html(data.success).fadeOut(2000);
-                //                 $('#posts').DataTable().draw(true);
-                //             }
-                //
-                //             if (results.redirectTo) {
-                //                 window.location.href = results.redirectTo;
-                //             }
-                //         })
-                //
-                //         .fail(function (results) {
-                //             formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
-                //             $.each(results.responseJSON, function (index, val) {
-                //                 for (var error in val) {
-                //                     console.log(val[error]);
-                //                     formResults.text(val[error]);
-                //                 }
-                //             })
-                //
-                //         });
-                // });
-                //
-
-                $('body').delegate('#posts #edit', 'click', function (e) {
-                    var id = $(this).data('id');
-                    console.log(id);
-                    $('#frm_update_' + id).on('submit', function (e) {
-
-                        e.preventDefault();
-
-                        var form = $('#frm_update_' + id);
-                        var url = form.attr('action');
-                        var data = new FormData(form[0]);
-                        var formResults = $('#edit-error');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: url,
-                            data: data,
-                            dataType: 'json',
-                            beforeSend: function () {
-                                formResults.removeClass().addClass('alert alert-info').html('Loading....');
-                            },
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                        })
-                            .done(function (results) {
-                                formResults.removeClass().addClass('alert alert-success').html(results.success);
-                                $('#edit_modal' + id).modal('hide').fadeOut(1500);
-                                $('#msg').html(data.success).delay(1000).fadeOut(2000);
-                                $('#posts').DataTable().draw(false);
-                            })
-                            .fail(function (data) {
-                                $.each(data.responseJSON, function (index, val) {
-                                    for (x in val) {
-                                        console.log(val[x])
-                                        $('#edit-error').text(val[x]);
-                                    }
-                                })
-                            })
-                    });
-                });
-                $('body').delegate('#posts #delete', 'click', function (e) {
-                    var id = $(this).data('id');
-                    console.log(id);
-                    //Delete
-                    $('#frm_delete_' + id).on('submit', function (e) {
-                        console.log('submit');
-                        e.preventDefault();
-                        var form = $('#frm_delete_' + id);
-                        var url = form.attr('action');
-                        var data = new FormData(form[0]);
-                        var formResults = $('#delete-error');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: url,
-                            data: data,
-                            dataType: 'json',
-                            beforeSend: function () {
-                                formResults.removeClass().addClass('alert alert-info').html('Loading....');
-                            },
-                            success: function (results) {
-                                formResults.removeClass().addClass('alert alert-success').html(results.success);
-                                $('#delete_modal' + id).modal('hide').fadeOut(1500);
-                                $('#msg').html(data.success).delay(1000).fadeOut(2000);
-                                $('#posts').DataTable().draw(true);
-                            },
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                        })
-
-                    });
-                });
-            });
-
-
             delete_all(); // function of check all checkboxes
         </script>
         {!! $dataTable->scripts() !!}

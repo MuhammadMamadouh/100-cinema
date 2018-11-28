@@ -9,6 +9,7 @@ use App\Models\Cast;
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\Movies;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -28,16 +29,6 @@ class MoviesController extends Controller
         return $movies->render('admin.movies.index', ['title' => '']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('admin.movies.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -67,7 +58,7 @@ class MoviesController extends Controller
         }
         Movies::create($data);
 
-        return redirect(aurl('movies'));
+        return response(['success' => 'Movie has been added successfully']);
     }
 
     /**
@@ -80,6 +71,8 @@ class MoviesController extends Controller
     {
 
         $movie = Movies::find($id);
+        $crew = $movie->getCrewJob();
+        dd($crew);
         $actors = $movie->actors();
         $directors = $movie->directors();
         $movieCategories = $movie->categories;
@@ -111,25 +104,30 @@ class MoviesController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = $this->validate(request(), [
-            'title' => 'required|string',
-            'playtime' => 'required|integer|min:2',
-            'language' => 'nullable|min:6',
-            'country' => 'string|required',
-            'story' => 'string|nullable',
-            'trailer' => 'string|nullable',
-            'year' => 'integer|required|',
-            'poster' => v_image(),
-        ]);
-        if (!empty($data['poster'])) {
-            $data['poster'] = $request->file('poster')->storeAs('movies/' . $data['title'], $data['title'] . time());
+        $movie = Movies::find($id);
+        if ($movie) {
+            $data = $this->validate(request(), [
+                'title' => 'required|string',
+                'playtime' => 'required|integer|min:2',
+                'language' => 'nullable|min:6',
+                'country' => 'string|required',
+                'story' => 'string|nullable',
+                'trailer' => 'string|nullable',
+                'year' => 'integer|required|',
+                'poster' => v_image(),
+            ]);
+            if (!empty($data['poster'])) {
+                $data['poster'] = $request->file('poster')->storeAs('movies/' . $data['title'], $data['title'] . time());
+            }
+            if (!empty($data['trailer'])) {
+                $trailer = explode('v=', $request->trailer);
+                $data['trailer'] = $trailer[1];
+            }
+            Movies::where('id', $id)->update($data);
+            return response(['success' => 'Movie has been updated successfully']);
+        } else {
+            return response(['errors' => 'something error']);
         }
-        if (!empty($data['trailer'])) {
-            $trailer = explode('v=', $request->trailer);
-            $data['trailer'] = $trailer[1];
-        }
-        Movies::where('id', $id)->update($data);
-        return redirect(aurl('movies'))->with('success', 'added successfully');
     }
 
     /**
@@ -141,11 +139,13 @@ class MoviesController extends Controller
     public function destroy($id)
     {
         $movie = Movies::find($id);
-        Storage::deleteDirectory('movies/' . $movie->title);
-        $movie->delete();
-        session()->flash('success', trans('admin.deleted_record'));
-        session()->flash('');
-        return redirect(aurl('movies'));
+        if ($movie) {
+            Storage::deleteDirectory('movies/' . $movie->title);
+            $movie->delete();
+            return response(['success' => 'Movie has been deleted successfully']);
+        } else {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**
@@ -243,16 +243,28 @@ class MoviesController extends Controller
     {
         $cast_id = \request()->cast_id;
         $movie_id = \request()->movie_id;
-        $jobs = \request()->jobs;
-        foreach ($jobs as $job) {
-            //Cast::insertCastJob($cast->id, $job);
-            DB::table('cast_of_movies')->insert([
-                'cast_id' => $cast_id,
-                'movies_id' => $movie_id,
-                'job_id' => $job,
-            ]);
+        $jobs = \request()->input('jobs');
+
+        // Delete records before save new
+        DB::table('cast_of_movies')
+            ->where('movies_id', $movie_id)
+            ->where('cast_id', $cast_id)
+            ->delete();
+
+        try {
+            foreach ($jobs as $job) {
+                DB::table('cast_of_movies')->insert([
+                    'cast_id' => $cast_id,
+                    'movies_id' => $movie_id,
+                    'job_id' => $job,
+                ]);
+            }
+            return back();
+        } catch (\PDOException $exception) {
+
+            return response(['errors' => 'This person has been added to crew before']);
         }
-        return back();
+
     }
 
     /**
@@ -270,7 +282,7 @@ class MoviesController extends Controller
                 'category_id' => $category,
             ]);
         }
-        return back();
+        return response(['success' => 'category added successfully']);
     }
 
 }

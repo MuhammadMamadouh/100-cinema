@@ -58,14 +58,13 @@ a:hover, a:focus {
 }
 
 body {
-    line-height: 24px;
-    font-size: 13px;
+    line-height: 25px;
+    font-size: 15px;
     color: #333333;
     font-family: "Raleway", sans-serif;
 }
 
 body.light_bg {
-    background: url(../images/nour.jpg) repeat scroll center center;
     background-size: contain;
 }
 
@@ -80,8 +79,9 @@ body, p, h1, h2, h3, h4, h5, h6 {
 }
 
 .pad {
-    padding: 0px 0px 0 70px;
-    /*background-color: #FFFFFF;*/
+    margin-left: 70px;
+    /*padding: 0px 0px 0 0px;*/
+    background-color: #FFFFFF;
 }
 
 #success {
@@ -1463,6 +1463,40 @@ body, p, h1, h2, h3, h4, h5, h6 {
 .footer_copyright .pull-right .navbar-nav li:hover a, .footer_copyright .pull-right .navbar-nav li.active a {
     color: #ac2925;
 }
+
+/* post styling*/
+.post .post-title {
+    font-size: 30px;
+    color: #d9534f;
+    font-style: italic;
+    font-weight: bolder;
+}
+
+.post-box-footer {
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.post-box-footer a {
+    display: inline-block;
+    float: left;
+    /*width: 33%;*/
+    border: 1px solid #eee;
+    padding: 10px;
+    color: #000;
+    font-weight: 100;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.post-box-footer a:hover {
+    text-decoration: none;
+}
+
+.post-box-footer a:hover .main {
+    font-weight: bold;;
+}
+
 
 /* End Footer area css
 ============================================================================================ */

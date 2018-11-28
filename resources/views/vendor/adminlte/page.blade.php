@@ -141,9 +141,10 @@
 
     <script src="{{ asset('public\dtablevendor\datatables\buttons.server-side.js') }}"></script>
     <script src="{{ asset('public\dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('public/js/myFunctions.js') }}"></script>
     <script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('public/js/myFunctions.js') }}"></script>
 
     @stack('js')
     @yield('js')
+
 @stop

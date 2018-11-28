@@ -1,8 +1,8 @@
-@extends('layouts.front')
+@extends('layouts.blog')
 <!-- Main content -->
 @section('title', strtoupper($movie->title) . '-100Cinema')
 @section('content')
-    <div class="main_container">
+    <div class="main_container col-md-9">
         <div class="content_inner_bg row m0">
             <section class="about_person_area pad" id="about">
                 <div class="row">
@@ -197,13 +197,12 @@
                             <div class="col-md-8">
                                 <section class="comment-list">
                                     @auth
-                                        <p id="msg" style="display: none"></p>
                                         <article class="row">
                                             <div class="col-md-2 col-sm-2 hidden-xs">
                                                 <figure class="thumbnail">
                                                     <img class="img-responsive"
                                                          src="{{\Storage::url(auth()->user()->image)}}"
-                                                         alt="amanda cerny">
+                                                         alt="profile_picture">
                                                     <figcaption class="text-center">{{\Auth::user()->name}}</figcaption>
                                                 </figure>
                                             </div>
@@ -211,7 +210,7 @@
                                                 <div class="panel panel-default arrow left">
                                                     <div class="panel-body">
                                                         <div class="comment-post">
-                                                            {!! Form::open(['url' => route('addReview'), 'method'=> 'post', 'id'=> 'add-comment']) !!}
+                                                            {!! Form::open(['url' => route('addReview'), 'method'=> 'post', 'id'=> 'addReview']) !!}
                                                             <input type="hidden" name="movie" value="{{$movie->id}}">
                                                             <input type="hidden" name="user"
                                                                    value="{{\Auth::user()->id}}">
@@ -252,7 +251,10 @@
                                             </div>
                                         </article>
                                     @endguest
-                                    <div id="reviews"></div>
+                                    <div id="reviews">
+                                        @include('front.movies.reviews')
+                                        {{$reviews->links()}}
+                                    </div>
                                 </section>
                             </div>
                         </div>
@@ -262,7 +264,7 @@
         </div>
     </div>
 @endsection
-@push('js')
+@section('js')
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -271,31 +273,39 @@
         });
 
         $(document).ready(function () {
-            $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
-            $('#add-comment').on('submit', function (e) {
+            $('#addReview').on('submit', function (e) {
                 e.preventDefault();
-                $('#msg').show();
                 var data = $(this).serialize();
                 var url = $(this).attr('action');
-                var post = $(this).attr('method');
                 $.ajax({
-                    type: 'POST',
                     url: url,
                     data: data,
-                    dataType: 'json'
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        formResults.removeClass().addClass('alert alert-info').html('Loading...');
+                    },
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+
+                    success: function (results) {
+                        if (results.success) {
+                            formResults.removeClass().addClass('alert alert-success').html(results.success);
+                            toastr.success('well done')
+                            $('#addReview').each(function () {
+                                this.reset();
+                            });
+                            $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
+                        }
+                    },
+                    error: function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                        $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
+                    }
                 })
-
-                    .done(function (data) {
-                        $('#commentBox').text('');
-                        $('#msg').html('Admin has been added successfully').fadeOut(2000);
-                        $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
-                    })
-                    .fail(function (data) {
-                        $('#commentBox').text('');
-                        $('#msg').text(data.responseText).fadeOut(2000);
-
-                        $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
-                    })
             });
         });
 
@@ -303,4 +313,4 @@
 
 
     </script>
-@endpush
+@endsection

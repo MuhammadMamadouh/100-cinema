@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Category;
 use App\Models\Movies;
 use Yajra\DataTables\Services\DataTable;
 
@@ -17,9 +18,15 @@ class MoviesDatatable extends DataTable
         return datatables($query)
             ->addColumn('Edit', 'admin.movies.btn.edit')
             ->addColumn('Delete', 'admin.movies.btn.delete')
-            ->addColumn('Show', 'admin.movies.btn.show')
+            ->addColumn('AddCrew', 'admin.movies.btn.addCrew')
+            ->addColumn('AddCategory', function (Movies $movie) {
+                $movieCategories = $movie->categories;
+                $categories = Category::all();
+                return view('admin.movies.btn.add_category', [
+                    'movieCategories' => $movieCategories, 'categories' => $categories, 'id' => $movie->id]);
+            })
             ->addColumn('checkbox', 'admin.admins.btn.checkbox')
-            ->rawColumns(['Show', 'Edit', 'Delete', 'checkbox']);
+            ->rawColumns(['AddCrew', 'AddCategory', 'Edit', 'Delete', 'checkbox']);
     }
 
     /**
@@ -30,7 +37,8 @@ class MoviesDatatable extends DataTable
      */
     public function query(Movies $model)
     {
-        return $model->newQuery()->select('id', 'title', 'created_at', 'updated_at');
+        return $model->newQuery()->select('*');
+//        return \App\Models\Movies::query();
     }
 
     /**
@@ -50,7 +58,7 @@ class MoviesDatatable extends DataTable
                 'buttons' => [
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New movie', 'className' => 'btn btn-info', "action" => "function(){
-							window.location.href = '" . \URL::current() . "/create';
+							$('#add_modal').modal('show');
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],
@@ -96,14 +104,18 @@ class MoviesDatatable extends DataTable
                 'title' => 'created_at',
             ],
             [
-                'name' => 'updated_at',
-                'data' => 'updated_at',
-                'title' => 'updated_at',
+                'name' => 'AddCrew',
+                'data' => 'AddCrew',
+                'title' => 'Add Crew',
+                'exportable' => false,
+                'printable' => false,
+                'orderable' => false,
+                'searchable' => false,
             ],
             [
-                'name' => 'Show',
-                'data' => 'Show',
-                'title' => 'Show',
+                'name' => 'AddCategory',
+                'data' => 'AddCategory',
+                'title' => 'Add Category',
                 'exportable' => false,
                 'printable' => false,
                 'orderable' => false,

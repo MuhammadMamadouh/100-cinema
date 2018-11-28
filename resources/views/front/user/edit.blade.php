@@ -74,7 +74,7 @@
                                  class="mx-auto img-fluid img-circle d-block profile-pic" alt="avatar">
                         @else
                             <img src="{{asset('public/images/user.png')}}" style="height: 150px" width="150px"
-                                 class="mx-auto img-fluid img-circle d-block profile-pic" alt="avatar">
+                                 class="mx-auto img-fluid img-circle d-block result-pic" alt="avatar">
                         @endif
                         <i class="fa fa-camera upload-button"></i>
                         <div class="p-image">

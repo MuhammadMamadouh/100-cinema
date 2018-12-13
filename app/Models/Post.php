@@ -9,13 +9,8 @@ class Post extends Model
 {
     //
     protected $table = 'posts';
-    protected $fillable = [
-        'id',
-        'user_id',
-        'title',
-        'details',
-        'image',
-    ];
+
+    protected $fillable = ['id', 'user_id', 'title', 'details', 'image'];
 
     /**
      * Get the user that owns the post.
@@ -35,5 +30,21 @@ class Post extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
+    /**
+     * relationship 1-M between post and like
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany('App\Models\PostLike');
+    }
 
+    /**
+     * Get Latest Three Most Liked Posts
+     */
+    public function getMostLikedPosts()
+    {
+
+    }
 }

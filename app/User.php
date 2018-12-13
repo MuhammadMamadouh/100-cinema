@@ -28,6 +28,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role', 'user_roles', 'user_id', 'role_id');
+    }
+
     /**
      * Reviews on movies which user has written it
      */
@@ -123,4 +129,6 @@ class User extends Authenticatable
             return null;
         }
     }
+
+
 }

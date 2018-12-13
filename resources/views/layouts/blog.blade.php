@@ -98,6 +98,7 @@
 
 <!-- Start Our Content-->
 <div class="row">
+
     @yield('content')
     @include('layouts.sidebar')
 </div>
@@ -138,46 +139,22 @@
                 </ul>
             </div>
             <div class="col-lg-4 col-md-6">
-                <h3>Latest Articles</h3>
+                <h3>Popular Articles</h3>
 
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="{{asset('public/blog/images/articles/01.jpg') }}" width="64"
-                             height="64" alt="Image 01"/>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            Programming
-                        </h4>
-                        This Is Some Text About Programming Describe The Media Of Bootstrap 3.2.0
+                @foreach($mostLikedPosts as $post)
+                    <div class="media">
+                        <a class="pull-left" href="{{url("posts/$post->id")}}">
+                            <img class="media-object" src="{{\Storage::url($post->image) }}" width="64"
+                                 height="64" alt="Image 01"/>
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                {{$post->title}}
+                            </h4>
+                            This Is Some Text About Programming Describe The Media Of Bootstrap 3.2.0
+                        </div>
                     </div>
-                </div>
-
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="{{asset('public/blog/images/articles/02.jpg') }}" width="64"
-                             height="64" alt="Image 02"/>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            Coding
-                        </h4>
-                        This Is Some Text About Programming Describe The Media Of Bootstrap 3.2.0
-                    </div>
-                </div>
-
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="{{asset('public/blog/images/articles/03.jpg') }}" width="64"
-                             height="64" alt="Image 03"/>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            Web Design
-                        </h4>
-                        This Is Some Text About Programming Describe The Media Of Bootstrap 3.2.0
-                    </div>
-                </div>
+                @endforeach
 
             </div>
             <div class="col-lg-4">
@@ -202,12 +179,12 @@
 
 <!-- Start Section Loading -->
 
-<div class="loading-overlay">
-    <div class="spinner">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
-    </div>
-</div>
+{{--<div class="loading-overlay">--}}
+{{--<div class="spinner">--}}
+{{--<div class="double-bounce1"></div>--}}
+{{--<div class="double-bounce2"></div>--}}
+{{--</div>--}}
+{{--</div>--}}
 
 <!-- End Section Loading -->
 
@@ -219,9 +196,6 @@
 
 <!-- End Scroll To Top -->
 
-
-@stack('js')
-@yield('js')
 
 <script src="{{asset('public/blog/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{asset('public/blog/js/bootstrap.min.js') }}"></script>
@@ -308,8 +282,9 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-
 </script>
+@stack('js')
+@yield('js')
 
 </body>
 </html>

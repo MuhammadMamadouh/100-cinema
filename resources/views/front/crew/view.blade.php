@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.newBlog')
 <!-- Main content -->
 @section('content')
     <div class="main_container">

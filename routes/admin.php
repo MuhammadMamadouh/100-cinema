@@ -46,10 +46,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
         Route::resource('posts', 'PostsController');
         Route::delete('posts/destroy/all', 'PostsController@multiDestroy');
 
+//        ------------- Roles links ------------------------
+        Route::resource('roles', 'RolesController');
+        Route::delete('roles/destroy/all', 'RolesController@multiDestroy');
 
-        Route::get('/', function () {
-            return view('admin.index');
-        });
+
+//        ------------- Permissions links ------------------------
+        Route::resource('permissions', 'PermissionsController');
+        Route::delete('permissions/destroy/all', 'PermissionsController@multiDestroy');
+
+
+        Route::get('/', 'AdminController@home');
+
         Route::any('/logout', 'AdminAuth@logout');
     });
 });

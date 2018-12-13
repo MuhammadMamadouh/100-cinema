@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // share a variable with footer
+        $mostLikedPosts = Post::withCount('likes')->orderBy('likes_count', 'desc')->limit(3)->get();
+        View::share('mostLikedPosts', $mostLikedPosts);
     }
 
     /**

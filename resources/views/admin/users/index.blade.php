@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 <!-- Main content -->
 @section('content')
+    @include('admin.users.create')
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"> Users </h3>

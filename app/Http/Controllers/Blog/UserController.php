@@ -67,9 +67,6 @@ class UserController extends Controller
             $data['password'] = bcrypt(request('password'));
         }
 
-
-//        User::where('id', $id)->update($data);
-
         $user = User::find($id);
 
         $user->name = \request()->name;

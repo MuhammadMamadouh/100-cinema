@@ -41,7 +41,10 @@
                         </header>
 
                         <div class="comment-post">
-                            <div class="b-description_readmore js-description_readmore">{{nl2br($review->review)}}</div>
+                            <div class="b-description_readmore js-description_readmore">
+                                {!! htmlspecialchars_decode($review->review) !!}
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,26 +68,26 @@
     </article>
 @endif
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $(function () {
+    $(function () {
 
-            $('.js-description_readmore').moreLines({
-                linecount: 1,
-                // default CSS classes
-                baseclass: 'b-description',
-                basejsclass: 'js-description',
-                classspecific: '_readmore',
+        $('.js-description_readmore').moreLines({
+            linecount: 1,
+            // default CSS classes
+            baseclass: 'b-description',
+            basejsclass: 'js-description',
+            classspecific: '_readmore',
 
-                // custom text
-                buttontxtmore: "read more",
-                buttontxtless: "read less",
+            // custom text
+            buttontxtmore: "read more",
+            buttontxtless: "read less",
 
-                // animation speed in milliseconds
-                animationspeed: 500
+            // animation speed in milliseconds
+            animationspeed: 500
 
-            });
         });
+    });
 
 
-    </script>
+</script>

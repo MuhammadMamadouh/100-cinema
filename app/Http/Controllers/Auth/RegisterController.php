@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -67,7 +67,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        if (!empty($data['image'])) {
+            $data['image'] = request()->file('image')->storeAs('user', time());
+        } else {
+            $data['image'] = asset('public/images/user.png');
+        }
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -76,11 +81,6 @@ class RegisterController extends Controller
             'site' => $data['site'],
             'short_bio' => $data['short_bio'],
         ]);
-        if (!empty($data['image'])) {
-            $data['image'] = request()->file('image')->storeAs('user/' . $user->id, time());
-        }
-        $user->image = $data['image'];
-        $user->save();
-        return $user;
+
     }
 }

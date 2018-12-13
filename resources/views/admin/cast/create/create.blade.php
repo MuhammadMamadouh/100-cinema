@@ -41,30 +41,18 @@
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('job') ? 'has-error' : '' }}">
                     @foreach($jobs as $job)
-                            <label class="container">{{$job->name}}
-                                <input name="jobs[]" value="{{$job->id}}" type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-
-                            <span class="checkmark"></span>
+                        <label>{{$job->name}}
+                            <input type="checkbox" class="minimal" name="jobs[]" value="{{$job->id}}">
                         </label>
                     @endforeach
-                    @if ($errors->has('job'))
-                        <span class="help-block">
-            <strong>{{ $errors->first('image') }}</strong>
-            </span>
-                    @endif
+
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
                     {!! Form::label('image','Profile Picture') !!}
                     {!! Form::file('image',['class'=>'form-control']) !!}
                     <span class="glyphicon glyphicon-picture form-control-feedback"></span>
-                    @if ($errors->has('image'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('image') }}</strong>
-                        </span>
-                    @endif
                 </div>
+
                 <div class="modal-footer">
                  <span class="help-block pull-left">
                     <strong id="add-error"></strong>

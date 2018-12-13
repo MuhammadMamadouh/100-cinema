@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
 
     'logout_url' => 'logout',
 
@@ -120,6 +120,20 @@ return [
             'icon' => 'user',
             'label' => '',
             'label_color' => 'success',
+        ],
+        [
+            'text' => 'Roles',
+            'url' => '/admin/roles',
+            'icon' => 'times-circle',
+            'label' => '',
+            'label_color' => 'rule',
+        ],
+        [
+            'text' => 'Permissions',
+            'url' => '/admin/permissions',
+            'icon' => 'key',
+            'label' => '',
+            'label_color' => 'red',
         ],
         [
             'text' => 'Users',
@@ -170,6 +184,7 @@ return [
             'label' => '',
             'label_color' => 'success',
         ],
+
     ],
 
     /*

@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Role;
 use App\User;
 use Yajra\DataTables\Services\DataTable;
 
@@ -16,7 +17,12 @@ class UserDatatable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-            ->addColumn('Edit', 'admin.users.btn.edit')
+//            ->addColumn('Edit', 'admin.users.btn.edit')
+            ->addColumn('Edit', function (User $user) {
+                $roles = Role::all();
+                return view('admin.users.btn.edit', [
+                    'user' => $user, 'roles' => $roles]);
+            })
             ->addColumn('Delete', 'admin.users.btn.delete')
             ->addColumn('checkbox', 'admin.users.btn.checkbox')
             ->rawColumns(['Edit', 'Delete', 'checkbox']);
@@ -30,8 +36,7 @@ class UserDatatable extends DataTable
      */
     public function query(User $model)
     {
-//        return $model->newQuery()->select('id', 'name', 'created_at', 'updated_at');
-            return \App\User::query();
+        return \App\User::query();
     }
 
     /**
@@ -42,8 +47,8 @@ class UserDatatable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
+            ->columns($this->getColumns())
+            ->minifiedAjax()
 //                    ->parameters($this->getBuilderParameters());
             ->parameters([
                 'dom' => 'Blfrtip',
@@ -52,7 +57,7 @@ class UserDatatable extends DataTable
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New User', 'className' => 'btn btn-info', "action" => "function(){
 							
-							$('#add_admin').modal('show')
+							$('#add_modal').modal('show')
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],

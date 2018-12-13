@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.blog')
 <!-- Main content -->
 @section('title', auth()->user()->name . ' edit profile')
 @section('content')

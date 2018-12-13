@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\DataTables\AdminDatatable;
+use App\Models\Cast;
+use App\Models\Movies;
+use App\Models\Post;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Admin;
 
@@ -134,4 +138,17 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * display home page
+     */
+    public function home()
+    {
+
+        $movies = Movies::all()->count();
+        $workers = Cast::all()->count();
+        $posts = Post::all()->count();
+        $videos = Video::all()->count();
+
+        return view('admin.index', compact('movies', 'workers', 'posts', 'videos'));
+    }
 }

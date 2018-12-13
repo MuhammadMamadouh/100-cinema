@@ -5,8 +5,20 @@
 Route::get('test', function () {
     return view('test4');
 });
+Auth::routes();
+// Registration Routes...
 
-\Auth::routes();
+Route::post('register', 'Blog\UserAuth@register');
+
+
+// Facebook Login
+Route::get('login/facebook', 'Auth\LoginController@facebookRedirectToProvider');
+Route::get('login/facebook/callback', 'Auth\LoginController@facebookHandleProviderCallback');
+
+// Google Login
+Route::get('login/google', 'Auth\LoginController@googleRedirectToProvider');
+Route::get('login/google/callback', 'Auth\LoginController@googleHandleProviderCallback');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/search', 'HomeController@search')->name('search');
@@ -40,5 +52,12 @@ Route::group(['namespace' => 'Blog'], function () {
     Route::group(['prefix' => 'posts'], function () {
         Route::post('{id}/addComment', 'CommentsController@store')->name('addComment');
         Route::get('{id}/comments', 'PostsController@comments')->name('comments');
+        Route::get('{id}/likes', 'PostsController@likes');
+
+        Route::post('{id}/saveLike', 'PostsController@saveLike');
+
     });
 });
+
+
+Route::get('/home', 'HomeController@index')->name('home');

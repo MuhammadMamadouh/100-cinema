@@ -1,10 +1,8 @@
 @extends('layouts.blog')
 @section('title', $post->title)
 @section('content')
-
     <div class=" main_container col-md-9 pad">
         <div class="content_inner_bg m0">
-
             <article class="post" id="post_{{$post->id}}">
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default arrow left">
@@ -29,24 +27,28 @@
                                 <div class="post-user">
                                     <h3 class="post-title">{{$post->title}}</h3>
                                 </div>
-                                <time class="post-date" datetime="{{$post->created_at}}"><i
-                                            class="fa fa-clock-o"></i> {{$post->created_at}}
+                                <time class="post-date"><i
+                                            class="fa fa-clock-o"></i> {{$post->created_at->diffForHumans()}}
                                 </time>
                             </header>
 
                             <div class="post-details">
-                                {{htmlspecialchars_decode($post->details)}}
+                                {!! htmlspecialchars_decode($post->details) !!}
                             </div>
                             <div class="post-image">
                                 <img src="{{\Storage::url($post->image)}}"
                                      class="img-responsive" style="max-height: 800px">
                             </div>
                             <div class="post-box-footer">
-                                <a href="#" class="user col-md-6">
+                                <a href="#" class="user col-md-4">
                                     By:
                                     <span class="main">{{$user->name}}</span>
                                 </a>
-                                <a href="#" class="category col-md-6">
+                                <button class="user btn btn-danger" id="like">
+                                    <span id="likesCount"></span>
+                                    <i class="fa fa-thumbs-up "></i>
+                                </button>
+                                <a href="#" class="category col-md-4">
                                     <span class="main">Comments</span>
                                 </a>
                             </div>
@@ -149,7 +151,7 @@
                 });
             }
 
-
+            //add comment
             $('#add-comment').on('submit', function (e) {
                 e.preventDefault();
                 $('#msg').show();
@@ -174,6 +176,39 @@
                     })
             });
         });
+
+        /**
+         * Get count of Likes of post
+         */
+        $('#likesCount').load('{{url("posts/$post->id/likes")}}');
+
+        //like the post
+        $('#like').on('click', function (e) {
+            $.ajax({
+                type: 'POST',
+                url: '{{url("posts/$post->id/saveLike")}}',
+                datatype: 'json',
+                data: {
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    if (data.liked) {
+                        $('#likesCount').load('{{url("posts/$post->id/likes")}}');
+                    } else if (data.deleted) {
+                        console.log(data)
+
+                        likes = $('#likesCount').text();
+                        likes--;
+                        $('#likesCount').text(likes)
+                    } else if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        });
+
 
         $("#input-id").rating();
 

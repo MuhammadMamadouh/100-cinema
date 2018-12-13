@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Blog;
 
 use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\PostLike;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Kamaln7\Toastr\Facades\Toastr;
 
 class PostsController extends Controller
@@ -54,8 +56,10 @@ class PostsController extends Controller
     public function show($id)
     {
 
+
         $post = Post::find($id);
         $user = User::find($post->user_id);
+
         $comments = $post->comments()->orderBy('created_at', 'desc')->simplePaginate(10);
         if (\request()->ajax()) {
             return $this->comments($id);
@@ -135,7 +139,6 @@ class PostsController extends Controller
     /**
      * Remove the specified resources from storage.
      *
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function multiDestroy()
@@ -147,6 +150,42 @@ class PostsController extends Controller
         }
         session()->flash('success', trans('admin.deleted_record'));
         return redirect(aurl('posts'));
+    }
+
+    /**
+     * Get count of Likes pf specified post
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function likes($id)
+    {
+        $likes = Post::find($id)->likes()->count();
+        return $likes;
+    }
+
+    /**
+     * Auth User likes a specified post
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function saveLike($id)
+    {
+        if (Auth::check()) {
+            $findLike = PostLike::where('user_id', Auth::user()->id)->where('post_id', $id)->first();
+            if ($findLike) {
+                $findLike->delete();
+                return response(['deleted' => 'like is deleted successfully']);
+            }
+            $like = new PostLike();
+            $like->user_id = Auth::user()->id;
+            $like->post_id = $id;
+            $like->save();
+            return response(['liked' => 'like is addedd successfully']);
+
+        } else {
+            return response(['redirect' => url('login')]);
+        }
     }
 
 }

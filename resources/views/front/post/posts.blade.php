@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.blog')
 @section('content')
 
     @foreach($posts as $post)
@@ -32,7 +32,7 @@
                         </header>
 
                         <div class="comment-post">
-                            <div class="">{{htmlspecialchars_decode($post->details)}}</div>
+                            <div class="">{!! htmlspecialchars_decode($post->details) !!}</div>
                         </div>
                         <div class="post_image">
                             <img src="{{\Storage::url($post->image)}}"

@@ -19,7 +19,7 @@
                             @auth
                                 @if( request()->route()->parameter('id') != auth()->user()->id)
 
-                                    <button class="btn btn-danger" id="follow" data-id="{{$user->id}}"
+                                    <button class="btn btn-danger follow" id="follow" data-id="{{$user->id}}"
                                             data-status=
                                             @if($user->isFollowedBy(auth()->user()->id))
                                                     "following">
@@ -200,17 +200,14 @@
                     @endforeach
                 </div>
             </section>
-
-
         </div>
     </div>
 
 @endsection
-@push('js')
-    <script>
+@section('js')
+    <script type="text/javascript">
 
-
-        $('#follow').on('click', function (e) {
+        $('.follow').on('click', function (e) {
             id = $(this).data('id');
             status = $(this).data('status');
             if (status === 'follow') {
@@ -225,7 +222,6 @@
                         id: id,
                     },
                     success: function (data) {
-                        console.log(data)
                         if (data.exception) {
                             toastr.warning('there is something error');
                         }
@@ -282,28 +278,28 @@
         // console.log(last);
         // console.log('date is ' + current);
 
-        var date1 = new Date(last);
-        var date2 = new Date();
-        console.log(date2.getTime() - date1.getTime());
-        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        console.log('date is ' + timeDiff);
-
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var diffHours = Math.ceil(timeDiff / (1000 * 3600));
-        console.log('dif hours ' + diffHours);
-        console.log('dif days ' + diffDays);
-
-        if (diffHours < 24 && diffDays < 1) {
-            $('#time').text(diffHours + 'hr');
-            console.log(diffHours + ' hr');
-        } else if (diffDays > 10 && diffHours > 24) {
-            $('#time').text(diffDays + 'days ago');
-            console.log('days');
-        } else {
-            $('#time').text(diffDays + 'days ago');
-            console.log('years');
-        }
+        // var date1 = new Date(last);
+        // var date2 = new Date();
+        // // console.log(date2.getTime() - date1.getTime());
+        // var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        // // console.log('date is ' + timeDiff);
+        //
+        // var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        // var diffHours = Math.ceil(timeDiff / (1000 * 3600));
+        // // console.log('dif hours ' + diffHours);
+        // // console.log('dif days ' + diffDays);
+        //
+        // if (diffHours < 24 && diffDays < 1) {
+        //     $('#time').text(diffHours + 'hr');
+        //     console.log(diffHours + ' hr');
+        // } else if (diffDays > 10 && diffHours > 24) {
+        //     $('#time').text(diffDays + 'days ago');
+        //     console.log('days');
+        // } else {
+        //     $('#time').text(diffDays + 'days ago');
+        //     console.log('years');
+        // }
         // console.log('diff is ' + current - new Date(last).getTime());
 
     </script>
-@endpush
+@endsection

@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 <!-- Main content -->
 @section('content')
+@section('title', 'Casts')
 @include('admin.cast.create.create')
     <div class="box">
         <div class="box-header">
@@ -69,7 +70,7 @@
                         dataType: 'json'
                     })
                         .done(function (data) {
-                            console.log(data.id)
+                            console.log(data.id);
                             $('#delete_modal' + data.id).modal('hide');
                             $('#msg').html('Crew has been deleted successfully');
                             $('#msg').fadeOut(2000);

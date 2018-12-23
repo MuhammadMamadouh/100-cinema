@@ -28,7 +28,6 @@
                                        @if($job->id === $person->job_id && $id === $person->id ) checked @endif
                                        @endforeach
                                        value="{{$job->id}}" type="checkbox">
-                                <span class="checkmark"></span>
                             </label>
 
                         @endforeach

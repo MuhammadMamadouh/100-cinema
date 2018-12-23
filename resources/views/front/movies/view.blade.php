@@ -6,144 +6,79 @@
         <div class="content_inner_bg row m0">
             <section class="about_person_area pad" id="about">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-sm-2">
                         <div class="person_img">
-                            <img src="{{\Storage::url($movie->poster)}}" alt="">
+                            <img src="{{\Storage::url($movie->poster)}}" alt="{{$movie->title}}">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="row person_details">
-                            <h3><span>{{$movie->title}}</span></h3>
-                            <h4>
-                                @if(isset($movieCategories))
-                                    @foreach($movieCategories as $category)
-                                        <a href="{{url("movie/category/$category->name")}}">{{$category->name}}</a>
-                                    @endforeach
-                                @else
-                                    <h3>This movie has not any category</h3>
-                                @endif
-                            </h4>
-                            @auth
-                                @auth('admin')
-                                    <button type="button" class="btn btn-info pull-right" data-toggle="modal"
-                                            data-target="#edit_category">
-                                        Edit Categories
-                                    </button>
-                                    <div class="modal fade" id="edit_category" tabindex="-1" role="dialog"
-                                         aria-labelledby="exampleModalLabel"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-style-5">
-                                                        <form id="ins_method" class="form-horizontal" method="POST"
-                                                              action="{{route('addCategory')}}">
-                                                            {{ csrf_field() }}
+                    <div class="col-sm-10">
 
-                                                            <input name="movie_id" type="hidden" value="{{$movie->id}}">
-
-                                                            <fieldset>
-                                                                <legend><span class="number"></span> Movie Categories:
-                                                                </legend>
-                                                                @foreach($categories as $category)
-
-                                                                    <label class="container">{{$category->name}}
-                                                                        <input name="categotries[]"
-                                                                               @foreach($movieCategories as $movieCategory)
-                                                                               @if($category->id === $movieCategory->id) checked
-                                                                               @endif
-                                                                               @endforeach
-                                                                               value="{{$category->id}}"
-                                                                               type="checkbox">
-                                                                        <span class="checkmark"></span>
-                                                                    </label>
-
-                                                                @endforeach
-                                                            </fieldset>
-                                                            <button type="submit" class="btn btn-primary">Submit
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endauth
-                            @endauth
-
-                            <div class="person_information">
-                                <p class="lead">{{$movie->story}}</p>
-                                <ul>
-                                    <li><a href="#">Playtime: {{$movie->playtime}}</a></li>
-                                    <li><a href="#">Country: {{$movie->country}}</a></li>
-                                    <li><a href="#">Rate</a></li>
-                                    <li><a href="#">language</a></li>
-                                    <li><a href="#">year</a></li>
-                                    <li><a href="#">Directors</a></li>
-                                </ul>
-                                <ul>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#">{{$movie->rate}}</a></li>
-                                    <li><a href="#">{{$movie->language}}</a></li>
-                                    <li><a href="#">{{$movie->year}}</a></li>
-                                    @foreach($directors as $director )
-                                        <li><a href="{{url("/admin/cast/$director->cast_id")}}">{{$director->name}}</a>
+                        <div class="col-sm-6">
+                            <div class="row person_details">
+                                <h3><span>{{$movie->title}}</span></h3>
+                                <h4>
+                                    @if(isset($movieCategories))
+                                        @foreach($movieCategories as $category)
+                                            <a href="{{url("movie/category/$category->name")}}">{{$category->name}}</a>
+                                        @endforeach
+                                    @else
+                                        <h3>This movie has not any category</h3>
+                                    @endif
+                                </h4>
+                                <div class="person_information">
+                                    <ul>
+                                        <li><a href="{{url("movie/year/$movie->year")}}"><b>{{$movie->year}}</b></a>|
+                                            Playtime: <a
+                                                    href="{{url("movie/playtime/$movie->playtime")}}"><b>{{$movie->playtime}}</b>
+                                            </a>|
+                                            Country: <a
+                                                    href="{{url("movie/country/$movie->country")}}"><b>{{$movie->country}}</b></a>
+                                            | lang: <a href="{{url("movie/language/$movie->language")}}">
+                                                <b>{{$movie->language}}</b></a></li>
+                                        <li>Directors: @foreach($directors as $director )
+                                                <a href="{{url("/crew/$director->cast_id")}}"><b>{{$director->name}}</b></a>
+                                            @endforeach
                                         </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <ul class="social_icon">
-                                <li><a href="{{$movie->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="{{$movie->twitter}}" target="_blank"><i
-                                                class="fa fa-twitter"></i></a></li>
-                                <li><a href="{{$movie->instgram}}" target="_blank"><i class="fa fa-instagram"></i></a>
-                                </li>
-                                <li><a href="{{$movie->twitter}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            </ul>
+                                    </ul>
 
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="rating-block">
-                            <h4>Average user rating</h4>
-                            <h2 class="bold padding-bottom-7">{{$avgRating}}
-                                <small>/ 5</small>
-                            </h2>
-                            <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            </button>
+                        <div class="col-sm-4">
+                            <div class="rating-block">
+                                <h4>Average user rating</h4>
+                                <h2 class="bold padding-bottom-7">{{$avgRating}}
+                                    <small>/ 5</small>
+                                </h2>
+                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <h3 class="h3">Story</h3>
+                <p class="col-sm-11">{{$movie->story}}</p>
             </section>
 
-            <section class="news_area pad" id="news">
+            <section class="about_person_area pad" id="news">
+                <br>
                 <div class="main_title">
                     <h2 class="pull-left">Trailer</h2>
                 </div>
-                <div class="news_inner_area">
+                <div class="">
                     <div class="row">
                         <div class="col-md-12">
                             <iframe class="pull-right" width="100%" height="315"
@@ -156,12 +91,10 @@
             </section>
             <section class="portfolio_area pad" id="portfolio">
                 <div class="main_title">
-                    <h2 class="pull-left">Crew</h2>
-                    @auth('admin')
-                        <h2 class="pull-right"><a href="{{URL::current()}}/add_crew">AddCrew</a></h2>
-                    @endauth
+                    <h2 class="pull-left"><a href="{{\URL::current()}}/crew">Crew</a></h2>
                 </div>
-                @if(isset($actors))
+
+                @if(count($actors) > 0)
                     <div class="row">
                         <div class="portfolio_list_inner">
                             @foreach($actors as $actor)
@@ -172,7 +105,7 @@
                                         </div>
                                         <div class="portfolio_title">
                                             <a href="{{url("crew/$actor->id")}}"><h4>{{$actor->name}}</h4></a>
-                                            <h5>{{$movie->job_name}}</h5>
+                                            <h5>{{$actor->job_name}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -181,8 +114,7 @@
                     </div>
                 @else
                     <div class="portfolio_title">
-                        <a href="{{URL::current()}}/add_crew"> add crew<h4></h4></a>
-                        <h5>You have not added any one of crew yet</h5>
+                        <h5>We are adding Crew of this movie SOON</h5>
                     </div>
                 @endif
             </section>
@@ -212,8 +144,6 @@
                                                         <div class="comment-post">
                                                             {!! Form::open(['url' => route('addReview'), 'method'=> 'post', 'id'=> 'addReview']) !!}
                                                             <input type="hidden" name="movie" value="{{$movie->id}}">
-                                                            <input type="hidden" name="user"
-                                                                   value="{{\Auth::user()->id}}">
                                                             <textarea class="form-control input-lg" id="commentBox"
                                                                       name="review"
                                                                       placeholder="Tell people your opinion about movie!"></textarea>
@@ -242,9 +172,11 @@
                                                     <div class="panel-body">
                                                         <div class="comment-post">
                                                             <p class="lead">
-                                                                <a href="{{url('/login')}}">Sign in </a>to can wrote
+                                                                @loginBtn to can wrote
                                                                 your review :)
                                                             </p>
+
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -252,6 +184,7 @@
                                         </article>
                                     @endguest
                                     <div id="reviews">
+                                        <div id="loading"></div>
                                         @include('front.movies.reviews')
                                         {{$reviews->links()}}
                                     </div>
@@ -273,44 +206,56 @@
         });
 
         $(document).ready(function () {
+
+            // prevent reloading page when paginate
+            $('.pagination .page-link').on('click', function (e) {
+                e.preventDefault();
+                $('#load a').css('color', '#dfecf6');
+                $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+
+                var url = $(this).attr('href');
+                getReviews(url);
+                window.history.pushState("", "", url);
+            });
+
+            function getReviews(url) {
+                $.ajax({
+                    url: url
+                }).done(function (data) {
+                    $('#loading').html(data);
+                }).fail(function () {
+                    alert('Reviews could not be loaded.');
+                });
+            }
+
             $('#addReview').on('submit', function (e) {
                 e.preventDefault();
+                var form = $(this);
                 var data = $(this).serialize();
                 var url = $(this).attr('action');
+                var post = $(this).attr('method');
                 $.ajax({
+                    type: 'POST',
                     url: url,
                     data: data,
-                    type: 'POST',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        formResults.removeClass().addClass('alert alert-info').html('Loading...');
-                    },
-                    cache: false,
-                    processData: false,
-                    contentType: false,
+                    dataType: 'json'
+                })
 
-                    success: function (results) {
-                        if (results.success) {
-                            formResults.removeClass().addClass('alert alert-success').html(results.success);
-                            toastr.success('well done')
-                            $('#addReview').each(function () {
-                                this.reset();
-                            });
-                            $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
-                        }
-                    },
-                    error: function (results) {
+                    .done(function (data) {
+                        $('#addReview').each(function () {
+                            this.reset();
+                        });
+                        $('#reviews').prepend(data.review);
+                    })
+                    .fail(function (data) {
                         $.each(results.responseJSON.errors, function (index, val) {
                             toastr.info(val)
                         });
-                        $('#reviews').load('<?php echo url("/movie/$movie->id/reviews")?>');
-                    }
-                })
+                        $('#addReview').each(function () {
+                            this.reset();
+                        });
+                    })
             });
         });
-
-        $("#input-id").rating();
-
-
     </script>
 @endsection

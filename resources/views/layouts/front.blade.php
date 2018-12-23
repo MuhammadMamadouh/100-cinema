@@ -26,37 +26,6 @@
 
 
 @section('body')
-    {{--<header class="main-header">--}}
-    {{--@if(config('adminlte.layout') == 'top-nav')--}}
-    {{--<nav class="navbar navbar-fixed-top bg-dark">--}}
-    {{--<div class="container">--}}
-    {{--<div class="navbar-header">--}}
-    {{--<a href="#" class="navbar-brand">--}}
-    {{--100Cinema--}}
-    {{--</a>--}}
-
-    {{--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"--}}
-    {{--data-target="#navbar-collapse">--}}
-    {{--<i class="fa fa-bars"></i>--}}
-    {{--</button>--}}
-    {{--</div>--}}
-
-    {{--<form class="form-inline col-md-5">--}}
-    {{--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">--}}
-    {{--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>--}}
-    {{--</form>--}}
-    {{--<!-- Collect the nav links, forms, and other content for toggling -->--}}
-    {{--<div class="collapse navbar-collapse pull-left" id="navbar-collapse">--}}
-    {{--<ul class="nav navbar-nav">--}}
-    {{--<li class="nav-item"></li>--}}
-    {{--</ul>--}}
-    {{--</div>--}}
-    {{--<!-- /.navbar-collapse -->--}}
-    {{--@else--}}
-    <!-- Logo -->
-
-
-    {{--</header>--}}
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\CastDatatable;
-use App\Http\Controllers\Controller;
 use App\DataTables\MoviesDatatable;
+use App\Http\Controllers\Controller;
 use App\Models\Cast;
-use App\Models\Category;
 use App\Models\Job;
 use App\Models\Movies;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -59,39 +56,6 @@ class MoviesController extends Controller
         Movies::create($data);
 
         return response(['success' => 'Movie has been added successfully']);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        $movie = Movies::find($id);
-        $crew = $movie->getCrewJob();
-        dd($crew);
-        $actors = $movie->actors();
-        $directors = $movie->directors();
-        $movieCategories = $movie->categories;
-        $categories = Category::all();
-        return view('admin.movies.view', compact(
-            'movie', 'actors', 'directors', 'categories', 'movieCategories'
-        ));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $movie = Movies::find($id);
-        return view('admin.movies.edit', compact('movie'));
     }
 
     /**
@@ -216,12 +180,11 @@ class MoviesController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function addCrew(Builder $builder, $id, Request $request)
+    public function addCrew(Builder $builder, $id)
     {
         if (request()->ajax()) {
             return datatables(Cast::query())
                 ->addColumn('checkbox', 'admin.movies.btn.checkbox')
-//                ->addColumn('select_job', 'admin.movies.btn.select_job')
                 ->addColumn('select_job', function (Cast $cast) {
                     $jobs = Job::all();
                     return view('admin.movies.btn.select_job', [

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\PostLike;
 use App\User;
 use Illuminate\Http\Request;
-use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Kamaln7\Toastr\Facades\Toastr;
 
 class PostsController extends Controller
 {
@@ -18,9 +16,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function mostLiked()
     {
-        $posts = Post::all();
+        $posts = Post::withCount('likes')->orderBy('likes_count', 'desc')->simplePaginate(10);
         return view('front.post.posts', compact('posts'));
     }
 
@@ -55,16 +53,14 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-
-
         $post = Post::find($id);
         $user = User::find($post->user_id);
-
-        $comments = $post->comments()->orderBy('created_at', 'desc')->simplePaginate(10);
+        $likes = Post::find($id)->likes()->count();
+        $comments = $post->comments()->orderBy('created_at', 'desc')->simplePaginate(1);
         if (\request()->ajax()) {
             return $this->comments($id);
         }
-        return view('front.post.view', compact('post', 'user', 'comments'));
+        return view('front.post.view', compact('post', 'user', 'comments', 'likes'));
     }
 
     /**
@@ -136,21 +132,6 @@ class PostsController extends Controller
         return response(['success' => 'deleted successfully']);
     }
 
-    /**
-     * Remove the specified resources from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function multiDestroy()
-    {
-        if (is_array(request('item'))) {
-            Post::destroy(\request('item'));
-        } else {
-            Post::find(\request('item'))->delete();
-        }
-        session()->flash('success', trans('admin.deleted_record'));
-        return redirect(aurl('posts'));
-    }
 
     /**
      * Get count of Likes pf specified post

@@ -2,6 +2,7 @@
 @section('title', 'Ads')
 <!-- Main content -->
 @section('content')
+    @include('admin.ads.create')
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"> Movies </h3>

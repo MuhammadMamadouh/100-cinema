@@ -10,59 +10,62 @@
                 <h4 class="modal-title">Edit User</h4>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body row">
                 {!! Form::open(['route' => ['users.update', $user->id], 'method'=> 'put','id'=>'frm-update-'.$user->id, 'files'=> true]) !!}
 
-                <div class="form-group has-feedback ">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('name','name') !!}
                     <input type="text" name="name" class="form-control" value="{{ $user->name }}"
                            placeholder="{{ trans('adminlte::adminlte.full_name') }}">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback ">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('email','email') !!}
                     <input type="email" name="email" class="form-control" value="{{ $user->email }}"
                            placeholder="{{ trans('adminlte::adminlte.email') }}">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback col-sm-12">
                     {!! Form::label('password','password') !!}
                     <input type="password" name="password" class="form-control"
                            placeholder="{{ trans('adminlte::adminlte.password') }}">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback col-md-12">
                     <input type="password" name="password_confirmation" class="form-control"
                            placeholder="{{ trans('adminlte::adminlte.retype_password') }}">
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback ">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('country','country') !!}
                     {!! Form::text('country',$user->country,['class'=>'form-control','placeholder'=>trans('adminlte::adminlte.country') ]) !!}
                     <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('site','site') !!}
                     {!! Form::text('site',$user->site,['class'=>'form-control','placeholder'=>trans('adminlte::adminlte.site') ]) !!}
                     <span class="glyphicon glyphicon-link form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback ">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('short_bio','short_bio') !!}
                     {!! Form::text('short_bio',$user->short_bio,['class'=>'form-control','placeholder'=>trans('adminlte::adminlte.short_bio') ]) !!}
                     <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback ">
+                <div class="form-group has-feedback col-md-12">
                     {!! Form::label('about','about') !!}
                     {!! Form::textarea('about',$user->about,['class'=>'form-control','placeholder'=>trans('adminlte::adminlte.about') ]) !!}
                     <span class="glyphicon glyphicon-align-center form-control-feedback"></span>
                 </div>
-                <select name="role" class="form-control" multiple>
-                    @foreach($roles as $role)
-                        <option value="{{$role->id}}">{{$role->name}}</option>
-                    @endforeach
-                </select>
+                <div class="form-group has-feedback col-md-12">
+                    {!! Form::label('role','role') !!}
 
-                <div class="form-group has-feedback">
+                    <select name="role" class="form-control" multiple>
+                        @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group has-feedback col-sm-12">
                     {!! Form::label('image','image') !!}
                     {!! Form::file('image',['class'=>'form-control']) !!}
                     <span class="glyphicon glyphicon-picture form-control-feedback"></span>

@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.blog')
 <!-- Main content -->
 @section('title', strtoupper($category->name). ' Movies -100 Cinema')
 @section('content')

@@ -21,14 +21,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
         Route::post('movies/category/add', 'MoviesController@addCategory')->name('addCategory');
 
 
-//        ------------- Cast links ------------------------
         Route::resource('cast', 'CastController');
-        Route::delete('cast/destroy/all', 'CastController@multiDestroy');
-        Route::get('cast/{id}/add-images', 'CastController@addImages');
-        Route::post('cast/store-images', 'CastController@storeImages')->name('addCastImage');
+//        ------------- Cast links ------------------------
+        Route::group(['prefix' => 'cast'], function () {
+            Route::delete('destroy/all', 'CastController@multiDestroy');
+            Route::post('store-media', 'CastController@storeMedia')->name('addCastMedia');
+            Route::post('destroy-media', 'CastController@destroyMedia')->name('destroyCastMedia');
 
-        Route::get('cast/{id}/add-jobs', 'CastController@addJobs');
-        Route::get('cast/add-jobs', 'CastController@addJobs')->name('addCastJobs');
+            Route::get('{id}/media', 'CastController@media');
+            Route::get('{id}/add-jobs', 'CastController@addJobs');
+            Route::get('add-jobs', 'CastController@addJobs')->name('addCastJobs');
+
+        });
 
 //        ------------- Ads links ------------------------
         Route::resource('ads', 'AdsController');

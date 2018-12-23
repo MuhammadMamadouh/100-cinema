@@ -12,7 +12,9 @@
                         <a href="#"> Posts</a></h2>
                 </div>
                 <div class="portfolio_list_inner" id="loads">
-                    @include('front.user.loads.posts')
+                    @foreach($posts as $post)
+                        @include('front.loads.posts')
+                    @endforeach
                     {{ $posts->links() }}
                 </div>
             </section>

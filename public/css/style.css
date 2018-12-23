@@ -68,7 +68,6 @@ body.light_bg {
     background-size: contain;
 }
 
-
 body .content_inner_bg {
     background: #efefef;
 }
@@ -897,6 +896,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 }
 
 .portfolio_area .portfolio_list_inner .portfolio_item .portfolio_img img {
+    width: 100%;
     max-width: 100%;
     height: 300px;
 }
@@ -1472,6 +1472,10 @@ body, p, h1, h2, h3, h4, h5, h6 {
     font-weight: bolder;
 }
 
+.post-image img {
+    width: 100%
+}
+
 .post-box-footer {
     margin-top: 30px;
     overflow: hidden;
@@ -1480,13 +1484,17 @@ body, p, h1, h2, h3, h4, h5, h6 {
 .post-box-footer a {
     display: inline-block;
     float: left;
-    /*width: 33%;*/
+    width: 33%;
     border: 1px solid #eee;
     padding: 10px;
     color: #000;
-    font-weight: 100;
+
     transition: all 0.3s;
     text-align: center;
+}
+
+.post-box-footer a:first-child {
+
 }
 
 .post-box-footer a:hover {
@@ -1495,6 +1503,19 @@ body, p, h1, h2, h3, h4, h5, h6 {
 
 .post-box-footer a:hover .main {
     font-weight: bold;;
+}
+
+/*Media Gallery*/
+.hide-bullets .thumbnail .overlay {
+    position: absolute;
+    top: 0;
+    background-color: #ffF;
+    display: none;
+}
+
+.hide-bullets .thumbnail:hover .overlay {
+    display: block;
+    cursor: pointer;
 }
 
 

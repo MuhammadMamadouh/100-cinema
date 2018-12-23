@@ -26,7 +26,6 @@
                                         class="fa fa-clock-o"></i> {{$comment->created_at}}
                             </time>
                         </header>
-
                         <div class="comment-post">
                             <div class="b-description_readmore js-description_readmore">{{preg_replace('/<br\s?\/?>/i','\n\r',$comment->comment)}}
                             </div>
@@ -36,6 +35,4 @@
             </div>
         </article>
     @endforeach
-
-
 @endif

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Cast;
+use App\Models\Job;
 use Yajra\DataTables\Services\DataTable;
 
 class CastDatatable extends DataTable
@@ -15,11 +16,15 @@ class CastDatatable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-            ->addColumn('Edit', 'admin.cast.btn.edit')
+            ->addColumn('Edit', function (Cast $cast) {
+                $jobs = Job::all();
+                return view('admin.cast.btn.edit', [
+                    'cast' => $cast, 'jobs' => $jobs]);
+            })
             ->addColumn('Delete', 'admin.cast.btn.delete')
-            ->addColumn('Show', 'admin.cast.btn.show')
+            ->addColumn('Media', 'admin.cast.btn.media')
             ->addColumn('checkbox', 'admin.cast.btn.checkbox')
-            ->rawColumns(['Edit', 'Delete', 'checkbox', 'Show']);
+            ->rawColumns(['Edit', 'Delete', 'checkbox', 'Show', 'Media']);
     }
 
     /**
@@ -106,9 +111,9 @@ class CastDatatable extends DataTable
                 'title' => 'updated_at',
             ],
             [
-                'name' => 'Show',
-                'data' => 'Show',
-                'title' => 'Show',
+                'name' => 'Media',
+                'data' => 'Media',
+                'title' => 'Media',
                 'exportable' => false,
                 'printable' => false,
                 'orderable' => false,

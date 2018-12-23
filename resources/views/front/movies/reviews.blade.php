@@ -5,13 +5,13 @@
                 <figure class="thumbnail">
 
                     <img class="img-responsive"
-                         @if($review->user_image != null)
-                         src="{{\Storage::url($review->user_image)}}" alt="{{$review->user_name}}"
+                         @if($review->user->image != null)
+                         src="{{\Storage::url($review->user->image)}}" alt="{{$review->user->name}}"
                          @else
                          src="{{asset('public/images/user.png')}}"
                             @endif
                     >
-                    <figcaption class="text-center"><a href="#">{{$review->user_name}}</a>
+                    <figcaption class="text-center"><a href="#">{{$review->user->name}}</a>
                     </figcaption>
                 </figure>
             </div>
@@ -33,7 +33,7 @@
                         </div>
                         <header class="text-left">
                             <div class="comment-user"><i class="fa fa-user"></i>
-                                <a href="#">{{$review->user_name}}</a>
+                                <a href="{{url("user/$review->user->id")}}">{{$review->user->name}}</a>
                             </div>
                             <time class="comment-date" datetime="16-12-2014 01:05"><i
                                         class="fa fa-clock-o"></i> {{$review->created_at}}
@@ -43,7 +43,6 @@
                         <div class="comment-post">
                             <div class="b-description_readmore js-description_readmore">
                                 {!! htmlspecialchars_decode($review->review) !!}
-
                             </div>
                         </div>
                     </div>
@@ -70,24 +69,24 @@
 
 <script type="text/javascript">
 
-    $(function () {
-
-        $('.js-description_readmore').moreLines({
-            linecount: 1,
-            // default CSS classes
-            baseclass: 'b-description',
-            basejsclass: 'js-description',
-            classspecific: '_readmore',
-
-            // custom text
-            buttontxtmore: "read more",
-            buttontxtless: "read less",
-
-            // animation speed in milliseconds
-            animationspeed: 500
-
-        });
-    });
+    // $(function () {
+    //
+    //     $('.js-description_readmore').moreLines({
+    //         linecount: 1,
+    //         // default CSS classes
+    //         baseclass: 'b-description',
+    //         basejsclass: 'js-description',
+    //         classspecific: '_readmore',
+    //
+    //         // custom text
+    //         buttontxtmore: "read more",
+    //         buttontxtless: "read less",
+    //
+    //         // animation speed in milliseconds
+    //         animationspeed: 500
+    //
+    //     });
+    // });
 
 
 </script>

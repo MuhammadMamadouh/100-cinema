@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\ClearAds::class,
     ];
 
     /**
@@ -26,6 +27,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->exec('php artisan ads:clear')->everyMinute();
+        //C:\xampp\htdocs\imdb>
+        // artisan ads:clear > "NUL" 2>&1
+        //* * * * * php /C:\xampp\htdocs\imdb\artisan schedule:run >> /dev/null 2>&1
     }
 
     /**

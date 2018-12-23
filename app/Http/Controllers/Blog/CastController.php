@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\DataTables\CastDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Cast;
-use App\Models\Category;
 use App\Models\Job;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 
 class CastController extends Controller
@@ -47,13 +43,26 @@ class CastController extends Controller
         $cast = Cast::find($id);
         $jobs = $cast->jobs();
         $movies = $cast->movies();
-        $images = DB::table('cast_media')->select('path')->where('cast_id', $cast->id)->get();
+        $images = $cast->media;
         return view('front.crew.view', compact('cast', 'jobs', 'movies', 'images'));
+    }
+
+    /**
+     * Display media of the specified person of crew.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function media($id)
+    {
+        $cast = Cast::find($id);
+        $media = $cast->media;
+        return view('front.crew.media', compact('cast', 'media'));
     }
 
     public function viewCastsByJob($name)
     {
-        $job = Job::where('name',$name)->first();
+        $job = Job::where('name', $name)->first();
         $casts = $job->casts();
         return view('front.crew.castByJob', compact('casts', 'job'));
     }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\DataTables\AdsDatatable;
+use App\Http\Controllers\Controller;
 use App\Models\Ads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,18 +25,6 @@ class AdsController extends Controller
         return $ads->render('admin.ads.index', compact('pages'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('admin.ads.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -55,14 +43,11 @@ class AdsController extends Controller
             'status' => 'required',
             'image' => v_image(),
         ]);
+
         if (!empty($data['image'])) {
             $data['image'] = $request->file('image')->storeAs('ads/' . $data['name'], $data['name'] . time());
         }
-
-        $data['start_at'] = strtotime($data['start_at']);
-        $data['end_at'] = strtotime($data['end_at']);
         Ads::create($data);
-
         return response(['success' => 'ad has been added successfully']);
     }
 
@@ -71,23 +56,13 @@ class AdsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show()
-    {
-
-//        return view('layouts.sidebar', compact('ads'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function show($id)
     {
         $ad = Ads::find($id);
-        $pages = $this->frontRoutes();
-        return view('admin.ads.edit', compact('ad', 'pages'));
+        $time = time() - strtotime($ad->start_at);
+        $oldAds = Ads::where('end_at', '>', time())->get();
+        return $oldAds;
+//        return view('layouts.sidebar', compact('ads'));
     }
 
     /**
@@ -112,10 +87,6 @@ class AdsController extends Controller
         if (!empty($data['image'])) {
             $data['image'] = $request->file('image')->storeAs('ads/' . $data['name'], $data['name'] . time());
         }
-
-        $data['start_at'] = strtotime($data['start_at']);
-        $data['end_at'] = strtotime($data['end_at']);
-
         Ads::where('id', $id)->update($data);
         return redirect(aurl('ads'))->with('success', 'added successfully');
     }
@@ -158,7 +129,7 @@ class AdsController extends Controller
 
 
     /**
-     * Get All Front Routes
+     * Get All Front End Routes URI
      *
      * @return array
      */

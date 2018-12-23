@@ -2,7 +2,7 @@
 <!-- Main content -->
 @section('title', auth()->user()->name . ' edit profile')
 @section('content')
-    <div class=" main_container">
+    <div class=" main_container col-md-9">
         <section class=" pad">
             <div class="tab-pane" id="edit">
 

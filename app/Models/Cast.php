@@ -57,8 +57,8 @@ class Cast extends Model
     }
 
     /**
+     * Movies of specific person of crew
      *
-     * function returns movies of cast
      * @return \Illuminate\Support\Collection
      */
     public function movies()
@@ -71,4 +71,21 @@ class Cast extends Model
             ->where('cast_of_movies.cast_id', '=', $cast_id)
             ->get();
     }
+
+    /**
+     * Get Media Of Specific Person Of Crew
+     *
+     * @param null $limit
+     * @return \Illuminate\Support\Collection
+     */
+    public function media($limit = null)
+    {
+        $cast_id = $this->getKey();
+//        return DB::table('cast_media')->where('cast_id', $cast_id)
+//            ->limit($limit)
+//            ->get();
+
+        return $this->hasMany('App\Models\CastMedia', 'cast_id');
+    }
+
 }

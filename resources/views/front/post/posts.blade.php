@@ -1,57 +1,22 @@
 @extends('layouts.blog')
 @section('content')
+    <div class=" main_container col-md-9">
+        <div class="content_inner_bg row m0">
 
-    @foreach($posts as $post)
-        <article class="row" id="comment{{$post->id}}">
-            <div class="col-md-12 col-sm-12">
-                <div class="panel panel-default arrow left">
-                    <div class="panel-body">
-                        <header class="text-left">
-                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                <figure class="thumbnail">
-
-                                    <img class="img-responsive"
-                                         @if($post->user()->first()->image)
-                                         src="{{\Storage::url($post->user()->first()->image)}}"
-                                         alt="{{$post->user()->first()->name}}"
-                                         @else
-                                         src="{{asset('public/images/user.png')}}"
-                                            @endif
-                                    >
-                                    <figcaption class="text-center"><a
-                                                href="#">{{$post->user()->first()->name}}</a>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <div class="post-user"><i class="fa fa-user"></i>
-                                <h4>{{$post->title}}</h4>
-                            </div>
-                            <time class="comment-date" datetime="{{$post->created_at}}"><i
-                                        class="fa fa-clock-o"></i> {{$post->created_at}}
-                            </time>
-                        </header>
-
-                        <div class="comment-post">
-                            <div class="">{!! htmlspecialchars_decode($post->details) !!}</div>
-                        </div>
-                        <div class="post_image">
-                            <img src="{{\Storage::url($post->image)}}"
-                                 class="img-responsive" style="max-height: 800px">
-                        </div>
-                        <div class="post-box-footer">
-                            <a href="#" class="user col-md-6">
-                                By:
-                                <span class="main">{{$post->user()->first()->name}}</span>
-                            </a>
-                            <a href="{{route('posts.show', $post->id)}}" class="category col-md-6">
-                                <span class="main">comments</span>
-                            </a>
-                        </div>
-                    </div>
+            <section class="portfolio_area pad" id="portfolio">
+                <div class="main_title">
+                    <h2 class="pull-left">
+                        <a href="#"> Most Liked Posts</a></h2>
                 </div>
-            </div>
-        </article>
-    @endforeach
+                <div class="portfolio_list_inner" id="loads">
+                    @foreach($posts as $post)
+                        @include('front.loads.posts')
+                    @endforeach
+                    {{ $posts->links() }}
+                </div>
+            </section>
+        </div>
+    </div>
     <div class="comments">
         <div class="container">
             <div class="row">

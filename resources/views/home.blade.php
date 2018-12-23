@@ -1,4 +1,4 @@
-@extends('layouts.newblog')
+@extends('layouts.blog')
 
 @section('content')
 
@@ -10,59 +10,18 @@
             <li data-target="#myslide" data-slide-to="0" class="active"></li>
             <li data-target="#myslide" data-slide-to="1"></li>
             <li data-target="#myslide" data-slide-to="2"></li>
-            <li data-target="#myslide" data-slide-to="3"></li>
         </ol>
 
         <div class="carousel-inner">
-
-            <div class="item active">
-                <img src="{{asset('public/blog/images/01.jpg') }}" width="1920" height="600" alt="Pic 1">
-                <div class="carousel-caption hidden-xs">
-                    <h2 class="h1">Programming</h2>
-                    <p class="lead">Transition animations not supported in Internet Explorer 8 & 9Bootstrap exclusively
-                        uses
-                        CSS3 for its animations, but Internet Explorer 8 & 9 don't support the necessary CSS properties.
-                        Thus, there are no slide transition animations when using these browsers. We have intentionally
-                        decided not to include jQuery-based fallbacks for the transitions.</p>
-                </div>
-            </div>
-
+            @foreach($movies as $movie)
             <div class="item">
-                <img src="{{asset('public/blog/images/02.jpg') }}" width="1920" height="600" alt="Pic 2">
+                <img src="{{\Storage::url($movie->poster)}}" width="1920" height="600" alt="Pic 1">
                 <div class="carousel-caption hidden-xs">
-                    <h2 class="h1">Web Design</h2>
-                    <p class="lead">Transition animations not supported in Internet Explorer 8 & 9Bootstrap exclusively
-                        uses
-                        CSS3 for its animations, but Internet Explorer 8 & 9 don't support the necessary CSS properties.
-                        Thus, there are no slide transition animations when using these browsers. We have intentionally
-                        decided not to include jQuery-based fallbacks for the transitions.</p>
+                    <h2 class="h1"><a href="{{url("movie/$movie->id")}}">{{$movie->title}}</a></h2>
+                    <p class="lead">{{read_more($movie->story, 20)}}</p>
                 </div>
             </div>
-
-            <div class="item">
-                <img src="{{asset('public/blog/images/03.jpg') }}" width="1920" height="600" alt="Pic 3">
-                <div class="carousel-caption hidden-xs">
-                    <h2 class="h1">Desktop</h2>
-                    <p class="lead">Transition animations not supported in Internet Explorer 8 & 9Bootstrap exclusively
-                        uses
-                        CSS3 for its animations, but Internet Explorer 8 & 9 don't support the necessary CSS properties.
-                        Thus, there are no slide transition animations when using these browsers. We have intentionally
-                        decided not to include jQuery-based fallbacks for the transitions.</p>
-                </div>
-            </div>
-
-            <div class="item">
-                <img src="{{asset('public/blog/images/04.jpg') }}" width="1920" height="600" alt="Pic 4">
-                <div class="carousel-caption hidden-xs">
-                    <h2 class="h1">Web Hosting</h2>
-                    <p class="lead">Transition animations not supported in Internet Explorer 8 & 9Bootstrap exclusively
-                        uses
-                        CSS3 for its animations, but Internet Explorer 8 & 9 don't support the necessary CSS properties.
-                        Thus, there are no slide transition animations when using these browsers. We have intentionally
-                        decided not to include jQuery-based fallbacks for the transitions.</p>
-                </div>
-            </div>
-
+            @endforeach
         </div>
 
         <a class="left carousel-control" href="#myslide" role="button" data-slide="prev">
@@ -148,7 +107,7 @@
                         <div class="panel-body">
                             <div class="comment-post">
                                 <p class="lead">
-                                    <a href="{{url('/login')}}">Sign in </a>to can write
+                                    @loginBtn to can write
                                     your awesome article :)
                                 </p>
                             </div>
@@ -159,10 +118,22 @@
         @endguest
         @auth
             <section class="portfolio_area pad following_posts" id="portfolio">
-                @include('front.user.loads.posts')
+                @foreach($posts as $post)
+                    @include('front.loads.posts')
+                    {{--<pre>{{print_r($post)}}</pre>--}}
+                @endforeach
             </section>
         @endauth
-        @if(isset($videos->id->videoId))
+        <section class="portfolio_area pad" id="portfolio">
+            <div class="main_title">
+                <h2 class="pull-left">
+                    <a href="#"> Most Liked Posts</a></h2>
+            </div>
+            @foreach($mostLikedPosts as $post)
+                @include('front.loads.posts')
+            @endforeach
+        </section>
+        @if(isset($channelVideo->id->videoId))
 
         @endif
         <section class="portfolio_area pad" id="posts">
@@ -171,20 +142,21 @@
                     <a href="#">Videos From Our Channels</a></h2>
             </div>
             <div class="portfolio_list_inner">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$videos->id->videoId}}"
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$channelVideo->id->videoId}}"
                         frameborder="0"></iframe>
             </div>
         </section>
-        {{--@foreach($movies as $movie)--}}
-        {{--<div class="item ">--}}
-        {{--<img class="d-block w-100" src="{{\Storage::url($movie->poster)}}" width="1920"--}}
-        {{--height="600" alt="Pic 1">--}}
-        {{--<div class="">--}}
-        {{--<h2 class="h1">{{$movie->title}}</h2>--}}
-        {{--<p class="lead"></p>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--@endforeach--}}
+        <section class="portfolio_area pad" id="posts">
+            <div class="main_title">
+                <h2 class="pull-left">
+                    <a href="#">Youtube Suggestions</a></h2>
+            </div>
+            <div class="portfolio_list_inner">
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$youtubeVideo->id->videoId}}"
+                        frameborder="0"></iframe>
+            </div>
+        </section>
+
     </div>
 @endsection
 @push('js')

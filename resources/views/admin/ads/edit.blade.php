@@ -43,7 +43,7 @@
 
             <div class="form-group has-feedback {{ $errors->has('start_at') ? 'has-error' : '' }}">
                 {!! Form::label('start_at') !!}
-                {!! Form::text('start_at',date('d-m-y', $ad->start_at),['class'=>'form-control input','placeholder'=>'Start_at' ]) !!}
+                {!! Form::date('start_at',$ad->start_at,['class'=>'form-control input','placeholder'=>'Start_at' ]) !!}
                 <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
                 @if ($errors->has('start_at'))
                     <span class="help-block">
@@ -54,7 +54,7 @@
 
             <div class="form-group has-feedback {{ $errors->has('end_at') ? 'has-error' : '' }}">
                 {!! Form::label('end_at') !!}
-                {!! Form::text('end_at',date('d-m-y', $ad->end_at),['class'=>'form-control input','placeholder'=>'End_at' ]) !!}
+                {!! Form::date('end_at',$ad->end_at,['class'=>'form-control input','placeholder'=>'End_at' ]) !!}
                 <span class="glyphicon glyphicon-adjust form-control-feedback"></span>
                 @if ($errors->has('end_at'))
                     <span class="help-block">

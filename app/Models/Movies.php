@@ -9,17 +9,21 @@ class Movies extends Model
 {
     protected $table = 'Movies';
     protected $fillable = [
-        'title',
-        'playtime',
-        'country',
-        'rate',
-        'language',
-        'year',
-        'story',
-        'trailer',
+        'title', 'playtime', 'country', 'rate',
+        'language', 'year', 'story', 'trailer',
         'poster',
     ];
 
+
+    public static function getMovieWhich($attr, $value)
+    {
+        $movies = Movies::where($attr, $value)->orderBy('year', 'desc')->paginate(10);
+        return $movies;
+    }
+
+    /*
+     * Get all staff working on specific movie with their jobs
+     */
     public function getCrewJob()
     {
         $movie = $this->getKey();
@@ -78,12 +82,7 @@ class Movies extends Model
      */
     public function reviews()
     {
-        $movie = $this->getKey();
-        return DB::table('movies_reviews')
-            ->join('users', 'movies_reviews.users_id', '=', 'users.id')
-            ->select('movies_reviews.*', 'users.id AS user_id', 'users.image as user_image', 'users.name as user_name')
-            ->where('movies_reviews.movies_id', '=', $movie)
-            ->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\Review', 'movies_id');
     }
 
     /**

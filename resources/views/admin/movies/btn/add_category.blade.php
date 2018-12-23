@@ -26,7 +26,7 @@
                                        @endif
                                        @endforeach
                                        value="{{$category->id}}" type="checkbox">
-                                <span class="checkmark"></span>
+
                             </label>
 
                         @endforeach

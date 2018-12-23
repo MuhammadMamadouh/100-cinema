@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\CastDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Cast;
+use App\Models\CastMedia;
 use App\Models\Job;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,16 +27,6 @@ class CastController extends Controller
         return $casts->render('admin.cast.index', compact('jobs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $jobs = Job::all();
-        return view('admin.cast.create.create', compact('jobs'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -72,51 +64,69 @@ class CastController extends Controller
     }
 
     /**
-     * add images to crew.
+     * Store Media to a specific person of crew
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function addImages(Request $request, $id)
-    {
-        if ($request->isMethod('get')) {
-            return view('admin.cast.create.add_cast_images', ['cast_id' => $id]);
-        }
-    }
-
-    public function storeImages(Request $request)
+    public function storeMedia(Request $request)
     {
         $cast_id = $request->cast_id;
         $this->validate(\request(), ['images.*' => v_image()]);
         $images = \request()->file('images');
+        $media = [];
         foreach ($images as $image) {
             $ext = $image->getClientOriginalExtension();
             $path = $image->storeAs('cast/' . $cast_id, rand(1, 500000) . '.' . $ext);
-            DB::table('cast_media')->insert([
-                'cast_id' => $cast_id,
-                'path' => $path,
-            ]);
+            $pic = CastMedia::create(['cast_id' => $cast_id,
+                'path' => $path,]);
+            $media[] = "<li class=\"col-sm-3\">
+                            <a class=\"thumbnail\">
+                                <img src=" . Storage::url($path) . " alt=\"\">
+                                <div class=\"overlay\" data-id=\"{{$pic->id}}\">
+                                    <span class=\"fa fa-trash-o .gallery_delete\"></span>
+                                </div>
+                            </a>
+                        </li>";
         }
-        return back();
+        return response(['media' => $media]);
     }
 
     /**
-     * Display the specified resource.
+     * Display media of the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function media($id)
     {
         $cast = Cast::find($id);
         if ($cast) {
-            $jobs = $cast->jobs();
-            $movies = $cast->movies();
-
+            $media = $cast->media;
+            return view('admin.cast.media', compact('cast', 'media'));
+        } else {
+            abort(404);
         }
-//        $cast = Cast::find($id)->getCastWithJobs();
+    }
 
-        return view('admin.cast.profile', compact('cast', 'jobs', 'movies'));
+
+    /**
+     * Remove media of the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyMedia()
+    {
+        $id = \request()->id;
+
+        try {
+            $media = CastMedia::find($id);
+            \Storage::delete($media->path);
+            $media->delete();
+            return response(['success' => 'Media has been updated successfully']);
+        } catch (QueryException $exception) {
+            return response(['errors' => 'something error']);
+        }
     }
 
     /**

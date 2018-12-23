@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Blog;
 use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\User;
-use Illuminate\Http\Request;
 use App\Models\Post;
-use Kamaln7\Toastr\Facades\Toastr;
+use App\User;
 
 class CommentsController extends Controller
 {
@@ -37,10 +35,11 @@ class CommentsController extends Controller
             'comment' => 'required|string',
         ]);
         $data['post_id'] = $id;
-        Comment::create($data);
-        return response([
-            'success' => 'post has been added successfully'
-        ]);
+        $comment = Comment::create($data);
+
+        $addedComment = $this->addedComment($comment);
+
+        return response(['comment' => $addedComment]);
     }
 
     /**
@@ -64,8 +63,7 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function edit($id)
+    public function edit($id)
     {
         $post = Post::find($id);
         return view('admin.posts.edit', compact('post'));
@@ -78,8 +76,7 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function update($id)
+    public function update($id)
     {
         //
         $data = $this->validate(request(), [
@@ -125,8 +122,7 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function multiDestroy()
+    public function multiDestroy()
     {
         if (is_array(request('item'))) {
             Post::destroy(\request('item'));
@@ -138,4 +134,42 @@ class CommentsController extends Controller
     }
 
 
+    /**
+     * new Added comment in HTML FORM
+     * @param Comment $comment
+     * @return string
+     */
+    protected function addedComment(Comment $comment)
+    {
+        $div = " <article class=\"row\" id=\"comment\">
+            <div class=\"col-md-2 col-sm-2 hidden-xs\">
+                <figure class=\"thumbnail\">
+                    <img class=\"img-responsive\" src=\"" . \Storage::url(auth()->user()->image) . "\">
+                    <figcaption class=\"text-center\"><a
+                                href=\"#\">" . auth()->user()->name . "</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class=\"col-md-10 col-sm-10\">
+                <div class=\"panel panel-default arrow left\">
+                    <div class=\"panel-body\">
+                        <header class=\"text-left\">
+                            <div class=\"comment-user\"><i class=\"fa fa-user\"></i>
+                                <a href=\"#\">" . auth()->user()->name . "</a>
+                            </div>
+                            <time class=\"comment-date\" datetime=\"16-12-2014 01:05\"><i
+                                        class=\"fa fa-clock-o\"></i>$comment->created_at
+                            </time>
+                        </header>
+                        <div class=\"comment-post\">
+                            <div class=\"b-description_readmore js-description_readmore\">$comment->comment
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>";
+
+        return $div;
+    }
 }

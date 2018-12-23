@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -37,14 +37,19 @@ class User extends Authenticatable
     /**
      * Reviews on movies which user has written it
      */
+//    public function reviews()
+//    {
+//        $user = $this->getKey();
+//        return DB::table('movies_reviews')
+//            ->join('movies', 'movies_reviews.movies_id', '=', 'movies.id')
+//            ->select('movies_reviews.*', 'movies.title', 'movies.poster')
+//            ->where('user_id', '=', $user)
+//            ->orderBy('created_at', 'desc');
+//    }
+
     public function reviews()
     {
-        $user = $this->getKey();
-        return DB::table('movies_reviews')
-            ->join('movies', 'movies_reviews.movies_id', '=', 'movies.id')
-            ->select('movies_reviews.*', 'movies.title', 'movies.poster')
-            ->where('users_id', '=', $user)
-            ->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\Review');
     }
 
     /**
@@ -121,10 +126,12 @@ class User extends Authenticatable
     public function followedPosts()
     {
         if (\Auth::check()) {
-            return DB::table('posts')
-                ->join('friend_with', 'friend_with.followed', 'posts.user_id')
-                ->select('posts.*')
-                ->where('friend_with.follower', '=', auth()->user()->id)->orderBy('created_at', 'desc');
+            $posts = [];
+            $followers = User::find(auth()->id())->followers;
+            foreach ($followers as $follower) {
+                $posts = $follower->posts()->limit(3)->orderBy('created_at', 'desc')->get();
+            }
+            return $posts;
         } else {
             return null;
         }

@@ -99,24 +99,19 @@ class AdsDatatable extends DataTable
                 'title' => 'Page',
             ],
             [
-                'name' => 'name',
-                'data' => 'name',
-                'title' => 'Name',
+                'name' => 'start_at',
+                'data' => 'start_at',
+                'title' => 'Start at',
             ],
             [
-                'name' => 'name',
-                'data' => 'name',
-                'title' => 'Name',
+                'name' => 'end_at',
+                'data' => 'end_at',
+                'title' => 'End at',
             ],
             [
                 'name' => 'created_at',
                 'data' => 'created_at',
                 'title' => 'created_at',
-            ],
-            [
-                'name' => 'updated_at',
-                'data' => 'updated_at',
-                'title' => 'updated_at',
             ],
             [
                 'name' => 'Edit',

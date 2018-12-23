@@ -1,7 +1,7 @@
-@extends('layouts.front')
+@extends('layouts.blog')
 <!-- Main content -->
 @section('content')
-    <div class="main_container">
+    <div class="main_container col-md-9">
         <div class="content_inner_bg row m0">
             <section class="portfolio_area pad" id="portfolio">
                 <div class="main_title">

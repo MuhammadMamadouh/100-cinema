@@ -3,16 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Review extends Model
 {
     protected $table = 'movies_reviews';
     protected $fillable = [
-        'users_id',
+        'user_id',
         'movies_id',
         'rate',
         'review',
     ];
 
+    /**
+     * Get User wrote the review
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function movie()
+    {
+        return $this->belongsTo('App\Models\Movies', 'movies_id');
+    }
 }

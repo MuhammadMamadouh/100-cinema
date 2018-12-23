@@ -1,4 +1,4 @@
-@extends('layouts.adminlte.index')
+@extends('adminlte::page')
 @section('title', 'Admins')
 <!-- Main content -->
 @section('content')

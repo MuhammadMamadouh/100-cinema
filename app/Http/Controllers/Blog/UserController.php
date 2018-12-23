@@ -4,10 +4,6 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Doctrine\DBAL\Query\QueryException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -24,23 +20,24 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user) {
             $posts = $user->posts()->orderBy('created_at', 'desc')->limit(2)->get();
-            $followers = $user->followers;
             $reviews = $user->reviews()->limit(3)->get();
-            return view('front.user.profile', compact('user', 'reviews', 'posts'));
-
+            $review = $user->review;
+            return view('front.user.profile', compact('user', 'reviews', 'posts', 'review'));
         } else {
             abort(404, 'not found');
 
         }
     }
 
-
-    public function edit($id)
+    /**
+     * Edit user profile
+     * @param $id
+     * @return \View
+     */
+    public function edit()
     {
         $this->middleware('auth');
-        $user = User::find($id);
-        $reviews = $user->reviews();
-        return view('front.user.edit', compact('user', 'reviews'));
+        return view('front.user.edit');
     }
 
     /**
@@ -85,9 +82,7 @@ class UserController extends Controller
             $user->image = $data['image'];
         }
         $user->save();
-
-//        return \request();
-        return redirect('user/' . $user->id)->with('success', 'updated successfully');
+        return response(['redirectTo' => route('profile', \auth()->user()->id)]);
     }
 
     /**

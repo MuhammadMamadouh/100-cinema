@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Blog'], function () {
         Route::get('category/{name}', 'MoviesController@viewMoviesByCategory');
         Route::post('addReview', 'MoviesController@addReview')->name('addReview');
         Route::get('{id}/reviews', 'MoviesController@reviews')->name('reviews');
+        Route::get('{atrr}/{value}', 'MoviesController@getMovies');
 
     });
     Route::group(['prefix' => 'user'], function () {
@@ -45,15 +46,16 @@ Route::group(['namespace' => 'Blog'], function () {
     Route::group(['prefix' => 'crew'], function () {
         Route::get('{id}', 'CastController@show');
         Route::get('job/{name}', 'CastController@viewCastsByJob');
+        Route::get('{id}/media', 'CastController@media');
     });
 
     Route::resource('posts', 'PostsController');
+    Route::get('most-liked-posts', 'PostsController@mostLiked')->name('mostLikedPosts');
 
     Route::group(['prefix' => 'posts'], function () {
         Route::post('{id}/addComment', 'CommentsController@store')->name('addComment');
         Route::get('{id}/comments', 'PostsController@comments')->name('comments');
         Route::get('{id}/likes', 'PostsController@likes');
-
         Route::post('{id}/saveLike', 'PostsController@saveLike');
 
     });

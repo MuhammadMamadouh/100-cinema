@@ -57,16 +57,18 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="{{url('/')}}">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">FAQ</a></li>
                 @guest
                     <li class="nav-item mr-sm-2">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#login">{{ __('Login') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
+                    <!-- Login Modal-->
+
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{auth()->user()->name}}
@@ -101,6 +103,103 @@
 
     @yield('content')
     @include('layouts.sidebar')
+    @guest()
+        <div id="login" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal">&times;
+                        </button>
+                        <h4 class="modal-title">Login</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {!! Form::open(['route' => 'login', 'method'=>'post']) !!}
+
+                        <div class="form-group row">
+                            <label for="email"
+                                   class="col-sm-12 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-12">
+                                <input id="email" type="email"
+                                       class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                       name="email"
+                                       value="{{ old('email') }}"
+                                       required autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password"
+                                   class="col-md-12 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-12">
+                                <input id="password" type="password"
+                                       class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                       name="password" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="remember"
+                                           id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label"
+                                           for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+
+                                <a class="btn btn-link"
+                                   href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="h3">- OR -</h3>
+
+                            <div class="card-body">
+
+                                <a href="{{url('login/facebook')}}"
+                                   class="btn btn-block btn-primary btn-facebook"><i
+                                            class="fa fa-facebook"></i>
+                                    Sign in using
+                                    Facebook</a>
+                                <a href="{{url('login/google')}}"
+                                   class="btn btn-block btn-danger btn-google"><i
+                                            class="fa fa-google-plus"></i>
+                                    Sign in using
+                                    Google+</a>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <span class="help-block pull-left">
+                                <strong id="edit-error"></strong>
+                            </span>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endguest
 </div>
 
 <!-- End Our Content-->
@@ -114,14 +213,8 @@
                 <h3>Sitemap</h3>
                 <ul class="list-unstyled three-columns">
                     <li>Home</li>
-                    <li>About</li>
-                    <li>Company</li>
-                    <li>Code</li>
-                    <li>Design</li>
-                    <li>Host</li>
-                    <li>Solutions</li>
-                    <li>Sitemap</li>
-                    <li>Contact</li>
+                    <li>Movies</li>
+                    <li>Articles</li>
                 </ul>
                 <ul class="list-unstyled social-list">
                     <li><img src="{{asset('public/blog/images/social-bookmarks/facebook.png') }}" width="48" height="48"
@@ -151,7 +244,7 @@
                             <h4 class="media-heading">
                                 {{$post->title}}
                             </h4>
-                            This Is Some Text About Programming Describe The Media Of Bootstrap 3.2.0
+                            {{read_more($post->details, 10)}}...
                         </div>
                     </div>
                 @endforeach
@@ -171,23 +264,11 @@
         </div>
     </div>
     <div class="copyright text-center">
-        Copyright &copy; 2014 <span>Your Template Name</span> .Inc
+        Copyright &copy; 2018 <span>{{\Config('app.name')}}</span> .Inc
     </div>
 </section>
 
 <!-- End Ultimate Footer Section -->
-
-<!-- Start Section Loading -->
-
-{{--<div class="loading-overlay">--}}
-{{--<div class="spinner">--}}
-{{--<div class="double-bounce1"></div>--}}
-{{--<div class="double-bounce2"></div>--}}
-{{--</div>--}}
-{{--</div>--}}
-
-<!-- End Section Loading -->
-
 <!-- Start Scroll To Top -->
 
 <div id="scroll-top">
@@ -195,7 +276,6 @@
 </div>
 
 <!-- End Scroll To Top -->
-
 
 <script src="{{asset('public/blog/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{asset('public/blog/js/bootstrap.min.js') }}"></script>
@@ -206,6 +286,9 @@
 <script src="{{asset('public/blog/js/wow.min.js') }}"></script>
 <script>new WOW().init();</script>
 <script src="{{asset('public/blog/js/jquery.nicescroll.min.js') }}"></script>
+
+<script src="{{ asset('public/js/bootstrap-rating-input.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap-rating.js') }}"></script>
 <script src="{{ asset('public/js/myFunctions.js') }}"></script>
 <script type="text/javascript">
 
@@ -245,7 +328,7 @@
                         formResults.removeClass().addClass('alert alert-success').html(results.success);
                         $('#add_modal').modal('hide').fadeOut(1500);
                         $('#msg').html(data.success).fadeOut(2000);
-                        toastr.success('well done')
+                        toastr.success('well done');
                         $('#posts').DataTable().draw(true);
                         $('#frm-insert').each(function () {
                             this.reset();
@@ -257,13 +340,56 @@
 
                 },
                 error: function (results) {
-                    $.each(results.responseJSON.errors, function (index, val) {
-                        toastr.info(val)
-                    });
+                    console.log(results);
+                    if (results.responseJSON.errors) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    } else {
+                        toastr.info(results)
+                    }
                     formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
                 }
             })
         });
+
+
+        /**
+         * Get count of Likes of post
+         */
+        //like the post
+        $('.like').on('click', function (e) {
+
+            var post_id = $(this).data('post_id');
+            var url = '{{url('/posts')}}/' + post_id + '/saveLike';
+            var likesCount = $('#likesCount-' + post_id).text();
+            var liked = $('#liked-' + post_id);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                datatype: 'json',
+                data: {
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    if (data.liked) {
+                        likesCount++;
+                        $('#likesCount-' + post_id).text(likesCount);
+                        liked.html('<b> liked </b>')
+                    } else if (data.deleted) {
+                        likesCount--;
+                        $('#likesCount-' + post_id).text(likesCount).css('color', 'black');
+                        liked.html('')
+                    } else if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        });
+
+
     });
     toastr.options = {
         "closeButton": true,

@@ -5,33 +5,10 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Cast;
 use App\Models\Job;
-use Illuminate\Http\Request;
 
 
 class CastController extends Controller
 {
-
-
-    /**
-     * add images to crew.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function addImages(Request $request, $id)
-    {
-        if ($request->isMethod('get')) {
-            return view('admin.cast.create.add_cast_images', ['cast_id' => $id]);
-        }
-        if ($request->isMethod('post')) {
-            if (!empty($data['image'])) {
-                $data['image'] = $request->file('image')->storeAs('cast/' . $request->cast_id, time());
-            }
-//        return redirect(aurl('cast'));
-
-        }
-    }
-
     /**
      * Display the specified resource.
      *
@@ -43,7 +20,7 @@ class CastController extends Controller
         $cast = Cast::find($id);
         $jobs = $cast->jobs();
         $movies = $cast->movies();
-        $images = $cast->media;
+        $images = $cast->media()->limit(3)->get();
         return view('front.crew.view', compact('cast', 'jobs', 'movies', 'images'));
     }
 

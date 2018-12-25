@@ -2,55 +2,15 @@
 <!-- Main content -->
 @section('content')
     <div class="main_container  col-md-9">
-        <div class="content_inner_bg row m0">
+        <div class="content_inner_bg ">
             <section class="about_person_area pad" id="about">
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="person_img">
-                            <img src="{{\Storage::url($cast->image)}}" alt="{{$cast->name}}">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="row person_details">
-                            <h3><span>{{$cast->name}}</span></h3>
-
-                            <div class="person_information">
-                                <ul>
-                                    <li><a href="#">Birth date</a></li>
-                                    <li><a href="#">Country</a></li>
-                                    <li><a href="#">Website</a></li>
-                                </ul>
-                                <ul>
-                                    <li><a href="#">{{$cast->date_of_birth}}</a></li>
-                                    <li><a href="#">{{$cast->country}}</a></li>
-                                    <li><a href="www.topsmmpanel.com">www.topsmmpanel.com</a></li>
-                                </ul>
-                            </div>
-                            <p>{{$cast->about}}</p>
-
-                            <ul class="social_icon">
-                                <li><a href="{{$cast->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="{{$cast->twitter}}" target="_blank"><i
-                                                class="fa fa-twitter"></i></a></li>
-                                <li><a href="{{$cast->instgram}}" target="_blank"><i class="fa fa-instagram"></i></a>
-                                </li>
-                                <li><a href="{{$cast->twitter}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="portfolio_area pad" id="media">
-                <div class="main_title">
-                    <h2 class="pull-left">Media</h2>
+                <div class="person_details">
+                    <h3><span><a href="{{url("crew/$cast->id")}}">{{$cast->name}}</a> </span> Media</h3>
                 </div>
                 <div id="main_area">
                     <!-- Slider -->
                     <div class="row">
-                        <div class="col-sm-6" id="slider-thumbs">
+                        <div class="col-sm-5" id="slider-thumbs">
                             <!-- Bottom switcher of slider -->
                             <ul class="hide-bullets">
                                 @for($image=0; $image<count($media); $image++)
@@ -63,7 +23,7 @@
                                 @endfor
                             </ul>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             <div class="col-xs-12" id="slider">
                                 <!-- Top part of the slider -->
                                 <div class="row">

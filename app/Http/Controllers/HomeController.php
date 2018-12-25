@@ -30,7 +30,6 @@ class HomeController extends Controller
         $movies = DB::table('movies')->orderBy('created_at', 'desc')->limit(3)->get();
 
         $videos = DB::table('videos')->inRandomOrder()->first();
-//
         $channel_id = $videos->api_id;
         $api_key = config('youtube.API_Key');
 
@@ -41,19 +40,19 @@ class HomeController extends Controller
 
         $youtubeVideo = $this->getVideo($json_url2);
         $channelVideo = $this->getVideo($json_url);
-
-
         return view('home', compact('movies', 'youtubeVideo', 'posts', 'channelVideo'));
     }
 
+    /**
+     * Search about user, movie or crew
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function search()
     {
         $query = \request('query');
-        $cast = Cast::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->get();
-        $movies = Movies::where('title', 'like', '%' . $query . '%')->select('id', 'title', 'poster')->get();
-        $users = User::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->get();
-//        $results = $movies->merge($cast)->merge($users);
-
+        $cast = Cast::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->limit(3)->get();
+        $movies = Movies::where('title', 'like', '%' . $query . '%')->select('id', 'title', 'poster')->limit(3)->get();
+        $users = User::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->limit(3)->get();
         return view('search', compact('cast', 'movies', 'users'));
     }
 
@@ -73,6 +72,11 @@ class HomeController extends Controller
         $video = $listFromYouTube->items[$key];
 
         return $video;
+    }
+
+    protected function GetYoutubeVideosByKeyWords(... $keywords)
+    {
+//        $keywords = func_get_args();
 
     }
 

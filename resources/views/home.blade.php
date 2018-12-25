@@ -14,13 +14,13 @@
 
         <div class="carousel-inner">
             @foreach($movies as $movie)
-            <div class="item">
-                <img src="{{\Storage::url($movie->poster)}}" width="1920" height="600" alt="Pic 1">
-                <div class="carousel-caption hidden-xs">
-                    <h2 class="h1"><a href="{{url("movie/$movie->id")}}">{{$movie->title}}</a></h2>
-                    <p class="lead">{{read_more($movie->story, 20)}}</p>
+                <div class="item">
+                    <img src="{{\Storage::url($movie->poster)}}" width="1920" height="600" alt="Pic 1">
+                    <div class="carousel-caption hidden-xs">
+                        <h2 class="h1"><a href="{{url("movie/$movie->id")}}">{{$movie->title}}</a></h2>
+                        <p class="lead">{{read_more($movie->story, 20)}}</p>
+                    </div>
                 </div>
-            </div>
             @endforeach
         </div>
 
@@ -134,29 +134,29 @@
             @endforeach
         </section>
         @if(isset($channelVideo->id->videoId))
-
+            <section class="portfolio_area pad" id="posts">
+                <div class="main_title">
+                    <h2 class="pull-left">
+                        <a href="#">Videos From Our Channels</a></h2>
+                </div>
+                <div class="portfolio_list_inner">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$channelVideo->id->videoId}}"
+                            frameborder="0"></iframe>
+                </div>
+            </section>
         @endif
-        <section class="portfolio_area pad" id="posts">
-            <div class="main_title">
-                <h2 class="pull-left">
-                    <a href="#">Videos From Our Channels</a></h2>
-            </div>
-            <div class="portfolio_list_inner">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$channelVideo->id->videoId}}"
-                        frameborder="0"></iframe>
-            </div>
-        </section>
-        <section class="portfolio_area pad" id="posts">
-            <div class="main_title">
-                <h2 class="pull-left">
-                    <a href="#">Youtube Suggestions</a></h2>
-            </div>
-            <div class="portfolio_list_inner">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$youtubeVideo->id->videoId}}"
-                        frameborder="0"></iframe>
-            </div>
-        </section>
-
+        @if(isset($youtubeVideo->id->videoId))
+            <section class="portfolio_area pad" id="posts">
+                <div class="main_title">
+                    <h2 class="pull-left">
+                        <a href="#">Youtube Suggestions</a></h2>
+                </div>
+                <div class="portfolio_list_inner">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$youtubeVideo->id->videoId}}"
+                            frameborder="0"></iframe>
+                </div>
+            </section>
+        @endif
     </div>
 @endsection
 @push('js')

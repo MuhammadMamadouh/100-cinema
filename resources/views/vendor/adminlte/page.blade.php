@@ -3,9 +3,6 @@
 @section('adminlte_css')
     <link href="{{ asset('public/vendor/adminlte/dist/css/skins/skin-blue' . '.min.css')}} "
           rel="stylesheet">
-    <link href="{{asset('public/css/style.css')}}" rel="stylesheet">
-    <link href="{{asset('public/css/responsive.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('public/css/imdb.css')}}">
     @stack('css')
     @yield('css')
 @stop
@@ -139,10 +136,6 @@
 @section('adminlte_js')
 
 
-    <script src="{{ asset('public\dtablevendor\datatables\buttons.server-side.js') }}"></script>
-    <script src="{{ asset('public\dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-    <script src="{{ asset('public/js/myFunctions.js') }}"></script>
 
     @stack('js')
     @yield('js')

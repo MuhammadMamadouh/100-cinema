@@ -16,7 +16,6 @@ class VideosDatatable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-//            ->addColumn('Edit', 'admin.videos.btn.edit')
             ->addColumn('Edit', function (Video $video) {
                 $types = $this->getPossibleStatuses();
                 return view('admin.videos.btn.edit', [
@@ -52,6 +51,7 @@ class VideosDatatable extends DataTable
                 'dom' => 'Blfrtip',
                 'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 'All Records'], 'className' => 'block'],
                 'buttons' => [
+                    ['text' => 'Hi'],
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New Channel', 'className' => 'btn btn-info', "action" => "function(){
 							$('#add_modal').modal('show');

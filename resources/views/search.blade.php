@@ -1,3 +1,4 @@
+
 @foreach($users as $result)
     <li>
         <a class="row" href="{{url("user/$result->id") }}">
@@ -16,7 +17,7 @@
         </a>
     </li>
 @endforeach
-<li class="divider"></li>
+<li class="divider">Movies</li>
 @foreach($movies as $result)
     <li>
         <a class="row" href="{{url("movie/$result->id") }}">

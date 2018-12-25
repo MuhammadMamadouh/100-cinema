@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -92,18 +93,20 @@ class UserController extends Controller
      */
     public function follow()
     {
-        $id = \request()->id;
-        $user = User::find($id);
-        if ($user) {
-            try {
-                $user->insertFollower($user->id);
-                return response(['success' => 'success']);
+        if (Auth::check()) {
+            $id = \request()->id;
+            $user = User::find($id);
+            if ($user) {
+                try {
+                    $user->insertFollower($user->id);
+                    return response(['success' => 'success']);
 
-            } catch (\Illuminate\Database\QueryException $exception) {
-                return response(['exception' => $exception->getMessage()]);
+                } catch (\Illuminate\Database\QueryException $exception) {
+                    return response(['exception' => $exception->getMessage()]);
+                }
+            } else {
+                return back()->with('this user does not exist');
             }
-        } else {
-            return back()->with('this user does not exist');
         }
     }
 

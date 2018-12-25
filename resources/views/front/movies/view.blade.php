@@ -1,6 +1,6 @@
 @extends('layouts.blog')
 <!-- Main content -->
-@section('title', strtoupper($movie->title) . '-100Cinema')
+@section('title', strtoupper($movie->title) . '-' . config('app.name'))
 @section('content')
     <div class="main_container col-md-9">
         <div class="content_inner_bg row m0">
@@ -155,8 +155,8 @@
                                                             </div>
 
                                                             <button type="submit"
-                                                                    class="btn btn-success green pull-right">
-                                                                <i class="fa fa-share"></i> Share
+                                                                    class="btn btn-danger pull-right">
+                                                                <i class="fa fa-share"></i>
                                                             </button>
                                                             {!! Form::close() !!}
                                                         </div>
@@ -206,7 +206,6 @@
         });
 
         $(document).ready(function () {
-
             // prevent reloading page when paginate
             $('.pagination .page-link').on('click', function (e) {
                 e.preventDefault();

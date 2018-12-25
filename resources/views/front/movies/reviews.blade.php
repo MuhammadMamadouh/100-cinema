@@ -11,8 +11,6 @@
                          src="{{asset('public/images/user.png')}}"
                             @endif
                     >
-                    <figcaption class="text-center"><a href="#">{{$review->user->name}}</a>
-                    </figcaption>
                 </figure>
             </div>
             <div class="col-md-10 col-sm-10">
@@ -33,7 +31,7 @@
                         </div>
                         <header class="text-left">
                             <div class="comment-user"><i class="fa fa-user"></i>
-                                <a href="{{url("user/$review->user->id")}}">{{$review->user->name}}</a>
+                                <a href="{{url('user')}}/{{$review->user->id}}">{{$review->user->name}}</a>
                             </div>
                             <time class="comment-date" datetime="16-12-2014 01:05"><i
                                         class="fa fa-clock-o"></i> {{$review->created_at}}
@@ -66,27 +64,3 @@
         </div>
     </article>
 @endif
-
-<script type="text/javascript">
-
-    // $(function () {
-    //
-    //     $('.js-description_readmore').moreLines({
-    //         linecount: 1,
-    //         // default CSS classes
-    //         baseclass: 'b-description',
-    //         basejsclass: 'js-description',
-    //         classspecific: '_readmore',
-    //
-    //         // custom text
-    //         buttontxtmore: "read more",
-    //         buttontxtless: "read less",
-    //
-    //         // animation speed in milliseconds
-    //         animationspeed: 500
-    //
-    //     });
-    // });
-
-
-</script>

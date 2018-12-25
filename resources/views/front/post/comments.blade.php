@@ -27,7 +27,7 @@
                             </time>
                         </header>
                         <div class="comment-post">
-                            <div class="b-description_readmore js-description_readmore">{{preg_replace('/<br\s?\/?>/i','\n\r',$comment->comment)}}
+                            <div class="b-description_readmore js-description_readmore">{!! htmlspecialchars_decode($comment->comment )!!}
                             </div>
                         </div>
                     </div>

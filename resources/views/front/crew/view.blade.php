@@ -1,4 +1,5 @@
 @extends('layouts.blog')
+@section('title', $cast->name . '-' . config('app.name'))
 <!-- Main content -->
 @section('content')
     <div class="main_container  col-md-9">
@@ -27,26 +28,28 @@
                                 <ul>
                                     <li><a href="#">Birth date</a></li>
                                     <li><a href="#">Country</a></li>
-                                    <li><a href="#">Website</a></li>
                                 </ul>
                                 <ul>
                                     <li><a href="#">{{$cast->date_of_birth}}</a></li>
                                     <li><a href="#">{{$cast->country}}</a></li>
-                                    <li><a href="www.topsmmpanel.com">www.topsmmpanel.com</a></li>
                                 </ul>
                             </div>
                             <p>{{$cast->about}}</p>
 
                             <ul class="social_icon">
-                                <li><a href="{{$cast->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="{{$cast->twitter}}" target="_blank"><i
-                                                class="fa fa-twitter"></i></a></li>
-                                <li><a href="{{$cast->instgram}}" target="_blank"><i class="fa fa-instagram"></i></a>
-                                </li>
-                                <li><a href="{{$cast->twitter}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-
+                                @if($cast->facebook)
+                                    <li><a href="{{$cast->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                @endif
+                                @if($cast->twitter)
+                                    <li><a href="{{$cast->twitter}}" target="_blank"><i
+                                                    class="fa fa-twitter"></i></a></li>
+                                @endif
+                                @if($cast->instgram)
+                                    <li><a href="{{$cast->instgram}}" target="_blank"><i
+                                                    class="fa fa-instagram"></i></a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>

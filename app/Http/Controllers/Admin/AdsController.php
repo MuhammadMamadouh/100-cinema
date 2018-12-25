@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class AdsController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +24,12 @@ class AdsController extends Controller
         return $ads->render('admin.ads.index', compact('pages'));
     }
 
+    public function edit($id)
+    {
+        $ad = Ads::find($id);
+        $pages = $this->frontRoutes();
+        return view('admin.ads.edit', compact('ad', 'pages'));
+    }
     /**
      * Store a newly created resource in storage.
      *

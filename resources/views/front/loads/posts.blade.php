@@ -22,8 +22,69 @@ $user = \App\User::find($post->user_id);
             </div>
         </header>
         <div class="panel-body col-sm-10">
+            @if($user->id === auth()->user()->id)
+                <div class="btn-group pull-right post-menue">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="edit-post" id="{{$post->id}}" data-toggle="modal"
+                               data-target="#edit_modal{{$post->id}}"><i
+                                        class="fa fa-pencil-square-o"></i>Edit</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" class="delete-post" id="{{$post->id}}"><i class="fa fa-trash-o"></i> Delete</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal fade" id="edit_modal{{$post->id}}" tabindex="-1" role="dialog"
+                     aria-labelledby="editModal"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModal">Edit Post</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open(['route' => ['posts.update', $post->id], 'method'=> 'put','id'=>'frm-updte-'.$post->id, 'files'=> true]) !!}
+                                <input type="hidden" name="user_id"
+                                       value="{{\Auth::user()->id}}">
+                                <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
+                                    {!! Form::label('title') !!}
+                                    {!! Form::text('title',$post->title,['class'=>'form-control  input']) !!}
+                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                </div>
+                                <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
+                                    {!! Form::label('details') !!}
+                                    {!! Form::textarea('details',$post->details,['class'=>'form-control  input']) !!}
+                                    <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+                                </div>
+                                <div class="form-group has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
+                                    {!! Form::label('image') !!}
+                                    {!! Form::file('image',['class'=>'form-control']) !!}
+                                    <img src="{{\Storage::url($post->image)}}" style="width: 50px; height: 50px">
+                                    <span class="glyphicon glyphicon-camera form-control-feedback"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-danger pull-right">
+                                        <i class="fa fa-share"></i>Save changes
+                                    </button>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="post-user">
                 <h3 class="post-title">{{$post->title}}</h3>
+
             </div>
             <time class="post-date"><i class="fa fa-clock-o"></i> {{$post->created_at->diffForHumans()}}
             </time>
@@ -64,4 +125,5 @@ $user = \App\User::find($post->user_id);
             </a>
         </div>
     </div>
+
 </article>

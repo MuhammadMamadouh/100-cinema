@@ -18,7 +18,6 @@
                                                 <img class="img-responsive"
                                                      src="{{\Storage::url(auth()->user()->image)}}"
                                                      alt="{{auth()->user()->id}}">
-                                                <figcaption class="text-center">{{\Auth::user()->name}}</figcaption>
                                             </figure>
                                         </div>
                                         <div class="col-md-10 col-sm-10">
@@ -29,12 +28,8 @@
                                                         <input type="hidden" name="post_id" value="{{$post->id}}">
                                                         <input type="hidden" name="user_id"
                                                                value="{{\Auth::user()->id}}">
-                                                        <textarea class="form-control input-lg" id="commentBox"
-                                                                  name="comment"></textarea>
-
-                                                        <button type="submit" class="btn btn-danger green pull-right">
-                                                            <i class="fa fa-share"></i>
-                                                        </button>
+                                                        <textarea class="form-control" id="commentBox" name="comment"
+                                                                  style="height: 32px"></textarea>
                                                         {!! Form::close() !!}
                                                     </div>
                                                 </div>
@@ -102,31 +97,58 @@
                 });
             }
 
-            //add comment
-            $('#add-comment').on('submit', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                var data = $(this).serialize();
-                var url = $(this).attr('action');
-                var post = $(this).attr('method');
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    dataType: 'json'
-                })
+            $('#commentBox').on('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    var form = $('#add-comment');
+                    var data = form.serialize();
+                    var url = form.attr('action');
+                    var post = form.attr('method');
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: data,
+                        dataType: 'json'
+                    })
 
-                    .done(function (data) {
-                        $('#add-comment').each(function () {
-                            this.reset();
-                        });
-                        $('#commentBox').text('');
-                        $('#comments').prepend(data.comment);
-                    })
-                    .fail(function (data) {
-                        $('#commentBox').text('');
-                    })
+                        .done(function (data) {
+                            $('#add-comment').each(function () {
+                                this.reset();
+                            });
+                            $('#commentBox').text('');
+                            $('#comments').prepend(data.comment);
+                        })
+                        .fail(function (data) {
+                            $('#commentBox').text('');
+                        })
+
+                }
             });
+            //add comment
+            // $('#add-comment').on('submit', function (e) {
+            //     e.preventDefault();
+            //     var form = $(this);
+            //     var data = $(this).serialize();
+            //     var url = $(this).attr('action');
+            //     var post = $(this).attr('method');
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: url,
+            //         data: data,
+            //         dataType: 'json'
+            //     })
+            //
+            //         .done(function (data) {
+            //             $('#add-comment').each(function () {
+            //                 this.reset();
+            //             });
+            //             $('#commentBox').text('');
+            //             $('#comments').prepend(data.comment);
+            //         })
+            //         .fail(function (data) {
+            //             $('#commentBox').text('');
+            //         })
+            // });
         });
 
 

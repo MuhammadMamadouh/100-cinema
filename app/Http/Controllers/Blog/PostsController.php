@@ -95,28 +95,29 @@ class PostsController extends Controller
      */
     public function update($id)
     {
-        //
+
         $data = $this->validate(request(), [
             'user_id' => 'required',
             'title' => 'required|string',
             'details' => 'required',
             'image' => v_image(),
         ]);
-
-        if (!empty($data['image'])) {
+        if ($data['user_id'] === auth()->user()->id) {
+            if (!empty($data['image'])) {
 //            $data['image'] = $request->file('image')->store('users');
-            $data['image'] = up()->upload([
-                'file' => 'image',
-                'path' => 'posts/',
-                'upload_type' => 'single',
-                'deleted_file' => Post::find($id)->image,
-                'new_name' => time(),
-            ]);
+                $data['image'] = up()->upload([
+                    'file' => 'image',
+                    'path' => 'posts/',
+                    'upload_type' => 'single',
+                    'deleted_file' => Post::find($id)->image,
+                    'new_name' => time(),
+                ]);
+            }
+            Post::where('id', $id)->update($data);
+            return redirect()->back()->with('successfully updated');
+        } else {
+            abort(400);
         }
-        Post::where('id', $id)->update($data);
-        return response([
-            'success' => 'post has been updated successfully'
-        ]);
     }
 
     /**
@@ -169,4 +170,9 @@ class PostsController extends Controller
         }
     }
 
+    protected function post($id)
+    {
+        $post = Post::find($id);
+        return view('front.loads.posts', compact('post'));
+    }
 }

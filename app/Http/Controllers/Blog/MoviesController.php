@@ -21,17 +21,16 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
-
         $movie = Movies::find($id);
-        $actors = $movie->actors(3);
-        $directors = $movie->directors();
-        $movieCategories = $movie->categories;
-        $categories = Category::all();
-        $avgRating = $movie->averageRate();
         $reviews = $movie->reviews()->orderBy('created_at', 'desc')->simplePaginate(5);
         if (\request()->ajax()) {
             return $this->reviews($id);
         }
+        $actors = $movie->actors(3);
+        $directors = $movie->directors();
+        $movieCategories = $movie->categories;
+        $categories = Category::all();
+        $avgRating = floor($movie->averageRate());
         return view('front.movies.view', compact(
             'movie', 'actors', 'directors', 'categories', 'movieCategories', 'avgRating', 'reviews'
         ));
@@ -193,5 +192,4 @@ class MoviesController extends Controller
 
         return $div1 . $stars . $div2;
     }
-
 }

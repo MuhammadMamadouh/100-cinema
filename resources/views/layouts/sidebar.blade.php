@@ -18,7 +18,7 @@
                             <img class="card-img-top" src="{{\Storage::url($ad->image)}}" alt="Card image cap">
                         </a>
                         <div class="panel-body">
-                            <a href="{{$ad->link}}" class="panel-title">{{$ad->link}}</a>
+                            <a href="{{$ad->link}}" class="panel-title">{{$ad->name}}</a>
                         </div>
                     </div>
                 </li>

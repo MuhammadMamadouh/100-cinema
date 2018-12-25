@@ -14,6 +14,7 @@
                 <div class="col-md-6">
                     <div class="person_details">
                         <h3><span>{{$user->name}}</span></h3>
+                        <h4>{{$user->short_bio}}</h4>
                         @auth
                             @if( request()->route()->parameter('id') != auth()->user()->id)
 
@@ -35,15 +36,14 @@
                                 </a>
                             @endif
                         @else
-                            <button class="btn btn-danger">follow
+                            <a href="{{route('login')}}" class="btn btn-danger">follow
                                 <i class="fa fa-plus"></i>
-                            </button>
+                            </a>
                         @endauth
 
                         <p class="lead">{{$user->about}}</p>
                         <div class="person_information">
                             <ul>
-                                <li><a href="#">Birth date : </a></li>
                                 <li><a href="#">Country : {{$user->country}}</a></li>
                                 <li><a href="{{$user->site}}">website : {{$user->site}}</a></li>
                             </ul>
@@ -81,7 +81,7 @@
                     <article class="row" id="comment{{$review->id}}">
                         <div class="col-md-2 col-sm-2 hidden-xs">
                             <figure class="thumbnail">
-                                <a href='{{url("movie/$review->movie->id")}}'>
+                                <a href='{{url('/movie')}}/{{$review->movie->id}}'>
                                     <img class="img-responsive" src="{{\Storage::url($review->movie->poster)}}"
                                          alt="{{$review->movie->title}}">
 
@@ -117,10 +117,9 @@
                                         </div>
                                         <time id="time" class="comment-date" datetime="{{$review->created_at}}">
                                             <i
-                                                    class="fa fa-clock-o"></i>
+                                                    class="fa fa-clock-o"></i>{{$review->created_at->diffForHumans()}}
                                         </time>
                                     </header>
-
                                     <div class="comment-post">
                                         <div class="b-description_readmore js-description_readmore">{{$review->review}}</div>
                                     </div>
@@ -188,21 +187,5 @@
                 });
             }
         });
-        $('.js-description_readmore').moreLines({
-            linecount: 1,
-            // default CSS classes
-            baseclass: 'b-description',
-            basejsclass: 'js-description',
-            classspecific: '_readmore',
-
-            // custom text
-            buttontxtmore: "read more",
-            buttontxtless: "read less",
-
-            // animation speed in milliseconds
-            animationspeed: 250
-        });
-
-
     </script>
 @endsection

@@ -42,22 +42,27 @@
             <a class="navbar-brand wobble-horizontal" href="{{url('/')}}">C<span>E</span></a>
         </div>
 
+
         <div class="collapse navbar-collapse" id="ournavbar">
             <div class="col-md-5 dropdown search-box">
+
                 <form class="form-inline" id="searchForm" method="get" action="{{url('/search')}}" role="search">
-                    {{--{{csrf_field()}}--}}
-                    <input type="search" class="form-control mr-sm-2 fa fa-search dropdown-toggle"
-                           data-toggle="dropdown"
-                           id="search_bar" name="query" autocomplete="off"
-                           placeholder="Search" aria-label="Search">
-                    <div class="dropdown" id="SearchDropdown">
-                        <ul class="dropdown-menu" role="menu" id="searchMenu"></ul>
-                    </div>
+
+                    <li class="dropdown">
+                        <input type="search" class="form-control mr-sm-2 fa fa-search dropdown-toggle"
+                               data-toggle="dropdown"
+                               id="search_bar" name="query" autocomplete="off"
+                               placeholder="Search" role="button"
+                               aria-haspopup="true" aria-expanded="true">
+                        <ul class="dropdown-menu" id="searchMenu"></ul>
+                    </li>
+
                 </form>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="{{url('/')}}">Home</a></li>
                 <li><a href="#">About</a></li>
+
                 <li><a href="#">FAQ</a></li>
                 @guest
                     <li class="nav-item mr-sm-2">
@@ -171,7 +176,6 @@
                                 </a>
                             </div>
                         </div>
-
                         <div class="panel">
                             <h3 class="h3">- OR -</h3>
 
@@ -233,7 +237,6 @@
             </div>
             <div class="col-lg-4 col-md-6">
                 <h3>Popular Articles</h3>
-
                 @foreach($mostLikedPosts as $post)
                     <div class="media">
                         <a class="pull-left" href="{{url("posts/$post->id")}}">
@@ -355,7 +358,7 @@
 
 
         /**
-         * Get count of Likes of post
+         * Auth user Likes a post
          */
         //like the post
         $('.like').on('click', function (e) {
@@ -390,6 +393,38 @@
         });
 
 
+        $('body').delegate('.post-menue .delete-post', 'click', function (e) {
+            e.preventDefault();
+            if (confirm('Are You Sure?')) {
+                var id = $(this).attr('id');
+                var url = '{{url('posts')}}/' + id;
+                $.ajax({
+                    url: url,
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    },
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        toastr.info('Loading...');
+                    },
+                    success: function (results) {
+                        $('#post_' + id).remove();
+                        if (results.success) {
+                            toastr.info(results.success);
+                        }
+                        if (results.post) {
+                            toastr.info(results.success);
+                        }
+                    },
+                    error: function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    },
+                })
+            }
+        });
     });
     toastr.options = {
         "closeButton": true,

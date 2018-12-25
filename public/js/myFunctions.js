@@ -1,6 +1,4 @@
 $(document).ready(function () {
-
-
     $('.input').on('focus', function () {
         $(this).attr('data-place', $(this).attr('placeholder'));
         $(this).attr('placeholder', '');
@@ -28,9 +26,9 @@ $(document).ready(function () {
 
             $(document).on('click', '.del_all', function () {
                 $('#form_data').submit();
-            })
+            });
             var itemChecked = $('input[class="item_checkbox"]:checkbox').filter(":checked").length;
-            console.log(itemChecked);
+
             if (itemChecked > 0) {
                 $('.record_count').text(itemChecked);
                 $('.not_empty_record').removeClass('hidden');
@@ -43,44 +41,30 @@ $(document).ready(function () {
 
             }
             $('#mutlipleDelete').modal('show');
-        })
+        });
         $('.carousel').carousel()
     }
-
-    // var textarea = $('textarea');
-    //
-    // textarea.on('keyup', autosize());
-    //
-    // function autosize() {
-    //     var el = this;
-    //     setTimeout(function () {
-    //         // el.style.cssText = 'height:auto; padding:0';
-    //         // for box-sizing other than "content-box" use:
-    //         // el.style.cssText = '-moz-box-sizing:content-box';
-    //         el.style.cssText = 'height:' + el.scrollHeight + 'px';
-    //     }, 0);
-    // }
 
     $('textarea').on('keyup', function () {
         var el = this;
         setTimeout(function () {
-            // el.style.cssText = 'height:auto; padding:0';
+            el.style.cssText = 'height:auto; padding:0';
             // for box-sizing other than "content-box" use:
-            // el.style.cssText = '-moz-box-sizing:content-box';
+            el.style.cssText = '-moz-box-sizing:content-box';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
         }, 0);
-    })
+    });
     var readURL = function (input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
                 $('.result-pic').attr('src', e.target.result);
-            }
+            };
 
             reader.readAsDataURL(input.files[0]);
         }
-    }
+    };
 
     $(".file-upload").on('change', function () {
         readURL(this);
@@ -107,19 +91,12 @@ $(document).ready(function () {
 
 
 //search function
-//
-
-    $('#search_bar').on('focus', function () {
-        $('#SearchDropdown').addClass('show');
-    })
     $('#search_bar').on('keyup', function () {
         var input = $(this).val();
-        var query = input.replace(' ', '+')
-        console.log(query)
+        var query = input.replace(' ', '+');
+
         $('#searchMenu').load('http://localhost/imdb/search?query=' + query);
     })
-
-
 });
 
 

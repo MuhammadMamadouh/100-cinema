@@ -56,13 +56,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 @endif
 
-@if(config('adminlte.plugins.datatables'))
+{{--@if(config('adminlte.plugins.datatables'))--}}
     <!-- DataTables with bootstrap 3 renderer -->
     <script src="{{ asset('public/vendor/adminlte/dist/js/datatables.min.js') }}"></script>
     <script src="{{ asset('public/vendor/adminlte/dist/js/select2.min.js') }}"></script>
 
-    {{--<script src="//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>--}}
-@endif
+<script src="//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
+{{--@endif--}}
 
 
 @if(config('adminlte.plugins.chartjs'))
@@ -70,16 +70,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
 @endif
 
-@yield('adminlte_js')
+
 <script src="{{ asset('public/js/toastr.min.js') }}"></script>
 <script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
 {!! Toastr::render() !!}
-<script src="{{ asset('public\dtablevendor\datatables\buttons.server-side.js') }}"></script>
-<script src="{{ asset('public\dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('public\dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('public\dtablevendor\datatables\buttons.server-side.js') }}"></script>
 <script src="{{ asset('public/js/forms.js') }}"></script>
 <script src="{{ asset('public/js/myFunctions.js') }}"></script>
-
+@yield('adminlte_js')
 <script>delete_all()</script>
 <!-- Page script For Adminlte Forms-->
 </body>

@@ -1,0 +1,779 @@
+/*----------------------------------------------------
+@File: Default Styles
+
+This file contains the styling for the actual theme, this
+is the file you need to edit to change the look of the
+theme.
+---------------------------------------------------- */
+/*=====================================================================
+@Default Styles
+
+Table of Content:
+01/ Variables
+02/ predefin
+04/ profile
+05/ button
+07/ portfolio 
+08/ blog
+09/ footer 
+=====================================================================*/
+/*----------------------------------------------------*/
+/*font Variables*/
+/*Color Variables*/
+@import url("https://fonts.googleapis.com/css?family=Bree+Serif|Raleway:100,200,300,400,500,600,700,800,900|Yellowtail");
+
+.col-md-offset-right-1 {
+    margin-right: 8.33333333%;
+}
+
+/*---------------------------------------------------- */
+/*----------------------------------------------------*/
+ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+.row.m0 {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background-color: #efefef;
+    line-height: 25px;
+    font-size: 15px;
+    color: #333333;
+    font-family: "Raleway", sans-serif;
+}
+
+body.light_bg {
+    background-size: contain;
+}
+
+body .content_inner_bg {
+    background: #efefef;
+}
+
+body, p, h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+}
+
+.pad {
+    margin-left: 70px;
+    /*padding: 0px 0px 0 0px;*/
+    background-color: #FFFFFF;
+}
+
+#success {
+    display: none;
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+#error {
+    display: none;
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+body {
+    padding-top: 70px;
+}
+
+/* Main Navbar */
+
+.navbar {
+    min-height: 70px
+}
+
+/* Navbar Link */
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #BBB;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 16px
+}
+
+/* Brand Name */
+
+.navbar-inverse .navbar-brand {
+    color: #BBB;
+    font-size: 30px;
+    line-height: 40px
+}
+
+/* Dropdown Menu */
+
+.dropdown-menu {
+    background-color: #333;
+    min-width: 200px;
+    color: #FFFFFF;
+    padding-left: 5px;
+    width: 80%;
+}
+
+.navbar-right .dropdown-menu {
+    left: 0;
+    right: auto
+}
+
+.dropdown-menu > li > a {
+    color: #FFF;
+    padding: 6px 20px
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #1d1b1b;
+    font-weight: 600;
+    padding-left: 25px;
+}
+
+.dropdown-menu .divider {
+    background-color: #871818
+}
+
+/* Navbar Toggle */
+
+.navbar-toggle {
+    margin-top: 18px
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.content-wrapper {
+    background-color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    color: #fff;
+    background-color: #ac2925;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
+    color: #fff;
+    background-color: #ac2925;
+}
+
+.search-box {
+    display: inline-block
+}
+
+.form-inline {
+    padding-bottom: 0;
+    padding-top: 18px;
+    margin-left: 20px;
+
+}
+
+.form-inline > input[type=search] {
+    /*width: 80%;*/
+    font-size: 16px;
+    position: relative;
+    border-radius: 5px;
+}
+
+.nav-search .form-inline .btn {
+    background-color: #FFFFFF
+}
+
+.nav-item .form-inline i {
+    position: absolute;
+    top: 16px;
+    right: 23px;
+    color: #969292;
+    font-size: 20px;
+}
+
+.sidebar {
+    /*position: absolute;*/
+    /*right: 0;*/
+    padding-right: 0 !important;
+}
+
+/* Main title css
+============================================================================================ */
+.main_title {
+    text-align: center;
+    padding: 60px 0px;
+    margin-bottom: 40px;
+}
+
+.main_title h2 {
+    font-size: 36px;
+    font-family: "Bree Serif", serif;
+    color: #222222;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid #222222;
+    display: inline-block;
+    line-height: 58px;
+    padding: 0px 23px;
+}
+
+/* End Main title css
+============================================================================================ */
+
+/* About Person area css
+============================================================================================ */
+.about_person_area {
+    background: #fff;
+    /*margin-top: 60px;*/
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.about_person_area .person_img {
+    max-width: 322px;
+}
+
+.about_person_area .person_img img {
+    max-width: 100%;
+}
+
+.about_person_area .person_details h3 {
+    font-size: 36px;
+    color: #333333;
+    text-transform: uppercase;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.about_person_area .person_details h3 span {
+    color: #ac2925;
+}
+
+.about_person_area .person_details h4 {
+    font-size: 18px;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
+    color: #666666;
+    padding-bottom: 15px;
+}
+
+.about_person_area .person_details p {
+    font-size: 13px;
+    line-height: 24px;
+    color: #333333;
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+}
+
+.about_person_area .person_details .person_information {
+    padding: 15px 0px 25px 0px;
+}
+
+.about_person_area .person_details .person_information ul {
+    display: inline-block;
+}
+
+.about_person_area .person_details .person_information ul li a {
+    font-size: 13px;
+    line-height: 26px;
+    color: #333333;
+    font-family: "Raleway", sans-serif;
+}
+
+.about_person_area .person_details .person_information ul + ul {
+    padding-left: 55px;
+}
+
+.about_person_area .person_details .person_information ul + ul li a {
+    font-size: 13px;
+    line-height: 26px;
+    color: #666666;
+    font-family: "Raleway", sans-serif;
+}
+
+.social_icon li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.social_icon li a {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    border: 1px solid #677fb5;
+    display: block;
+    line-height: 40px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: all 400ms linear 0s;
+    color: #677fb5;
+}
+
+.social_icon li:nth-child(2) a {
+    color: #70c2e9;
+    border-color: #70c2e9;
+}
+
+.social_icon li:nth-child(2):hover a {
+    background: #70c2e9;
+}
+
+.social_icon li:nth-child(3) a {
+    color: #895a4d;
+    border-color: #895a4d;
+}
+
+.social_icon li:nth-child(3):hover a {
+    background: #895a4d;
+}
+
+.social_icon li:nth-child(4) a {
+    color: #d34836;
+    border-color: #d34836;
+}
+
+.social_icon li:nth-child(4):hover a {
+    background: #d34836;
+}
+
+.social_icon li:nth-child(5) a {
+    color: #007ab9;
+    border-color: #007ab9;
+}
+
+.social_icon li:nth-child(5):hover a {
+    background: #007ab9;
+}
+
+.social_icon li:nth-child(6) a {
+    color: #d8545d;
+    border-color: #d8545d;
+}
+
+.social_icon li:nth-child(6):hover a {
+    background: #d8545d;
+}
+
+.social_icon li:nth-child(7) a {
+    color: #5ecbf3;
+    border-color: #5ecbf3;
+}
+
+.social_icon li:nth-child(7):hover a {
+    background: #5ecbf3;
+}
+
+.social_icon li:nth-child(8) a {
+    color: #ff3ba4;
+    border-color: #ff3ba4;
+}
+
+.social_icon li:nth-child(8):hover a {
+    background: #ff3ba4;
+}
+
+.social_icon li:last-child {
+    margin-right: 0px;
+}
+
+.social_icon li:last-child a {
+    color: #faaa5e;
+    border-color: #faaa5e;
+}
+
+.social_icon li:last-child:hover a {
+    background: #faaa5e;
+}
+
+.social_icon li:hover a {
+    background: #677fb5;
+    color: #fff;
+}
+
+/* End About Person area css
+============================================================================================ */
+/* Portfolio css
+============================================================================================ */
+.portfolio_area .porfolio_menu {
+    text-align: center;
+}
+
+.portfolio_area .porfolio_menu .causes_filter {
+    text-align: center;
+    border-bottom: 5px solid #fff;
+    display: inline-block;
+    border-radius: 2.5px;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li {
+    display: inline-block;
+    margin-right: 45px;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li a {
+    font-size: 18px;
+    color: #222222;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 36px;
+    position: relative;
+    display: inline-block;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li a:before {
+    content: "";
+    height: 5px;
+    background: #ac2925;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: -5px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    transition: all 400ms linear 0s;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li:hover a:before, .portfolio_area .porfolio_menu .causes_filter li.active a:before {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.portfolio_area .porfolio_menu .causes_filter li:first-child a:before {
+    border-bottom-left-radius: 2.5px;
+    border-top-left-radius: 2.5px;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li:last-child {
+    margin-right: 0px;
+}
+
+.portfolio_area .porfolio_menu .causes_filter li:last-child a:before {
+    border-bottom-right-radius: 2.5px;
+    border-top-right-radius: 2.5px;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item {
+    /*margin-top: 40px;*/
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_img {
+    position: relative;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_img:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transform-origin: 0 50%;
+    -ms-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform, -webkit-transform;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_img img {
+    width: 100%;
+    max-width: 100%;
+    height: 300px;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_title {
+    text-align: center;
+    background: #fff;
+    transition: all 400ms linear 0s;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_title h4 {
+    font-size: 16px;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
+    color: #333333;
+    text-transform: uppercase;
+    padding: 18px 0px 10px 0px;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item .portfolio_title h5 {
+    font-size: 14px;
+    font-family: "Raleway", sans-serif;
+    color: #666666;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item:hover .portfolio_img:before {
+    -webkit-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    transform: scaleX(1);
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item:hover .portfolio_title {
+    background: #ac2925;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item:hover .portfolio_title h4 {
+    color: #fff;
+}
+
+.portfolio_area .portfolio_list_inner .portfolio_item:hover .portfolio_title h5 {
+    color: #fff;
+}
+
+/* End Portfolio css
+============================================================================================ */
+/*---------------------------------------------------- */
+/* Start Section Tool Box */
+
+.option-box {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    z-index: 9999
+}
+
+.option-box .color-option {
+    float: left;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    width: 200px;
+    display: none
+}
+
+.option-box .color-option ul li {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 3px;
+    cursor: pointer
+}
+
+.option-box .gear-check {
+    padding: 5px;
+    color: #FFF;
+    cursor: pointer
+}
+
+/* End Section Tool Box */
+
+
+
+/* Start Post css
+============================================================================================ */
+/*---------------------------------------------------- */
+
+/* post styling*/
+.post .post-title {
+    font-size: 30px;
+    color: #d9534f;
+    font-style: italic;
+    font-weight: bolder;
+}
+
+.post-image img {
+    width: 100%
+}
+
+.post-box-footer {
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.post-box-footer a {
+    display: inline-block;
+    float: left;
+    width: 33%;
+    border: 1px solid #eee;
+    padding: 10px;
+    color: #000;
+
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.post-box-footer a:first-child {
+
+}
+
+.post-box-footer a:hover {
+    text-decoration: none;
+}
+
+.post-box-footer a:hover .main {
+    font-weight: bold;;
+}
+
+/* Comment Box */
+#commentBox {
+    margin-bottom: 10px
+}
+
+.comments {
+    margin-top: 40px
+}
+
+.rating-inputs .btn-default {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.rating-inputs .fa-star {
+    color: #FFFFFF;
+    background-color: #f39c12;
+}
+
+/* End Post css
+============================================================================================ */
+/*---------------------------------------------------- */
+
+/*Media Gallery*/
+
+.hide-bullets .thumbnail .overlay {
+    position: absolute;
+    top: 0;
+    background-color: #ffF;
+    display: none;
+}
+
+.hide-bullets .thumbnail:hover .overlay {
+    display: block;
+    cursor: pointer;
+}
+
+/* End Footer area css
+============================================================================================ */
+/*---------------------------------------------------- */
+
+/*end comment box*/
+
+/*.main {padding-left: 0!important;}*/
+/* Carousel */
+
+.carousel-caption {
+    /*bottom: 170px;*/
+    background: rgba(3, 3, 3, 0.3);
+    padding-right: 20px;
+    padding-left: 20px
+}
+
+.carousel-indicators {
+    bottom: 0
+}
+
+.carousel-indicators li {
+    height: 15px;
+    width: 15px;
+    border: 1px solid #EEE
+}
+
+.carousel-indicators .active {
+    height: 17px;
+    width: 17px
+}
+
+.carousel-inner > .item > img {
+    width: 100%;
+    height: 500px;
+}
+
+/******* End Overriding Bootstrap ******/
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+}
+
+/* user edit*/
+
+.file-upload {
+    display: none !important;
+}
+
+.p-image {
+    position: absolute;
+    top: 167px;
+    right: 30px;
+    color: #666666;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+.p-image:hover {
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+.upload-button {
+    font-size: 3.2em;
+    position: absolute;
+    bottom: 0px;
+}
+
+.upload-button:hover {
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    color: #999;
+}
+
+/* read more button classes*/
+.b-description_readmore_ellipsis:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 75%;
+    height: 25px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 65%);
+}
+
+.b-description_readmore_button {
+    color: #ac2925;
+    font-size: 1em;
+    float: left;
+    display: inline-block;
+    width: 150px;
+    cursor: pointer;
+}
+
+/* profile*/
+
+.profile-reviews {
+    padding: 10px 10px;
+    margin-top: 0;
+    border: 1px solid #e0dbdb;
+}
+
+.profile-reviews p {
+    padding: 10px;
+}
+
+.portfolio_item img {
+    height: 125px;
+    width: 100%
+}
+
+/* Register Form*/
+
+.row {
+    margin-left: 0;
+}

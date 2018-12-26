@@ -9,12 +9,9 @@
     <title>@yield('title', config('app.name', ''))</title>
     <link rel='stylesheet' href="{{asset('public/blog/css/bootstrap.css') }}">
     <link rel='stylesheet' href="{{asset('public/blog/css/font-awesome.min.css') }}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/newstyle.css') }}">
-
-    <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/css/toastr.min.css')}}">
-    <link rel="stylesheet" href="{{asset('public/css/front.css')}}">
-
+    <link rel='stylesheet' href="{{asset('public/blog/css/header&footer.css') }}">
+    <link rel="stylesheet" href="{{asset('public/blog/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('public/blog/css/toastr.min.css')}}">
     <link rel='stylesheet' href="{{asset('public/blog/css/default_theme.css') }}">
     <link rel='stylesheet' href="{{asset('public/blog/css/hover.css') }}">
     <link rel='stylesheet' href="{{asset('public/blog/css/animate.css') }}">
@@ -26,7 +23,6 @@
 
 </head>
 <body>
-
 
 <!-- Start Our Navbar -->
 
@@ -61,9 +57,6 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="{{url('/')}}">Home</a></li>
-                <li><a href="#">About</a></li>
-
-                <li><a href="#">FAQ</a></li>
                 @guest
                     <li class="nav-item mr-sm-2">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#login">{{ __('Login') }}</a>

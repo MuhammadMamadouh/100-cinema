@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -70,7 +70,7 @@ class RegisterController extends Controller
         if (!empty($data['image'])) {
             $data['image'] = request()->file('image')->storeAs('user', time());
         } else {
-            $data['image'] = asset('public/images/user.png');
+            $data['image'] = 'public/images/user.png';
         }
         return User::create([
             'name' => $data['name'],

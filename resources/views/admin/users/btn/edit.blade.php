@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group has-feedback col-md-12">
                     {!! Form::label('about','about') !!}
-                    {!! Form::textarea('about',$user->about,['class'=>'form-control','placeholder'=>trans('adminlte::adminlte.about') ]) !!}
+                    {!! Form::textarea('about',$user->about,['class'=>'form-control']) !!}
                     <span class="glyphicon glyphicon-align-center form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback col-md-12">

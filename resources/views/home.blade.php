@@ -101,26 +101,27 @@
             </div>
         @endauth
         @guest
-            <article class="row">
-                <div class="col-md-10 col-sm-10">
-                    <div class="panel panel-default arrow left">
-                        <div class="panel-body">
-                            <div class="comment-post">
-                                <p class="lead">
-                                    @loginBtn to can write
-                                    your awesome article :)
-                                </p>
+            <div class="pad">
+                <article class="row">
+                    <div class="col-md-10 col-sm-10">
+                        <div class="panel panel-default arrow left">
+                            <div class="panel-body">
+                                <div class="comment-post">
+                                    <p class="lead">
+                                        @loginBtn to can write
+                                        your awesome article :)
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         @endguest
         @auth
             <section class="portfolio_area pad following_posts" id="portfolio">
                 @foreach($posts as $post)
                     @include('front.loads.posts')
-                    {{--<pre>{{print_r($post)}}</pre>--}}
                 @endforeach
             </section>
         @endauth

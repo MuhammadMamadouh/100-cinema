@@ -127,5 +127,4 @@ $user = \App\User::find($post->user_id);
             </a>
         </div>
     </div>
-
 </article>

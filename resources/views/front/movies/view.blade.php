@@ -40,7 +40,6 @@
                                             @endforeach
                                         </li>
                                     </ul>
-
                                 </div>
                             </div>
                         </div>
@@ -69,8 +68,15 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="h3">Story</h3>
-                <p class="col-sm-11">{{$movie->story}}</p>
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="h3">Story</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="col-sm-11">{{$movie->story}}</p>
+                    </div>
+                </div>
             </section>
 
             <section class="about_person_area pad" id="news">
@@ -119,7 +125,7 @@
                 @endif
             </section>
 
-            <section class="portfolio_area pad" id="portfolio">
+            <section class="portfolio_area pad">
                 <div class="main_title">
                     <h2 class="pull-left">Reviews</h2>
                 </div>
@@ -140,9 +146,10 @@
                                             </div>
                                             <div class="col-md-10 col-sm-10">
                                                 <div class="panel panel-default arrow left">
+
                                                     <div class="panel-body">
                                                         <div class="comment-post">
-                                                            {!! Form::open(['url' => route('addReview'), 'method'=> 'post', 'id'=> 'addReview']) !!}
+                                                            {!! Form::open(['url' => url('reviews'), 'method'=> 'post', 'id'=> 'addReview']) !!}
                                                             <input type="hidden" name="movie" value="{{$movie->id}}">
                                                             <textarea class="form-control input-lg" id="commentBox"
                                                                       name="review"
@@ -214,7 +221,7 @@
 
                 var url = $(this).attr('href');
                 getReviews(url);
-                window.history.pushState("", "", url);
+                // window.history.pushState("", "", url);
             });
 
             function getReviews(url) {
@@ -226,6 +233,81 @@
                     alert('Reviews could not be loaded.');
                 });
             }
+
+            $('body').delegate('.comment-menue .delete-comment', 'click', function (e) {
+                e.preventDefault();
+                if (confirm('Are You Sure?')) {
+                    var id = $(this).attr('id');
+                    var url = '{{url('reviews')}}/' + id;
+                    $.ajax({
+                        url: url,
+                        data: {
+                            _token: '{{csrf_token()}}',
+                        },
+                        type: 'DELETE',
+                        dataType: 'JSON',
+                        beforeSend: function () {
+                            toastr.info('Loading...');
+                        },
+                        success: function (results) {
+                            $('#comment-' + id).remove();
+                            if (results.success) {
+                                toastr.info(results.success);
+                            }
+                            if (results.post) {
+                                toastr.info(results.success);
+                            }
+                        },
+                        error: function (results) {
+                            $.each(results.responseJSON.errors, function (index, val) {
+                                toastr.info(val)
+                            });
+                        },
+                    })
+                }
+            });
+
+            $('body').delegate('.comment-menue .edit-comment', 'click', function () {
+                var id = $(this).attr('id');
+                console.log(id);
+                $('#frm-update-' + id).on('submit', function (e) {
+
+                    e.preventDefault();
+
+                    var form = $('#frm-update-' + id);
+
+                    var url = form.attr('action');
+
+                    var data = $(this).serialize();
+
+
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        type: 'POST',
+                        dataType: 'JSON',
+                        beforeSend: function () {
+
+                        },
+                        success: (function (results) {
+                            console.log(results);
+                            $('#edit_modal' + id).modal('hide').fadeOut(1500);
+                            form.each(function () {
+                                this.reset();
+                            });
+                            if (results.review) {
+                                $('#comment-text-' + id).html(results.review);
+
+                            }
+                        }),
+                        error: (function (results) {
+                            $.each(results.responseJSON.errors, function (index, val) {
+                                toastr.info(val)
+                            });
+                        }),
+                    });
+                });
+            });
 
             $('#addReview').on('submit', function (e) {
                 e.preventDefault();
@@ -239,7 +321,6 @@
                     data: data,
                     dataType: 'json'
                 })
-
                     .done(function (data) {
                         $('#addReview').each(function () {
                             this.reset();

@@ -28,8 +28,8 @@
                                                         <input type="hidden" name="post_id" value="{{$post->id}}">
                                                         <input type="hidden" name="user_id"
                                                                value="{{\Auth::user()->id}}">
-                                                        <textarea class="form-control" id="commentBox" name="comment"
-                                                                  style="height: 32px"></textarea>
+                                                        <textarea class="form-control input" id="commentBox"
+                                                                  name="comment"></textarea>
                                                         {!! Form::close() !!}
                                                     </div>
                                                 </div>
@@ -97,6 +97,7 @@
                 });
             }
 
+
             $('#commentBox').on('keypress', function (e) {
                 if (e.keyCode == 13) {
                     e.preventDefault();
@@ -124,31 +125,80 @@
 
                 }
             });
-            //add comment
-            // $('#add-comment').on('submit', function (e) {
-            //     e.preventDefault();
-            //     var form = $(this);
-            //     var data = $(this).serialize();
-            //     var url = $(this).attr('action');
-            //     var post = $(this).attr('method');
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: url,
-            //         data: data,
-            //         dataType: 'json'
-            //     })
-            //
-            //         .done(function (data) {
-            //             $('#add-comment').each(function () {
-            //                 this.reset();
-            //             });
-            //             $('#commentBox').text('');
-            //             $('#comments').prepend(data.comment);
-            //         })
-            //         .fail(function (data) {
-            //             $('#commentBox').text('');
-            //         })
-            // });
+
+            $('body').delegate('.comment-menue .delete-comment', 'click', function (e) {
+                e.preventDefault();
+                if (confirm('Are You Sure?')) {
+                    var id = $(this).attr('id');
+                    var url = '{{url('comments')}}/' + id;
+                    $.ajax({
+                        url: url,
+                        data: {
+                            _token: '{{csrf_token()}}',
+                        },
+                        type: 'DELETE',
+                        dataType: 'JSON',
+                        beforeSend: function () {
+                            toastr.info('Loading...');
+                        },
+                        success: function (results) {
+                            $('#comment-' + id).remove();
+                            if (results.success) {
+                                toastr.info(results.success);
+                            }
+                            if (results.post) {
+                                toastr.info(results.success);
+                            }
+                        },
+                        error: function (results) {
+                            $.each(results.responseJSON.errors, function (index, val) {
+                                toastr.info(val)
+                            });
+                        },
+                    })
+                }
+            });
+
+            $('body').delegate('.comment-menue .edit-comment', 'click', function () {
+                var id = $(this).attr('id');
+                console.log(id);
+                $('#frm-update-' + id).on('submit', function (e) {
+
+                    e.preventDefault();
+
+                    var form = $('#frm-update-' + id);
+
+                    var url = form.attr('action');
+
+                    var data = $(this).serialize();
+
+
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        type: 'POST',
+                        dataType: 'JSON',
+                        beforeSend: function () {
+
+                        },
+                        success: (function (results) {
+                            console.log(results);
+                            $('#edit_modal' + id).modal('hide').fadeOut(1500);
+                            form.each(function () {
+                                this.reset();
+                            });
+                            if (results.comment) {
+                                $('#comment-text-' + id).html(results.comment);
+                            }
+                        }),
+                        error: (function (results) {
+                            $.each(results.responseJSON.errors, function (index, val) {
+                                toastr.info(val)
+                            });
+                        }),
+                    });
+                });
+            });
         });
 
 

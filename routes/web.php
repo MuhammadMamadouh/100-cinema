@@ -10,7 +10,9 @@ Auth::routes();
 
 Route::post('register', 'Blog\UserAuth@register');
 
-
+// ==============================================
+//               LOGIN LINKS
+// ==============================================
 // Facebook Login
 Route::get('login/facebook', 'Auth\LoginController@facebookRedirectToProvider');
 Route::get('login/facebook/callback', 'Auth\LoginController@facebookHandleProviderCallback');
@@ -19,12 +21,19 @@ Route::get('login/facebook/callback', 'Auth\LoginController@facebookHandleProvid
 Route::get('login/google', 'Auth\LoginController@googleRedirectToProvider');
 Route::get('login/google/callback', 'Auth\LoginController@googleHandleProviderCallback');
 
+// ==============================================
+//               HOME LINKS
+// ==============================================
 Route::get('/', 'HomeController@index')->name('home');
-
 Route::get('/search', 'HomeController@search')->name('search');
+
 Route::group(['namespace' => 'Blog'], function () {
 
+//=======================================================================================
 
+    // ==============================================
+    //              MOVIES LINKS
+    // ==============================================
     Route::group(['prefix' => 'movie'], function () {
         Route::get('{id}', 'MoviesController@show');
         Route::get('{id}/crew', 'MoviesController@crew');
@@ -32,8 +41,19 @@ Route::group(['namespace' => 'Blog'], function () {
         Route::post('addReview', 'MoviesController@addReview')->name('addReview');
         Route::get('{id}/reviews', 'MoviesController@reviews')->name('reviews');
         Route::get('{atrr}/{value}', 'MoviesController@getMovies');
-
     });
+
+//=======================================================================================
+
+    // ==============================================
+    //               REVIEWS LINKS
+    // ==============================================
+    Route::resource('reviews', 'ReviewsController');
+//=======================================================================================
+
+    // ==============================================
+    //               USER LINKS
+    // ==============================================
     Route::group(['prefix' => 'user'], function () {
         Route::get('{id}', 'UserController@profile')->name('profile');
         Route::get('{id}/edit', 'UserController@edit')->name('editProfile');
@@ -43,23 +63,32 @@ Route::group(['namespace' => 'Blog'], function () {
         Route::get('{id}/reviews', 'UserController@reviews')->name('userReviews');
         Route::get('{id}/posts', 'UserController@posts')->name('userPosts');
     });
+
+    // ==============================================
+    //               CREW LINKS
+    // ==============================================
     Route::group(['prefix' => 'crew'], function () {
         Route::get('{id}', 'CastController@show');
         Route::get('job/{name}', 'CastController@viewCastsByJob');
         Route::get('{id}/media', 'CastController@media');
     });
 
+    // ==============================================
+    //               POSTS LINKS
+    // ==============================================
     Route::resource('posts', 'PostsController');
     Route::get('most-liked-posts', 'PostsController@mostLiked')->name('mostLikedPosts');
-
     Route::group(['prefix' => 'posts'], function () {
         Route::post('{id}/addComment', 'CommentsController@store')->name('addComment');
         Route::get('{id}/comments', 'PostsController@comments')->name('comments');
         Route::get('{id}/likes', 'PostsController@likes');
         Route::post('{id}/saveLike', 'PostsController@saveLike');
-
     });
+
+    // ==============================================
+    //               COMMENTS LINKS
+    // ==============================================
+    Route::resource('comments', 'CommentsController');
+
 });
 
-
-Route::get('/home', 'HomeController@index')->name('home');

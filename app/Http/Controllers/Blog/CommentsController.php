@@ -6,7 +6,6 @@ use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
-use App\User;
 
 class CommentsController extends Controller
 {
@@ -39,23 +38,9 @@ class CommentsController extends Controller
 
         $addedComment = $this->addedComment($comment);
 
-        return response(['comment' => $addedComment]);
+        return response()->json(['comment' => $addedComment]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        $post = Post::find($id);
-        $user = User::find($post->user_id);
-        $comments = $post->comments()->get();
-        return view('front.post.view', compact('post', 'user', 'comments'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -72,33 +57,18 @@ class CommentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
-        //
         $data = $this->validate(request(), [
-            'user_id' => 'required',
-            'title' => 'required|string',
-            'details' => 'required',
-            'image' => v_image(),
+            'comment' => 'required|string',
         ]);
+        Comment::where('id', $id)->update($data);
 
-        if (!empty($data['image'])) {
-//            $data['image'] = $request->file('image')->store('users');
-            $data['image'] = up()->upload([
-                'file' => 'image',
-                'path' => 'posts/',
-                'upload_type' => 'single',
-                'deleted_file' => Post::find($id)->image,
-                'new_name' => time(),
-            ]);
-        }
-        Post::where('id', $id)->update($data);
         return response([
-            'success' => 'post has been updated successfully'
+            'comment' => $data['comment']
         ]);
     }
 
@@ -108,10 +78,9 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
-        Post::find($id)->delete();
+        Comment::find($id)->delete();
 
         return response(['success' => 'deleted successfully']);
     }
@@ -138,38 +107,12 @@ class CommentsController extends Controller
      * new Added comment in HTML FORM
      * @param Comment $comment
      * @return string
+     * @throws \Throwable
      */
     protected function addedComment(Comment $comment)
     {
-        $div = " <article class=\"row\" id=\"comment\">
-            <div class=\"col-md-2 col-sm-2 hidden-xs\">
-                <figure class=\"thumbnail\">
-                    <img class=\"img-responsive\" src=\"" . \Storage::url(auth()->user()->image) . "\">
-                    <figcaption class=\"text-center\"><a
-                                href=\"#\">" . auth()->user()->name . "</a>
-                    </figcaption>
-                </figure>
-            </div>
-            <div class=\"col-md-10 col-sm-10\">
-                <div class=\"panel panel-default arrow left\">
-                    <div class=\"panel-body\">
-                        <header class=\"text-left\">
-                            <div class=\"comment-user\"><i class=\"fa fa-user\"></i>
-                                <a href=\"#\">" . auth()->user()->name . "</a>
-                            </div>
-                            <time class=\"comment-date\" datetime=\"16-12-2014 01:05\"><i
-                                        class=\"fa fa-clock-o\"></i>$comment->created_at
-                            </time>
-                        </header>
-                        <div class=\"comment-post\">
-                            <div class=\"b-description_readmore js-description_readmore\">$comment->comment
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>";
-
-        return $div;
+        return view('front.post.comment', compact('comment'))->render();
     }
+
+
 }

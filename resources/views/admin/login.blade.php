@@ -7,6 +7,7 @@
 @stop
 
 @section('body_class', 'login-page')
+@section('title', 'login')
 
 @section('body')
     <div class="login-box">

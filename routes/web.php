@@ -21,6 +21,17 @@ Route::get('login/facebook/callback', 'Auth\LoginController@facebookHandleProvid
 Route::get('login/google', 'Auth\LoginController@googleRedirectToProvider');
 Route::get('login/google/callback', 'Auth\LoginController@googleHandleProviderCallback');
 
+
+Route::get('/test', function () {
+    auth()->user()->notify(new \App\Notifications\Notify());
+});
+
+Route::get('readAllNotify', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+});
+
+
 // ==============================================
 //               HOME LINKS
 // ==============================================
@@ -89,6 +100,21 @@ Route::group(['namespace' => 'Blog'], function () {
     //               COMMENTS LINKS
     // ==============================================
     Route::resource('comments', 'CommentsController');
+
+    // ==============================================
+    //               Notifications LINKS
+    // ==============================================
+    Route::get('notifications', function (){
+        return view('notifications');
+    });
+
+    Route::get('event', function (){
+       event(new \App\Events\PostLiked(auth()->user()));
+       return 'event pushed';
+    });
+    Route::get('listen', function (){
+       return view('welcome');
+    });
 
 });
 

@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+@section('title', 'Admin homepage')
 <!-- Main content -->
 @section('content')
     <div class="container-fluid">

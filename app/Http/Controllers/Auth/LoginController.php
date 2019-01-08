@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -27,9 +29,15 @@ class LoginController extends Controller
     /**
      * Where to redirect users after login.
      *
-     * @var string
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    protected $redirectTo = '/';
+    protected function authenticated()
+    {
+        $previous = URL::previous();
+        return redirect($previous);
+
+    }
 
     /**
      * Create a new controller instance.

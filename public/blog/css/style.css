@@ -123,6 +123,9 @@ body {
     width: 80%;
 }
 
+.notifications-menu{
+    width: auto;
+}
 .navbar-right .dropdown-menu {
     left: 0;
     right: auto

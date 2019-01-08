@@ -6,12 +6,12 @@
         <div class="content_inner_bg row m0">
             <section class="about_person_area pad" id="about">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         <div class="person_img">
                             <img src="{{\Storage::url($cast->image)}}" alt="{{$cast->name}}">
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-sm-7">
                         <div class="row person_details">
                             <h3><span>{{$cast->name}}</span></h3>
                             work as:

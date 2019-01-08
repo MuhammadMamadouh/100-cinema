@@ -93,9 +93,10 @@ $(document).ready(function () {
 //search function
     $('#search_bar').on('keyup', function () {
         var input = $(this).val();
-        var query = input.replace(' ', '+');
-
-        $('#searchMenu').load('http://localhost/imdb/search?query=' + query);
+        if (input !== '') {
+            var query = input.replace(' ', '+');
+            $('#searchMenu').load('http://localhost/imdb/search?query=' + query);
+        }
     })
 });
 

@@ -49,21 +49,16 @@
                                 <h2 class="bold padding-bottom-7">{{$avgRating}}
                                     <small>/ 5</small>
                                 </h2>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                </button>
+                                @for($i=0; $i<$avgRating; $i++ )
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                @endfor
+                                @for($i=0; $i<(5-$avgRating); $i++ )
+                                    <button type="button" class="btn btn-default btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                @endfor
                             </div>
                         </div>
                     </div>

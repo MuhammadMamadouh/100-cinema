@@ -10,6 +10,9 @@ class AdminAuth extends Controller
 {
     public function login()
     {
+        if (\auth('admin')->check()) {
+            return redirect('/admin');
+        }
         return view('admin.login');
     }
 

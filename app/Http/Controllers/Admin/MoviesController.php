@@ -53,8 +53,8 @@ class MoviesController extends Controller
             $trailer = explode('v=', $request->trailer);
             $data['trailer'] = $trailer[1];
         }
-        Movies::create($data);
 
+        Movies::create($data);
         return response(['success' => 'Movie has been added successfully']);
     }
 

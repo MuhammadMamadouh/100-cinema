@@ -6,6 +6,8 @@ use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\Notify;
+use App\User;
 
 class CommentsController extends Controller
 {
@@ -25,6 +27,7 @@ class CommentsController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Throwable
      */
     public function store($id)
     {
@@ -35,6 +38,10 @@ class CommentsController extends Controller
         ]);
         $data['post_id'] = $id;
         $comment = Comment::create($data);
+
+        // send notification to the author of the post commented on
+        $post = Post::find($id);
+        User::find($post->user_id)->notify(new Notify(auth()->id(), ' commented on ', $id));
 
         $addedComment = $this->addedComment($comment);
 

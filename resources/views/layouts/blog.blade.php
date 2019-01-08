@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- First Mobile Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', ''))</title>
     <link rel='stylesheet' href="{{asset('public/blog/css/bootstrap.css') }}">
     <link rel='stylesheet' href="{{asset('public/blog/css/font-awesome.min.css') }}">
@@ -38,12 +39,9 @@
             <a class="navbar-brand wobble-horizontal" href="{{url('/')}}">C<span>E</span></a>
         </div>
 
-
         <div class="collapse navbar-collapse" id="ournavbar">
             <div class="col-md-5 dropdown search-box">
-
                 <form class="form-inline" id="searchForm" method="get" action="{{url('/search')}}" role="search">
-
                     <li class="dropdown">
                         <input type="search" class="form-control mr-sm-2 fa fa-search dropdown-toggle"
                                data-toggle="dropdown"
@@ -68,6 +66,16 @@
                     <!-- Login Modal-->
 
                 @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-bell-o"><span
+                                        class="badge">{{count(auth()->user()->unreadNotifications)}}</span></span></a>
+                        <ul class="dropdown-menu notifications-menu" role="menu">
+
+                        </ul>
+                    </li>
+
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{auth()->user()->name}}
                             <span
@@ -98,7 +106,6 @@
 
 <!-- Start Our Content-->
 <div class="row">
-
     @yield('content')
     @include('layouts.sidebar')
     @guest()
@@ -286,6 +293,7 @@
 <script src="{{ asset('public/js/bootstrap-rating-input.js') }}"></script>
 <script src="{{ asset('public/js/bootstrap-rating.js') }}"></script>
 <script src="{{ asset('public/js/myFunctions.js') }}"></script>
+<script src="{{ asset('public/js/pusher.js') }}"></script>
 <script type="text/javascript">
 
 
@@ -418,6 +426,9 @@
                 })
             }
         });
+        setInterval(function () {
+            $('.notifications-menu').load('<?php echo url('notifications')?>')
+        }, 1000);
 
 
     });

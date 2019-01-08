@@ -20,10 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('/movies', 'Api\MoviesController');
 Route::group(['prefix' => 'movie'], function () {
-    Route::get('{id}', 'Api\MoviesController@show');
-    Route::get('{id}/crew', 'Api\MoviesController@crew');
-    Route::get('category/{name}', 'Api\MoviesController@viewMoviesByCategory');
-    Route::post('addReview', 'Api\MoviesController@addReview')->name('addReview');
-    Route::get('{id}/reviews', 'Api\MoviesController@reviews')->name('reviews');
-    Route::get('{atrr}/{value}', 'Api\MoviesController@getMovies');
+//    Route::apiResource('{id}', 'Api\MoviesController@show');
+//    Route::apiResource('{id}/crew', 'Api\MoviesController@crew');
+//    Route::apiResource('category/{name}', 'Api\MoviesController@viewMoviesByCategory');
+//    Route::post('addReview', 'Api\MoviesController@addReview')->name('addReview');
+    Route::apiResource('/{movie}/reviews', 'Api\ReviewsController');
+//    Route::apiResource('{atrr}/{value}', 'Api\MoviesController@getMovies');
 });
+//Route::apiResource('/reviews', 'Api\ReviewsController');

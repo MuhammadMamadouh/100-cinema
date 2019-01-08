@@ -3,7 +3,6 @@
         <article class="row" id="comment-{{$review->id}}">
             <div class="col-md-2 col-sm-2 hidden-xs">
                 <figure class="thumbnail">
-
                     <img class="img-responsive"
                          @if($review->user->image != null)
                          src="{{\Storage::url($review->user->image)}}" alt="{{$review->user->name}}"
@@ -34,7 +33,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
                             @endauth
                             <div class="modal fade" id="edit_modal{{$review->id}}" tabindex="-1" role="dialog"
                                  aria-labelledby="editModal"
@@ -74,7 +72,6 @@
                             </div>
                         @endif
                         <div class="review-block-rate col-sm-4 pull-right">
-
                             @for($i=0; $i<$review->rate; $i++ )
                                 <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>

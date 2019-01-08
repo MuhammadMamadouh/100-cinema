@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostLike;
+use App\Notifications\Notify;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,13 +90,11 @@ class PostsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
-
         $data = $this->validate(request(), [
             'user_id' => 'required',
             'title' => 'required|string',
@@ -163,6 +162,10 @@ class PostsController extends Controller
             $like->user_id = Auth::user()->id;
             $like->post_id = $id;
             $like->save();
+            // send notification to the author of the post commented on
+            $post = Post::find($id);
+            User::find($post->user_id)->notify(new Notify(auth()->id(), 'likes', $id));
+
             return response(['liked' => 'like is addedd successfully']);
 
         } else {

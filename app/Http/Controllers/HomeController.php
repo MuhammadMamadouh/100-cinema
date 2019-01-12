@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $posts = [];
         if (\Auth::check()) {
             $user = new User();
             $posts = $user->followedPosts();

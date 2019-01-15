@@ -10,21 +10,21 @@
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ asset('public/ltevendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('ltevendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('public/ltevendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('ltevendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ asset('public/ltevendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/ltevendor/adminlte/plugins/iCheck/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('ltevendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('ltevendor/adminlte/plugins/iCheck/all.css') }}">
 
-    <link rel="stylesheet" href="{{asset('public/css/toastr.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
 @endif
 
 <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/dist/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
 
 @if(config('adminlte.plugins.datatables'))
     <!-- DataTables with bootstrap 3 style -->
@@ -46,10 +46,10 @@
 
 @yield('body')
 
-<script src="{{ asset('public/vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('public/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('public/ltevendor/adminlte/plugins/iCheck/icheck.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('ltevendor/adminlte/plugins/iCheck/icheck.js') }}"></script>
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
@@ -58,8 +58,8 @@
 
 {{--@if(config('adminlte.plugins.datatables'))--}}
     <!-- DataTables with bootstrap 3 renderer -->
-    <script src="{{ asset('public/vendor/adminlte/dist/js/datatables.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/adminlte/dist/js/select2.min.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/dist/js/datatables.min.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/dist/js/select2.min.js') }}"></script>
 
 <script src="//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
 {{--@endif--}}
@@ -71,14 +71,14 @@
 @endif
 
 
-<script src="{{ asset('public/js/toastr.min.js') }}"></script>
-<script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
+<script src="{{ asset('js/toastr.min.js') }}"></script>
+<script src="{{asset('js/jquery.morelines.min.js')}}"></script>
 {!! Toastr::render() !!}
-<script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-<script src="{{ asset('public\dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('public\dtablevendor\datatables\buttons.server-side.js') }}"></script>
-<script src="{{ asset('public/js/forms.js') }}"></script>
-<script src="{{ asset('public/js/myFunctions.js') }}"></script>
+<script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('dtablevendor\datatables\dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('dtablevendor\datatables\buttons.server-side.js') }}"></script>
+<script src="{{ asset('js/forms.js') }}"></script>
+<script src="{{ asset('js/myFunctions.js') }}"></script>
 @yield('adminlte_js')
 <script>delete_all()</script>
 <!-- Page script For Adminlte Forms-->

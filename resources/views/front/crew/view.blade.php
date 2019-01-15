@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="person_img">
-                            <img src="{{\Storage::url($cast->image)}}" alt="{{$cast->name}}">
+                            <img src="{{asset('storage/'.$cast->image)}}" alt="{{$cast->name}}">
                         </div>
                     </div>
                     <div class="col-sm-7">
@@ -66,7 +66,7 @@
                             <div class="col-md-4 photo marketing">
                                 <div class="portfolio_item">
                                     <div class="portfolio_img">
-                                        <img src="{{\Storage::url($movie->poster)}}" alt="{{$movie->title}}">
+                                        <img src="{{asset('storage/'.$movie->poster)}}" alt="{{$movie->title}}">
                                     </div>
                                     <div class="portfolio_title">
                                         <a href="{{url("movie/$movie->id")}}"><h4>{{$movie->title}}</h4></a>
@@ -89,7 +89,7 @@
                             <div class="col-md-4 col-sm-2 photo marketing">
                                 <div class="portfolio_item">
                                     <div class="portfolio_img">
-                                        <img src="{{\Storage::url($image->path)}}" alt="{{$cast->name}}">
+                                        <img src="{{asset('storage/'.$image->path)}}" alt="{{$cast->name}}">
                                     </div>
                                 </div>
                             </div>

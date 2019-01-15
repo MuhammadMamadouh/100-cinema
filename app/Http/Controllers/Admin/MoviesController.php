@@ -47,7 +47,7 @@ class MoviesController extends Controller
             'poster' => v_image(),
         ]);
         if (!empty($data['poster'])) {
-            $data['poster'] = $request->file('poster')->storeAs('movies/' . $data['title'], $data['title'] . time());
+            $data['poster'] = $request->file('poster')->storeAs('movies/', time() . $request->file('poster')->extension());
         }
         if (!empty($data['trailer'])) {
             $trailer = explode('v=', $request->trailer);
@@ -81,7 +81,8 @@ class MoviesController extends Controller
                 'poster' => v_image(),
             ]);
             if (!empty($data['poster'])) {
-                $data['poster'] = $request->file('poster')->storeAs('movies/' . $data['title'], $data['title'] . time());
+                Storage::delete('movies/' . $movie->poster);
+                $data['poster'] = $request->file('poster')->storeAs('movies', time() . '.' . $request->file('poster')->extension());
             }
             if (!empty($data['trailer'])) {
                 $trailer = explode('v=', $request->trailer);
@@ -104,7 +105,7 @@ class MoviesController extends Controller
     {
         $movie = Movies::find($id);
         if ($movie) {
-            Storage::deleteDirectory('movies/' . $movie->title);
+            Storage::delete('movies/' . $movie->poster);
             $movie->delete();
             return response(['success' => 'Movie has been deleted successfully']);
         } else {

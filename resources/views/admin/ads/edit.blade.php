@@ -6,7 +6,7 @@
             <h2 class="box-header">Poster</h2>
         </div>
         <div class="box poster-box ">
-            <img src="{{\Storage::url($ad->image)}}"
+            <img src="{{asset('storage/' . $ad->image)}}"
                  class="center-block img-thumbnail rounded-circle poster result-pic">
         </div>
     </aside>

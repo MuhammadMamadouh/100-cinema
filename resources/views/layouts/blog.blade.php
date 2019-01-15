@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', ''))</title>
-    <link rel='stylesheet' href="{{asset('public/blog/css/bootstrap.css') }}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/font-awesome.min.css') }}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/header&footer.css') }}">
-    <link rel="stylesheet" href="{{asset('public/blog/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/blog/css/toastr.min.css')}}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/default_theme.css') }}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/hover.css') }}">
-    <link rel='stylesheet' href="{{asset('public/blog/css/animate.css') }}">
+    <link rel='stylesheet' href="{{asset('blog/css/bootstrap.css') }}">
+    <link rel='stylesheet' href="{{asset('blog/css/font-awesome.min.css') }}">
+    <link rel='stylesheet' href="{{asset('blog/css/header&footer.css') }}">
+    <link rel="stylesheet" href="{{asset('blog/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('blog/css/toastr.min.css')}}">
+    <link rel='stylesheet' href="{{asset('blog/css/default_theme.css') }}">
+    <link rel='stylesheet' href="{{asset('blog/css/hover.css') }}">
+    <link rel='stylesheet' href="{{asset('blog/css/animate.css') }}">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700'>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -221,17 +221,17 @@
                     <li>Articles</li>
                 </ul>
                 <ul class="list-unstyled social-list">
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/facebook.png') }}" width="48" height="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/facebook.png') }}" width="48" height="48"
                              alt="Facebook"/></li>
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/gplus.png') }}" width="48" height="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/gplus.png') }}" width="48" height="48"
                              alt="Google Plus"/></li>
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/twitter.png') }}" width="48" height="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/twitter.png') }}" width="48" height="48"
                              alt="Twitter"/></li>
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/pinterest.png') }}" width="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/pinterest.png') }}" width="48"
                              height="48" alt="Pinterest"/></li>
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/rss.png') }}" width="48" height="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/rss.png') }}" width="48" height="48"
                              alt="Rss"/></li>
-                    <li><img src="{{asset('public/blog/images/social-bookmarks/email.png') }}" width="48" height="48"
+                    <li><img src="{{asset('blog/images/social-bookmarks/email.png') }}" width="48" height="48"
                              alt="Email"/></li>
                 </ul>
             </div>
@@ -240,7 +240,7 @@
                 @foreach($mostLikedPosts as $post)
                     <div class="media">
                         <a class="pull-left" href="{{url("posts/$post->id")}}">
-                            <img class="media-object" src="{{\Storage::url($post->image) }}" width="64"
+                            <img class="media-object" src="{{asset('storage/' . $post->image) }}" width="64"
                                  height="64" alt="Image 01"/>
                         </a>
                         <div class="media-body">
@@ -255,13 +255,13 @@
             </div>
             <div class="col-lg-4">
                 <h3>Our Awesome Work</h3>
-                <img class="img-thumbnail" src="{{asset('public/blog/images/work/01.jpg') }}" width="150" height="100"
+                <img class="img-thumbnail" src="{{asset('blog/images/work/01.jpg') }}" width="150" height="100"
                      alt="Image 01"/>
-                <img class="img-thumbnail" src="{{asset('public/blog/images/work/02.jpg') }}" width="150" height="100"
+                <img class="img-thumbnail" src="{{asset('blog/images/work/02.jpg') }}" width="150" height="100"
                      alt="Image 02"/>
-                <img class="img-thumbnail" src="{{asset('public/blog/images/work/03.jpg') }}" width="150" height="100"
+                <img class="img-thumbnail" src="{{asset('blog/images/work/03.jpg') }}" width="150" height="100"
                      alt="Image 03"/>
-                <img class="img-thumbnail" src="{{asset('public/blog/images/work/04.jpg') }}" width="150" height="100"
+                <img class="img-thumbnail" src="{{asset('blog/images/work/04.jpg') }}" width="150" height="100"
                      alt="Image 04"/>
             </div>
         </div>
@@ -280,20 +280,20 @@
 
 <!-- End Scroll To Top -->
 
-<script src="{{asset('public/blog/js/jquery-1.11.1.min.js') }}"></script>
-<script src="{{asset('public/blog/js/bootstrap.min.js') }}"></script>
-<script src="{{asset('public/blog/js/plugins.js') }}"></script>
-<script src="{{ asset('public/js/toastr.min.js') }}"></script>
-<script src="{{asset('public/js/jquery.morelines.min.js')}}"></script>
+<script src="{{asset('blog/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{asset('blog/js/bootstrap.min.js') }}"></script>
+<script src="{{asset('blog/js/plugins.js') }}"></script>
+<script src="{{ asset('js/toastr.min.js') }}"></script>
+<script src="{{asset('js/jquery.morelines.min.js')}}"></script>
 {!! Toastr::render() !!}
-<script src="{{asset('public/blog/js/wow.min.js') }}"></script>
+<script src="{{asset('blog/js/wow.min.js') }}"></script>
 <script>new WOW().init();</script>
-<script src="{{asset('public/blog/js/jquery.nicescroll.min.js') }}"></script>
+<script src="{{asset('blog/js/jquery.nicescroll.min.js') }}"></script>
 
-<script src="{{ asset('public/js/bootstrap-rating-input.js') }}"></script>
-<script src="{{ asset('public/js/bootstrap-rating.js') }}"></script>
-<script src="{{ asset('public/js/myFunctions.js') }}"></script>
-<script src="{{ asset('public/js/pusher.js') }}"></script>
+<script src="{{ asset('js/bootstrap-rating-input.js') }}"></script>
+<script src="{{ asset('js/bootstrap-rating.js') }}"></script>
+<script src="{{ asset('js/myFunctions.js') }}"></script>
+<script src="{{ asset('js/pusher.js') }}"></script>
 <script type="text/javascript">
 
 

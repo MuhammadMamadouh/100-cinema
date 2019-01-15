@@ -173,7 +173,7 @@ class CastController extends Controller
                     'path' => 'cast/' . $cast->id,
                     'upload_type' => 'single',
                     'deleted_file' => $cast->image,
-                    'new_name' => time(),
+                    'new_name' => time() . '.' . \request()->file('image')->extension(),
                 ]);
             }
             Cast::where('id', $id)->update($data);

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\DataTables\UserDatatable;
+use App\Http\Controllers\Controller;
 use App\Models\Role;
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -22,6 +22,12 @@ class UserController extends Controller
         return $userDatatable->render('admin.users.index', ['roles' => $roles]);
     }
 
+    public function edit($id)
+    {
+        $user = User::find($id);
+        $roles = Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,6 +47,9 @@ class UserController extends Controller
             'short_bio' => 'string|max:255',
         ]);
         $data['password'] = bcrypt(request('password'));
+        if (!empty($data['image'])) {
+            $data['image'] = request()->file('image')->storeAs('users/', time());
+        }
         User::create($data);
 
         return response(['success' => 'User has been added successfully']);

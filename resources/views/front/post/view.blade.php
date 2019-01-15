@@ -16,7 +16,7 @@
                                         <div class="col-sm-2 hidden-xs">
                                             <figure class="thumbnail">
                                                 <img class="img-responsive"
-                                                     src="{{\Storage::url(auth()->user()->image)}}"
+                                                     src="{{asset('storage/' . auth()->user()->image)}}"
                                                      alt="{{auth()->user()->id}}">
                                             </figure>
                                         </div>

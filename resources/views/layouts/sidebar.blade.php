@@ -15,7 +15,7 @@
                 <li>
                     <div class="panel panel-success">
                         <a href="{{$ad->link}}">
-                            <img class="card-img-top" src="{{\Storage::url($ad->image)}}" alt="Card image cap">
+                            <img class="card-img-top" src="{{asset('storage/'. $ad->image)}}" alt="Card image cap">
                         </a>
                         <div class="panel-body">
                             <a href="{{$ad->link}}" class="panel-title">{{$ad->name}}</a>

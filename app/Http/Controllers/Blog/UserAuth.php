@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserAuth extends Controller
@@ -36,9 +35,10 @@ class UserAuth extends Controller
 
     public function register()
     {
+        $image = request()->file('image');
         $data = $this->isValid();
         if (!empty($data['image'])) {
-            $data['image'] = request()->file('image')->storeAs('user', time());
+            $data['image'] = $image->storeAs('users', time() . $image->extension());
         }
         $user = User::create([
             'name' => $data['name'],

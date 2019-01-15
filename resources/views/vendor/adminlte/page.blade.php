@@ -1,7 +1,7 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-    <link href="{{ asset('public/vendor/adminlte/dist/css/skins/skin-blue' . '.min.css')}} "
+    <link href="{{ asset('vendor/adminlte/dist/css/skins/skin-blue' . '.min.css')}} "
           rel="stylesheet">
     @stack('css')
     @yield('css')

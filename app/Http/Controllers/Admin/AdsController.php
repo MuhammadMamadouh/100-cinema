@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\AdsDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Ads;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,12 +25,18 @@ class AdsController extends Controller
         return $ads->render('admin.ads.index', compact('pages'));
     }
 
+    /**
+     * Edit
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
         $ad = Ads::find($id);
         $pages = $this->frontRoutes();
         return view('admin.ads.edit', compact('ad', 'pages'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -50,7 +57,7 @@ class AdsController extends Controller
         ]);
 
         if (!empty($data['image'])) {
-            $data['image'] = $request->file('image')->storeAs('ads/' . $data['name'], $data['name'] . time());
+            $data['image'] = $request->file('image')->storeAs('ads', time() . '.' . $request->file('image')->extension());
         }
         Ads::create($data);
         return response(['success' => 'ad has been added successfully']);
@@ -63,10 +70,9 @@ class AdsController extends Controller
      */
     public function show($id)
     {
-        $ad = Ads::find($id);
-        $time = time() - strtotime($ad->start_at);
-        $oldAds = Ads::where('end_at', '>', time())->get();
-        return $oldAds;
+        $oldAds = Ads::where('end_at', '>', Carbon::now())->get();
+
+        return '<pre>' . ($oldAds) . '</pre>';
 //        return view('layouts.sidebar', compact('ads'));
     }
 
@@ -77,9 +83,10 @@ class AdsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
+        $ad = Ads::find($id);
         $data = $this->validate(request(), [
             'name' => 'required|string',
             'link' => 'required|url',
@@ -90,9 +97,15 @@ class AdsController extends Controller
             'image' => v_image(),
         ]);
         if (!empty($data['image'])) {
-            $data['image'] = $request->file('image')->storeAs('ads/' . $data['name'], $data['name'] . time());
+            $data['image'] = up()->upload([
+                'file' => 'image',
+                'path' => 'ads/',
+                'upload_type' => 'single',
+                'deleted_file' => $ad->image,
+                'new_name' => time() . '.' . \request()->file('image')->extension(),
+            ]);
         }
-        Ads::where('id', $id)->update($data);
+        $ad->update($data);
         return redirect(aurl('ads'))->with('success', 'added successfully');
     }
 

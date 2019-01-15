@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="person_img">
-                        <img src="{{\Storage::url($user->image)}}" alt="{{$user->name}}">
+                        <img src="{{asset('storage/' . $user->image)}}" alt="{{$user->name}}">
                     </div>
                 </div>
                 <div class="col-md-6">

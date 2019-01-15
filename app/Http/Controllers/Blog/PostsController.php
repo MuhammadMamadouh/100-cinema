@@ -38,7 +38,7 @@ class PostsController extends Controller
             'image' => v_image('required'),
         ]);
         if (!empty($data['image'])) {
-            $data['image'] = $request->file('image')->storeAs('posts/', time());
+            $data['image'] = $request->file('image')->storeAs('posts/', time() . '.' . $request->file('image')->extension());
         }
         Post::create($data);
         return response([
@@ -95,25 +95,28 @@ class PostsController extends Controller
      */
     public function update($id)
     {
-        $data = $this->validate(request(), [
-            'user_id' => 'required',
-            'title' => 'required|string',
-            'details' => 'required',
-            'image' => v_image(),
-        ]);
-        if ($data['user_id'] === auth()->user()->id) {
-            if (!empty($data['image'])) {
-//            $data['image'] = $request->file('image')->store('users');
-                $data['image'] = up()->upload([
-                    'file' => 'image',
-                    'path' => 'posts/',
-                    'upload_type' => 'single',
-                    'deleted_file' => Post::find($id)->image,
-                    'new_name' => time(),
-                ]);
+        $post = Post::find($id);
+        if ($post) {
+            $data = $this->validate(request(), [
+                'user_id' => 'required',
+                'title' => 'required|string',
+                'details' => 'required',
+                'image' => v_image(),
+            ]);
+            if ($data['user_id'] === auth()->user()->id) {
+                if (!empty($data['image'])) {
+                    $data['image'] = up()->upload([
+                        'file' => 'image',
+                        'path' => 'posts/',
+                        'upload_type' => 'single',
+                        'deleted_file' => Post::find($id)->image,
+                        'new_name' => time() . '.' . request()->file('image')->extension(),
+                    ]);
+                }
+                Post::where('id', $id)->update($data);
+                return redirect()->back()->with('successfully updated');
+
             }
-            Post::where('id', $id)->update($data);
-            return redirect()->back()->with('successfully updated');
         } else {
             abort(400);
         }
@@ -152,6 +155,7 @@ class PostsController extends Controller
      */
     public function saveLike($id)
     {
+
         if (Auth::check()) {
             $findLike = PostLike::where('user_id', Auth::user()->id)->where('post_id', $id)->first();
             if ($findLike) {
@@ -164,8 +168,11 @@ class PostsController extends Controller
             $like->save();
             // send notification to the author of the post commented on
             $post = Post::find($id);
-            User::find($post->user_id)->notify(new Notify(auth()->id(), 'likes', $id));
 
+            // Check if the user has liked his post then don't notify him
+            if ($post->user_id !== Auth::user()->id) {
+                User::find($post->user_id)->notify(new Notify(auth()->id(), 'likes', $id));
+            }
             return response(['liked' => 'like is addedd successfully']);
 
         } else {

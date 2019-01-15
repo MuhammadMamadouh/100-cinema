@@ -14,7 +14,7 @@
                             <div class="col-md-4 photo marketing">
                                 <div class="portfolio_item">
                                     <div class="portfolio_img">
-                                        <img src="{{\Storage::url($cast->image)}}" alt="{{$cast->name}}">
+                                        <img src="{{asset('storage/' . $cast->image)}}" alt="{{$cast->name}}">
                                     </div>
                                     <div class="portfolio_title">
                                         <a href="{{url("crew/$cast->id")}}"><h4>{{$cast->name}}</h4></a>

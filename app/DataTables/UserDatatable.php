@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Models\Role;
 use App\User;
 use Yajra\DataTables\Services\DataTable;
 
@@ -17,12 +16,12 @@ class UserDatatable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-//            ->addColumn('Edit', 'admin.users.btn.edit')
-            ->addColumn('Edit', function (User $user) {
-                $roles = Role::all();
-                return view('admin.users.btn.edit', [
-                    'user' => $user, 'roles' => $roles]);
-            })
+            ->addColumn('Edit', 'admin.users.btn.edit')
+//            ->addColumn('Edit', function (User $user) {
+//                $roles = Role::all();
+//                return view('admin.users.btn.edit', [
+//                    'user' => $user, 'roles' => $roles]);
+//            })
             ->addColumn('Delete', 'admin.users.btn.delete')
             ->addColumn('checkbox', 'admin.users.btn.checkbox')
             ->rawColumns(['Edit', 'Delete', 'checkbox']);

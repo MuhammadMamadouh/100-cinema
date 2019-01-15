@@ -16,7 +16,7 @@
                                 @for($image=0; $image<count($media); $image++)
                                     <li class="col-sm-3">
                                         <a class="thumbnail" id="carousel-selector-{{$image}}">
-                                            <img src="{{\Storage::url($media[$image]->path)}}"
+                                            <img src="{{asset('storage/'.$media[$image]->path)}}"
                                                  alt="{{$cast->name}}">
                                         </a>
                                     </li>
@@ -33,7 +33,7 @@
                                             <div class="carousel-inner">
                                                 @for($image=0; $image<count($media); $image++)
                                                     <div class="item" data-slide-number="{{$image}}" id="{{$image}}">
-                                                        <img src="{{\Storage::url($media[$image]->path)}}"
+                                                        <img src="{{asset('storage/'.$media[$image]->path)}}"
                                                              alt="{{$cast->name}}">
                                                     </div>
                                                 @endfor

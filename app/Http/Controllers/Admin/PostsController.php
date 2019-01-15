@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
@@ -19,18 +19,6 @@ class PostsController extends Controller
     {
         return $post->render('admin.posts.index', ['title' => '']);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('admin.posts.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -46,7 +34,7 @@ class PostsController extends Controller
             'image' => v_image('required'),
         ]);
         if (!empty($data['image'])) {
-            $data['image'] = $request->file('image')->storeAs('posts/', time());
+            $data['image'] = $request->file('image')->storeAs('posts/', time() . '.' . \request()->file('image')->extension());
         }
         Post::create($data);
 
@@ -98,22 +86,18 @@ class PostsController extends Controller
         ]);
 
         if (!empty($data['image'])) {
-//            $data['image'] = $request->file('image')->store('users');
             $data['image'] = up()->upload([
                 'file' => 'image',
                 'path' => 'posts/',
                 'upload_type' => 'single',
                 'deleted_file' => Post::find($id)->image,
-                'new_name' => time(),
+                'new_name' => time() . '.' . \request()->file('image')->extension(),
             ]);
         }
-        $post = Post::where('id', $id)->update($data);
+        Post::where('id', $id)->update($data);
         return response([
             'success' => 'post has been updated successfully'
         ]);
-
-//        return response($post);
-//        return redirect(aurl('posts'))->with('success', 'added successfully');
     }
 
     /**
@@ -125,8 +109,9 @@ class PostsController extends Controller
     public
     function destroy($id)
     {
-        Post::find($id)->delete();
 
+        $post = Post::find($id)->delete();
+        Storage::delete('posts/' . $post->image);
         return response(['success' => 'deleted successfully']);
     }
 

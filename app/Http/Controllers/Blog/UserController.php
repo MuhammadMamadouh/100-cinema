@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-
     /**
      * show user's profile that holds his information
      * @param $id
@@ -56,7 +54,7 @@ class UserController extends Controller
             'site' => 'sometimes|nullable|url',
             'about' => 'string',
             'short_bio' => 'nullable|string|max:255',
-            'image' => v_image() . '|nullable',
+            'image' => v_image(),
             'new_password' => 'nullable:confirmed',
             'country' => 'required',
 
@@ -69,17 +67,24 @@ class UserController extends Controller
 
         $user->name = \request()->name;
         $user->email = \request()->email;
+        $user->site = $data['site'];
+        $user->about = $data['about'];
+        $user->country = $data['country'];
+
         if ($data['new_password'] != '') {
             $user->password = bcrypt(\request()->new_password);
         } else {
             $user->password = bcrypt(\request()->password);
         }
-        $user->site = $data['site'];
-        $user->about = $data['about'];
-        $user->country = $data['country'];
+
         if (!empty($data['image'])) {
-            $data['image'] = request()->file('image')->storeAs('user/', $data['name'] . time() . '.' . request()->image->extension());
-            Storage::delete($user->image);
+            $data['image'] = up()->upload([
+                'file' => 'image',
+                'path' => 'users/',
+                'upload_type' => 'single',
+                'deleted_file' => $user->image,
+                'new_name' => time() . '.' . \request()->file('image')->extension(),
+            ]);
             $user->image = $data['image'];
         }
         $user->save();

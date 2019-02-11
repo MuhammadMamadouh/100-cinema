@@ -80,7 +80,7 @@ class UserController extends Controller
         if (!empty($data['image'])) {
             $data['image'] = up()->upload([
                 'file' => 'image',
-                'path' => 'users/',
+                'path' => 'users',
                 'upload_type' => 'single',
                 'deleted_file' => $user->image,
                 'new_name' => time() . '.' . \request()->file('image')->extension(),

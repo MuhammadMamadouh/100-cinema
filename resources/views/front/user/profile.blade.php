@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="person_img">
-                        <img src="{{asset('storage/' . $user->image)}}" alt="{{$user->name}}">
+                        <img src="{{asset('uploading/' . $user->image)}}" alt="{{$user->name}}">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -82,7 +82,7 @@
                         <div class="col-md-2 col-sm-2 hidden-xs">
                             <figure class="thumbnail">
                                 <a href='{{url('/movie')}}/{{$review->movie->id}}'>
-                                    <img class="img-responsive" src="{{\Storage::url($review->movie->poster)}}"
+                                    <img class="img-responsive" src="{{asset('uploading/'.$review->movie->poster)}}"
                                          alt="{{$review->movie->title}}">
 
                                     <figcaption class="portfolio_title text-center"><a

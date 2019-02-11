@@ -9,7 +9,7 @@ $user = \App\User::find($post->user_id);
                 <figure class="thumbnail">
                     <img class="img-responsive"
                          @if($post->user()->first()->image)
-                         src="{{asset('storage/'.$post->user()->first()->image)}}"
+                         src="{{asset('uploading/'.$post->user()->first()->image)}}"
                          alt="{{$user->image}}"
                          @else
                          src="{{asset('public/images/user.png')}}"
@@ -69,7 +69,7 @@ $user = \App\User::find($post->user_id);
                                 <div class="form-group has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
                                     {!! Form::label('image') !!}
                                     {!! Form::file('image',['class'=>'form-control']) !!}
-                                    <img class="result-pic" src="{{asset('storage/'.$post->image)}}"
+                                    <img class="result-pic" src="{{asset('uploading/'.$post->image)}}"
                                          style="width: 50px; height: 50px">
                                     <span class="glyphicon glyphicon-camera form-control-feedback"></span>
                                 </div>
@@ -97,7 +97,7 @@ $user = \App\User::find($post->user_id);
             </div>
         </div>
         <div class="post-image">
-            <img src="{{asset('storage/'.$post->image)}}"
+            <img src="{{asset('uploading/' . $post->image)}}"
                  class="img-responsive" style="max-height: 500px">
         </div>
         <div class="post-box-footer">

@@ -15,7 +15,11 @@
         <div class="carousel-inner">
             @foreach($movies as $movie)
                 <div class="item">
+<<<<<<< HEAD
                     <img src="{{asset('uploading/' . $movie->poster)}}" width="1920" height="600" alt="Pic 1">
+=======
+                    <img src="{{\Storage::url($movie->poster)}}" width="1920" height="600" alt="Pic 1">
+>>>>>>> 628b072a9fdd32bffc150d4ee74d842fad1bc2f7
                     <div class="carousel-caption hidden-xs">
                         <h2 class="h1"><a href="{{url("movie/$movie->id")}}">{{$movie->title}}</a></h2>
                         <p class="lead">{{read_more($movie->story, 20)}}</p>

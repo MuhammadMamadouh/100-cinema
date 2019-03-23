@@ -95,6 +95,7 @@ class PostsController extends Controller
      */
     public function update($id)
     {
+
         $post = Post::find($id);
         if ($post) {
             $data = $this->validate(request(), [
@@ -113,12 +114,12 @@ class PostsController extends Controller
                         'new_name' => time() . '.' . request()->file('image')->extension(),
                     ]);
                 }
-                Post::where('id', $id)->update($data);
-                return redirect()->back()->with('successfully updated');
 
+                Post::where('id', $id)->update($data);
+                return back()->with('successfully updated');
             }
         } else {
-            abort(400);
+            abort(500);
         }
     }
 

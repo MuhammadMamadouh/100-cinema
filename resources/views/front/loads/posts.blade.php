@@ -53,9 +53,9 @@ $user = \App\User::find($post->user_id);
                                 </button>
                             </div>
                             <div class="modal-body">
-                                {!! Form::open(['route' => ['posts.update', $post->id], 'method'=> 'put','id'=>'frm-updte-'.$post->id, 'files'=> true]) !!}
+                                {!! Form::open(['route' => ['posts.update', $post->id], 'method'=> 'put','id'=>'frm-update-'.$post->id, 'files'=> true]) !!}
                                 <input type="hidden" name="user_id"
-                                       value="{{\Auth::user()->id}}">
+                                       value="{{auth()->user()->id}}">
                                 <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
                                     {!! Form::label('title') !!}
                                     {!! Form::text('title',$post->title,['class'=>'form-control  input']) !!}

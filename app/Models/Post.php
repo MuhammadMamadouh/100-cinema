@@ -3,14 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
     //
     protected $table = 'posts';
 
-    protected $fillable = ['id', 'user_id', 'title', 'details', 'image'];
+    protected $fillable = ['id', 'user_id', 'slug', 'title', 'details', 'image'];
+
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * Get the user that owns the post.

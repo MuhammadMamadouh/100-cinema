@@ -6,7 +6,7 @@
             <section class="portfolio_area pad" id="portfolio">
                 <div class="main_title">
                     <h2 class="pull-left">
-                        <a href="#"> Most Liked Posts</a></h2>
+                        <a href="#">Most Liked Posts</a></h2>
                 </div>
                 <div class="portfolio_list_inner" id="loads">
                     @foreach($posts as $post)
@@ -37,7 +37,7 @@
                                     <div class="panel panel-default arrow left">
                                         <div class="panel-body">
                                             <div class="comment-post">
-                                                {!! Form::open(['url' => route('addComment', $post->id), 'method'=> 'post', 'id'=> 'add-comment']) !!}
+                                                {!! Form::open(['url' => route('addComment', $post->id), 'method'=> 'post', 'id'=> 'comment']) !!}
                                                 <input type="hidden" name="post_id" value="{{$post->id}}">
                                                 <input type="hidden" name="user_id"
                                                        value="{{\Auth::user()->id}}">

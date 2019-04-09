@@ -2,25 +2,12 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
-use App\Notifications\Notify;
-use App\User;
 
 class CommentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(PostsDataTable $post)
-    {
-        return $post->render('admin.posts.index', ['title' => '']);
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -32,19 +19,18 @@ class CommentsController extends Controller
     public function store($id)
     {
         $data = $this->validate(request(), [
-            'user_id' => 'required',
-            'post_id' => 'required',
-            'comment' => 'required|string',
+            'body' => 'required|string',
         ]);
-        $data['post_id'] = $id;
-        $comment = Comment::create($data);
-
+        $comment = new Comment();
+        $comment->user_id = auth()->user()->id;
+        $comment->post_id = $id;
+        $comment->body = $data['body'];
+        $comment->save();
         // send notification to the author of the post commented on
-        $post = Post::find($id);
-        User::find($post->user_id)->notify(new Notify(auth()->id(), ' commented on ', $id));
+//        $post = Post::find($id);
+//        User::find($post->user_id)->notify(new Notify(auth()->id(), ' commented on ', $id));
 
         $addedComment = $this->addedComment($comment);
-
         return response()->json(['comment' => $addedComment]);
     }
 
@@ -70,12 +56,12 @@ class CommentsController extends Controller
     public function update($id)
     {
         $data = $this->validate(request(), [
-            'comment' => 'required|string',
+            'body' => 'required|string',
         ]);
         Comment::where('id', $id)->update($data);
 
         return response([
-            'comment' => $data['comment']
+            'body' => $data['comment']
         ]);
     }
 

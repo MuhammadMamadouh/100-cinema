@@ -68,8 +68,12 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="fa fa-bell-o"><span
-                                        class="badge">{{count(auth()->user()->unreadNotifications)}}</span></span></a>
+                            <span class="fa fa-bell-o">
+                                <span class="badge" id="new-notifications">
+                                    {{count(auth()->user()->unreadNotifications)}}
+                                </span>
+                            </span>
+                        </a>
                         <ul class="dropdown-menu notifications-menu" role="menu">
 
                         </ul>
@@ -106,6 +110,7 @@
 
 <!-- Start Our Content-->
 <div class="row">
+    @include('messages')
     @yield('content')
     @include('layouts.sidebar')
     @guest()
@@ -308,13 +313,13 @@
 
             e.preventDefault();
 
-            var form = $('#frm-insert');
+            let form = $('#frm-insert');
 
-            var url = form.attr('action');
+            let url = form.attr('action');
 
-            var data = new FormData(form[0]);
+            let data = new FormData(form[0]);
 
-            var formResults = $('#add-error');
+            let formResults = $('#add-error');
 
             $.ajax({
                 url: url,
@@ -357,17 +362,16 @@
             })
         });
 
-
         /**
          * Auth user Likes a post
          */
         //like the post
         $('.like').on('click', function (e) {
 
-            var post_id = $(this).data('post_id');
-            var url = '{{url('/posts')}}/' + post_id + '/saveLike';
-            var likesCount = $('#likesCount-' + post_id).text();
-            var liked = $('#liked-' + post_id);
+            let post_id = $(this).data('post_id');
+            let url = '{{url('/posts')}}/' + post_id + '/saveLike';
+            let likesCount = $('#likesCount-' + post_id).text();
+            let liked = $('#liked-' + post_id);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -397,8 +401,8 @@
         $('body').delegate('.post-menue .delete-post', 'click', function (e) {
             e.preventDefault();
             if (confirm('Are You Sure?')) {
-                var id = $(this).attr('id');
-                var url = '{{url('posts')}}/' + id;
+                let id = $(this).attr('id');
+                let url = '{{url('posts')}}/' + id;
                 $.ajax({
                     url: url,
                     data: {
@@ -426,11 +430,11 @@
                 })
             }
         });
+
         setInterval(function () {
+            $('#new-notifications').load('<?php echo url('notifications/unread/count')?>');
             $('.notifications-menu').load('<?php echo url('notifications')?>')
-        }, 1000);
-
-
+        }, 10000);
     });
 
 

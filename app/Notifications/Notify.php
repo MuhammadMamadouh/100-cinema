@@ -4,16 +4,16 @@ namespace App\Notifications;
 
 use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class Notify extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
-     * Id of the post that's be liked or commented on
+     * Id of the post that's been liked or commented on
      * @var int
      */
     private $post;

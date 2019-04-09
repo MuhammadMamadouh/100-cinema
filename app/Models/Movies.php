@@ -14,7 +14,22 @@ class Movies extends Model
         'poster',
     ];
 
+    /**
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 
+    /**
+     * Get Movies with specific attribute
+     *
+     * @param $attr
+     * @param $value
+     * @return mixed
+     */
     public static function getMovieWhich($attr, $value)
     {
         $movies = Movies::where($attr, $value)->orderBy('year', 'desc')->paginate(10);
@@ -35,19 +50,16 @@ class Movies extends Model
             ->get();
     }
 
+    /**
+     * Get actors of a specific movie
+     *
+     * @param int|null $limit
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function actors($limit = null)
     {
-        $movie = $this->getKey();
-        return DB::table('cast_of_movies')
-            ->join('job', 'cast_of_movies.job_id', '=', 'job.id')
-            ->join('cast', 'cast_of_movies.cast_id', '=', 'cast.id')
-            ->select('cast.id', 'cast.name', 'cast.image', 'job.name as job_name')
-            ->where('cast_of_movies.movies_id', '=', $movie)
-            ->where('cast_of_movies.job_id', '=', 1)
-            ->limit($limit)
-            ->get();
+        return $this->belongsToMany('App\Models\Cast', 'cast_of_movies')->where('job_id', 1)->limit($limit);
     }
-
     /**
      * get Directors of a specified movie
      *

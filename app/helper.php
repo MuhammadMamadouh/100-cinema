@@ -84,3 +84,17 @@ if (!function_exists('read_more')) {
 }
 
 
+if (!function_exists('image_url')) {
+
+    /**
+     * produce url of image
+     * @param $image
+     * @return string
+     */
+    function image_url($image)
+    {
+        return asset('uploading/' . $image);
+    }
+}
+
+

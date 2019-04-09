@@ -108,6 +108,14 @@ Route::group(['namespace' => 'Blog'], function () {
         return view('notifications');
     });
 
+    Route::get('notifications/unread', function () {
+        return auth()->user()->unreadNotifications;
+    })->name('notifications.unread');
+
+    Route::get('notifications/unread/count', function () {
+        return count(auth()->user()->unreadNotifications);
+    })->name('notifications.count');
+
     Route::get('event', function (){
        event(new \App\Events\PostLiked(auth()->user()));
        return 'event pushed';

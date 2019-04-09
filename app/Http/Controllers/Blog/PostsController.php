@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +28,13 @@ class PostsController extends Controller
         return view('front.post.posts', compact('posts'));
     }
 
+
+    public function create()
+    {
+
+        return view('front.post.create');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -32,18 +44,17 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate(request(), [
-            'user_id' => 'required',
             'title' => 'required|string',
+            'slug' => 'required|unique:posts',
             'details' => 'required',
             'image' => v_image('required'),
         ]);
         if (!empty($data['image'])) {
             $data['image'] = $request->file('image')->storeAs('posts', time() . '.' . $request->file('image')->extension());
         }
+        $data['user_id'] = \auth()->user()->id;
         Post::create($data);
-        return response([
-            'success' => 'post has been added successfully'
-        ]);
+        return redirect('/');
     }
 
     /**
@@ -52,14 +63,13 @@ class PostsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
         $user = User::find($post->user_id);
-        $likes = Post::find($id)->likes()->count();
-        $comments = $post->comments()->orderBy('created_at', 'desc')->simplePaginate(1);
+        $likes = $post->likes()->count();
+        $comments = $post->comments()->orderBy('created_at', 'desc')->simplePaginate(5);
         if (\request()->ajax()) {
-            return $this->comments($id);
+            return $this->comments($post->id);
         }
         return view('front.post.view', compact('post', 'user', 'comments', 'likes'));
     }
@@ -81,10 +91,9 @@ class PostsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
+        return view('front.post.create', compact('post'));
     }
 
     /**

@@ -1,336 +1,393 @@
-@extends('layouts.blog')
-<!-- Main content -->
-@section('title', strtoupper($movie->title) . '-' . config('app.name'))
-@section('content')
-    <div class="main_container col-md-9">
-        <div class="content_inner_bg row m0">
-            <section class="about_person_area pad" id="about">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="person_img">
-                            <img src="{{asset('storage/'.$movie->poster)}}" alt="{{$movie->title}}">
-                        </div>
-                    </div>
-                    <div class="col-sm-10">
-
-                        <div class="col-sm-6">
-                            <div class="row person_details">
-                                <h3><span>{{$movie->title}}</span></h3>
-                                <h4>
-                                    @if(isset($movieCategories))
-                                        @foreach($movieCategories as $category)
-                                            <a href="{{url("movie/category/$category->name")}}">{{$category->name}}</a>
-                                        @endforeach
-                                    @else
-                                        <h3>This movie has not any category</h3>
-                                    @endif
-                                </h4>
-                                <div class="person_information">
-                                    <ul>
-                                        <li><a href="{{url("movie/year/$movie->year")}}"><b>{{$movie->year}}</b></a>|
-                                            Playtime: <a
-                                                    href="{{url("movie/playtime/$movie->playtime")}}"><b>{{$movie->playtime}}</b>
-                                            </a>|
-                                            Country: <a
-                                                    href="{{url("movie/country/$movie->country")}}"><b>{{$movie->country}}</b></a>
-                                            | lang: <a href="{{url("movie/language/$movie->language")}}">
-                                                <b>{{$movie->language}}</b></a></li>
-                                        <li>Directors: @foreach($directors as $director )
-                                                <a href="{{url("/crew/$director->cast_id")}}"><b>{{$director->name}}</b></a>
-                                            @endforeach
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="rating-block">
-                                <h4>Average user rating</h4>
-                                <h2 class="bold padding-bottom-7">{{$avgRating}}
-                                    <small>/ 5</small>
-                                </h2>
-                                @for($i=0; $i<$avgRating; $i++ )
-                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                    </button>
-                                @endfor
-                                @for($i=0; $i<(5-$avgRating); $i++ )
-                                    <button type="button" class="btn btn-default btn-xs" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                                    </button>
-                                @endfor
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="h3">Story</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p class="col-sm-11">{{$movie->story}}</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="about_person_area pad" id="news">
-                <br>
-                <div class="main_title">
-                    <h2 class="pull-left">Trailer</h2>
-                </div>
-                <div class="">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <iframe class="pull-right" width="100%" height="315"
-                                    src="https://www.youtube.com/embed/{{$movie->trailer}}"
-                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="portfolio_area pad" id="portfolio">
-                <div class="main_title">
-                    <h2 class="pull-left"><a href="{{\URL::current()}}/crew">Crew</a></h2>
-                </div>
-
-                @if(count($actors) > 0)
-                    <div class="row">
-                        <div class="portfolio_list_inner">
-                            @foreach($actors as $actor)
-                                <div class="col-sm-4 photo marketing">
-                                    <div class="portfolio_item">
-                                        <div class="portfolio_img">
-                                            <img src="{{\Storage::url($actor->image)}}" alt="{{$actor->name}}">
-                                        </div>
-                                        <div class="portfolio_title">
-                                            <a href="{{url("crew/$actor->id")}}"><h4>{{$actor->name}}</h4></a>
-                                            <h5>{{$actor->job_name}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @else
-                    <div class="portfolio_title">
-                        <h5>We are adding Crew of this movie SOON</h5>
-                    </div>
-                @endif
-            </section>
-
-            <section class="portfolio_area pad">
-                <div class="main_title">
-                    <h2 class="pull-left">Reviews</h2>
-                </div>
-                <div class="comments">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <section class="comment-list">
-                                    @auth
-                                        <article class="row">
-                                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                                <figure class="thumbnail">
-                                                    <img class="img-responsive"
-                                                         src="{{\Storage::url(auth()->user()->image)}}"
-                                                         alt="profile_picture">
-                                                    <figcaption class="text-center">{{\Auth::user()->name}}</figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10">
-                                                <div class="panel panel-default arrow left">
-
-                                                    <div class="panel-body">
-                                                        <div class="comment-post">
-                                                            {!! Form::open(['url' => url('reviews'), 'method'=> 'post', 'id'=> 'addReview']) !!}
-                                                            <input type="hidden" name="movie" value="{{$movie->id}}">
-                                                            <textarea class="form-control input-lg" id="commentBox"
-                                                                      name="review"
-                                                                      placeholder="Tell people your opinion about movie!"></textarea>
-                                                            <div class="review-block-rate col-sm-5">
-                                                                <input type="number" name="rate" id="rate"
-                                                                       class="rating"
-                                                                       data-icon-lib="fa" data-active-icon="fa-star"
-                                                                       data-inactive-icon="fa-star-o"/>
-                                                            </div>
-
-                                                            <button type="submit"
-                                                                    class="btn btn-danger pull-right">
-                                                                <i class="fa fa-share"></i>
-                                                            </button>
-                                                            {!! Form::close() !!}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    @endauth
-                                    @guest
-                                        <article class="row">
-                                            <div class="col-md-10 col-sm-10">
-                                                <div class="panel panel-default arrow left">
-                                                    <div class="panel-body">
-                                                        <div class="comment-post">
-                                                            <p class="lead">
-                                                                @loginBtn to can wrote
-                                                                your review :)
-                                                            </p>
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    @endguest
-                                    <div id="reviews">
-                                        <div id="loading"></div>
-                                        @include('front.movies.reviews')
-                                        {{$reviews->links()}}
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+@extends('layouts.page')
+@section('title', strtoupper($movie->title))
+@section('header')
+    <div class="top-header span_top">
+        <div class="logo">
+            <a href="index.html"><img src="images/logo.png" alt=""/></a>
+            <p>Movie Theater</p>
         </div>
+        <div class="search v-search">
+            <form>
+                <input type="text" value="Search.." onfocus="this.value = '';"
+                       onblur="if (this.value == '') {this.value = 'Search..';}"/>
+                <input type="submit" value="">
+            </form>
+        </div>
+        <div class="clearfix"></div>
     </div>
 @endsection
-@section('js')
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+@section('content')
 
-        $(document).ready(function () {
-            // prevent reloading page when paginate
-            $('.pagination .page-link').on('click', function (e) {
-                e.preventDefault();
-                $('#load a').css('color', '#dfecf6');
-                $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+    <div class="reviews-section">
+        <h3 class="head">Movie Reviews</h3>
+        <div class="col-md-9 reviews-grids">
+            <div class="review">
+                <div class="movie-pic">
+                    <a href="single.html"><img src="{{asset('storage/'.$movie->poster)}}" alt=""/></a>
+                </div>
+                <div class="review-info">
+                    <a class="span" href="single.html">{{strtoupper($movie->title)}} <i>Movie Review</i></a>
+                    <p class="dirctr"><a href="">Reagan Gavin Rasquinha, </a>TNN, Mar 12, 2015, 12.47PM IST</p>
+                    <p class="ratingview">Critic's Rating:</p>
+                    <div class="rating">
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                    </div>
+                    <p class="ratingview">
+                        &nbsp{{5}}/5
+                    </p>
+                    <div class="clearfix"></div>
+                    <p class="ratingview c-rating">Avg Readers' Rating:</p>
+                    <div class="rating c-rating">
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                        <span>☆</span>
+                    </div>
+                    <p class="ratingview c-rating">
+                        &nbsp; 3.3/5</p>
+                    <div class="clearfix"></div>
+                    <div class="yrw">
+                        <div class="dropdown-button">
+                            <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
+                                <option value="0">Your rating</option>
+                                <option value="1">1.Poor</option>
+                                <option value="2">1.5(Below average)</option>
+                                <option value="3">2.Average</option>
+                                <option value="4">2.5(Above average)</option>
+                                <option value="5">3.Watchable</option>
+                                <option value="6">3.5(Good)</option>
+                                <option value="7">4.5(Very good)</option>
+                                <option value="8">5.Outstanding</option>
+                            </select>
+                        </div>
+                        <div class="rtm text-center">
+                            <a href="#">REVIEW THIS MOVIE</a>
+                        </div>
+                        <div class="wt text-center">
+                            <a href="#">WATCH THIS TRAILER</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <p class="info">CAST:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        @forelse($movie->actors as $actor)
+                            {{$actor->name}}
+                        @empty
+                            have not actors yet
+                        @endforelse
+                    </p>
+                    <p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;Glenn Ficarra, John Requa</p>
+                    <p class="info">GENRE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Crime</p>
+                    <p class="info">DURATION:&nbsp;&nbsp;&nbsp; &nbsp; 1 hour 45 minutes</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="single">
+                <h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
+                <p>STORY:<i>{{$movie->story}}</i></p>
+            </div>
+            <div class="best-review">
+                <h4>Best Reader's Review</h4>
+                <p>Excellent Movie and great performance by Lorem, one of the finest thriller of recent like Aldus
+                    PageMaker including versions of Lorem Ipsum.</p>
+                <p><span>Neeraj Upadhyay (Noida)</span> 16/03/2015 at 12:14 PM</p>
+            </div>
+            <div class="story-review">
+                <h4>REVIEW:</h4>
+                <p>So,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                    the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+                    type and scrambled it to make a type specimen book. It has survived not only five centuries, but
+                    also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+                    with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            </div>
+            <!-- comments-section-starts -->
+            <div class="comments-section">
+                <div class="comments-section-head">
+                    <div class="comments-section-head-text">
+                        <h3>25 Comments</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="comments-section-grids">
+                    @foreach($reviews as $review )
+                        <div class="comments-section-grid">
+                            <div class="col-md-2 comments-section-grid-image">
+                                <img src="{{\Storage::url($review->user->avatar)}}" class="img-responsive" alt=""/>
+                            </div>
+                            <div class="col-md-10 comments-section-grid-text">
+                                <h4><a href="#">{{$review->user->name}}</a></h4>
+                                <label>{{$review->created_at->diffForHumans()}} </label>
+                                <p>{{$review->review}}.</p>
+                                <span><a href="#">Reply</a></span>
+                                <i class="rply-arrow"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    @endforeach
+                    <div class="comments-section-grid comments-section-middle-grid">
+                        <div class="col-md-2 comments-section-grid-image">
+                            <img src="{{asset('images/beauty.jpg')}}" class="img-responsive" alt=""/>
+                        </div>
+                        <div class="col-md-10 comments-section-grid-text">
+                            <h4><a href="#">MARWA ELGENDY</a></h4>
+                            <label>5/4/2014 at 22:00 </label>
+                            <p>But I must explain to you how all this idea denouncing pleasure and praising pain was
+                                born and I will give you a complete account of the system, and expound but because
+                                those
+                                who do not know how to pursue pleasure rationally encounter consequences.</p>
+                            <span><a href="#">Reply</a></span>
+                            <i class="rply-arrow"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="comments-section-grid">
+                        <div class="col-md-2 comments-section-grid-image">
+                            <img src="images/stylish.jpg" class="img-responsive" alt=""/>
+                        </div>
+                        <div class="col-md-10 comments-section-grid-text">
+                            <h4><a href="#">MARWA ELGENDY</a></h4>
+                            <label>5/4/2014 at 22:00 </label>
+                            <p>But I must explain to you how all this mistaken idea of denouncing pleasure and
+                                praising
+                                pain was born and I will give you a complete account of the system, and expound but
+                                because those who do not know how to pursue pleasure rationally encounter
+                                consequences.</p>
+                            <span><a href="#">Reply</a></span>
+                            <i class="rply-arrow"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- comments-section-ends -->
+            <div class="reply-section">
+                <div class="reply-section-head">
+                    <div class="reply-section-head-text">
+                        <h3>Leave Reply</h3>
+                    </div>
+                </div>
+                <div class="blog-form">
+                    <form action="{{url('reviews')}}" method='post' id='addReview'>
+                        @csrf
+                        <input type="hidden" name="movie" value="{{$movie->id}}">
+                        <input type="text" class="text" value="Enter Name" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = 'Enter Name';}">
+                        <input type="text" class="text" value="Enter Email" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = 'Enter Email';}">
+                        <input type="text" class="text" name="review" value="Subject" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = 'Subject';}">
+                        <textarea></textarea>
+                        <input type="submit" value="SUBMIT COMMENT">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 side-bar">
+            <div class="featured">
+                <h3>Featured Today in Movie Reviews</h3>
+                <ul>
+                    <li>
+                        <a href="single.html"><img src="images/f1.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <li>
+                        <a href="single.html"><img src="images/f2.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <li>
+                        <a href="single.html"><img src="images/f3.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <li>
+                        <a href="single.html"><img src="images/f4.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <li>
+                        <a href="single.html"><img src="images/f5.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <li>
+                        <a href="single.html"><img src="images/f6.jpg" alt=""/></a>
+                        <p>lorem movie review</p>
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
 
-                var url = $(this).attr('href');
-                getReviews(url);
-                // window.history.pushState("", "", url);
-            });
+            <div class="entertainment">
+                <h3>Featured Today in Entertainment</h3>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f6.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
 
-            function getReviews(url) {
-                $.ajax({
-                    url: url
-                }).done(function (data) {
-                    $('#loading').html(data);
-                }).fail(function () {
-                    alert('Reviews could not be loaded.');
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f5.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f3.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f4.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f2.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul>
+                    <li class="ent">
+                        <a href="single.html"><img src="images/f1.jpg" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+            <div class="might">
+                <h4>You might also like</h4>
+                <div class="might-grid">
+                    <div class="grid-might">
+                        <a href="single.html"><img src="images/mi.jpg" class="img-responsive" alt=""> </a>
+                    </div>
+                    <div class="might-top">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <a href="single.html">Lorem Ipsum <i> </i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="might-grid">
+                    <div class="grid-might">
+                        <a href="single.html"><img src="images/mi1.jpg" class="img-responsive" alt=""> </a>
+                    </div>
+                    <div class="might-top">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <a href="single.html">Lorem Ipsum <i> </i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="might-grid">
+                    <div class="grid-might">
+                        <a href="single.html"><img src="images/mi2.jpg" class="img-responsive" alt=""> </a>
+                    </div>
+                    <div class="might-top">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <a href="single.html">Lorem Ipsum <i> </i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="might-grid">
+                    <div class="grid-might">
+                        <a href="single.html"><img src="images/mi3.jpg" class="img-responsive" alt=""> </a>
+                    </div>
+                    <div class="might-top">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <a href="single.html">Lorem Ipsum <i> </i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!---->
+            <div class="grid-top">
+                <h4>Archives</h4>
+                <ul>
+                    <li><a href="single.html">Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry. </a></li>
+                    <li><a href="single.html">Lorem Ipsum has been the industry's standard dummy text ever since the
+                            1500s</a></li>
+                    <li><a href="single.html">When an unknown printer took a galley of type and scrambled it to make a
+                            type specimen book. </a></li>
+                    <li><a href="single.html">It has survived not only five centuries, but also the leap into electronic
+                            typesetting</a></li>
+                    <li><a href="single.html">Remaining essentially unchanged. It was popularised in the 1960s with the
+                            release of </a></li>
+                    <li><a href="single.html">Letraset sheets containing Lorem Ipsum passages, and more recently with
+                            desktop publishing </a></li>
+                    <li><a href="single.html">Software like Aldus PageMaker including versionsof Lorem Ipsum.</a></li>
+                </ul>
+            </div>
+            <!---->
+
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+    </div>
+    <div class="review-slider">
+        <ul id="flexiselDemo1">
+            <li><img src="images/r1.jpg" alt=""/></li>
+            <li><img src="images/r2.jpg" alt=""/></li>
+            <li><img src="images/r3.jpg" alt=""/></li>
+            <li><img src="images/r4.jpg" alt=""/></li>
+            <li><img src="images/r5.jpg" alt=""/></li>
+            <li><img src="images/r6.jpg" alt=""/></li>
+        </ul>
+        <script type="text/javascript">
+            $(window).load(function () {
+
+                $("#flexiselDemo1").flexisel({
+                    visibleItems: 6,
+                    animationSpeed: 1000,
+                    autoPlay: true,
+                    autoPlaySpeed: 3000,
+                    pauseOnHover: false,
+                    enableResponsiveBreakpoints: true,
+                    responsiveBreakpoints: {
+                        portrait: {
+                            changePoint: 480,
+                            visibleItems: 1
+                        },
+                        landscape: {
+                            changePoint: 640,
+                            visibleItems: 2
+                        },
+                        tablet: {
+                            changePoint: 768,
+                            visibleItems: 3
+                        }
+                    }
                 });
-            }
-
-            $('body').delegate('.comment-menue .delete-comment', 'click', function (e) {
-                e.preventDefault();
-                if (confirm('Are You Sure?')) {
-                    var id = $(this).attr('id');
-                    var url = '{{url('reviews')}}/' + id;
-                    $.ajax({
-                        url: url,
-                        data: {
-                            _token: '{{csrf_token()}}',
-                        },
-                        type: 'DELETE',
-                        dataType: 'JSON',
-                        beforeSend: function () {
-                            toastr.info('Loading...');
-                        },
-                        success: function (results) {
-                            $('#comment-' + id).remove();
-                            if (results.success) {
-                                toastr.info(results.success);
-                            }
-                            if (results.post) {
-                                toastr.info(results.success);
-                            }
-                        },
-                        error: function (results) {
-                            $.each(results.responseJSON.errors, function (index, val) {
-                                toastr.info(val)
-                            });
-                        },
-                    })
-                }
             });
+        </script>
 
-            $('body').delegate('.comment-menue .edit-comment', 'click', function () {
-                var id = $(this).attr('id');
-                console.log(id);
-                $('#frm-update-' + id).on('submit', function (e) {
-
-                    e.preventDefault();
-
-                    var form = $('#frm-update-' + id);
-
-                    var url = form.attr('action');
-
-                    var data = $(this).serialize();
-
-
-                    $.ajax({
-                        url: url,
-                        data: data,
-                        type: 'POST',
-                        dataType: 'JSON',
-                        beforeSend: function () {
-
-                        },
-                        success: (function (results) {
-                            console.log(results);
-                            $('#edit_modal' + id).modal('hide').fadeOut(1500);
-                            form.each(function () {
-                                this.reset();
-                            });
-                            if (results.review) {
-                                $('#comment-text-' + id).html(results.review);
-
-                            }
-                        }),
-                        error: (function (results) {
-                            $.each(results.responseJSON.errors, function (index, val) {
-                                toastr.info(val)
-                            });
-                        }),
-                    });
-                });
-            });
-
-            $('#addReview').on('submit', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                var data = $(this).serialize();
-                var url = $(this).attr('action');
-                var post = $(this).attr('method');
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    dataType: 'json'
-                })
-                    .done(function (data) {
-                        $('#addReview').each(function () {
-                            this.reset();
-                        });
-                        $('#reviews').prepend(data.review);
-                    })
-                    .fail(function (data) {
-                        $.each(results.responseJSON.errors, function (index, val) {
-                            toastr.info(val)
-                        });
-                        $('#addReview').each(function () {
-                            this.reset();
-                        });
-                    })
-            });
-        });
-    </script>
+    </div>
 @endsection

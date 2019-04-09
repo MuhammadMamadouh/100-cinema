@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cast;
 use App\Models\Movies;
+use App\Models\Post;
 use App\User;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +29,7 @@ class HomeController extends Controller
             $user = new User();
             $posts = $user->followedPosts();
         }
+        $posts = Post::inRandomOrder()->limit(3)->get();
         $movies = DB::table('movies')->orderBy('created_at', 'desc')->limit(3)->get();
 
         $videos = DB::table('videos')->inRandomOrder()->first();
@@ -36,7 +38,6 @@ class HomeController extends Controller
 
         $json_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=$channel_id" .
             "&maxResults=10&order=date&type=video&id=$channel_id&key=$api_key";
-
         $json_url2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=%D8%A7%D9%84%D8%B3%D9%8A%D9%86%D9%85%D8%A7%2C+cinema%2Cfilmmaking%2Cfilm+analysis&key=$api_key";
 
         $youtubeVideo = $this->getVideo($json_url2);
@@ -68,9 +69,10 @@ class HomeController extends Controller
     {
         $listFromYouTube = json_decode(file_get_contents($string));
 
-        $key = array_rand($listFromYouTube->items, 1);
+        $keys = array_rand($listFromYouTube->items, 6);
 
-        $video = $listFromYouTube->items[$key];
+        foreach ($keys as $key)
+            $video[] = $listFromYouTube->items[$key];
 
         return $video;
     }

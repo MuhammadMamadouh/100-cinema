@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     \Config::set('auth.defaults.guard', 'admin');
     Route::get('/login', 'AdminAuth@login');

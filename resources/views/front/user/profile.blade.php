@@ -1,80 +1,96 @@
-@extends('layouts.blog')
+@extends('layouts.page')
 <!-- Main content -->
 @section('title', $user->name . '')
+@section('css')
+    <link rel="stylesheet" href="{{asset('blog/css/style.css')}}">
+    <link href="{{asset('public/css/post-style.css')}}" rel="stylesheet" type="text/css" media="all"/>
+@endsection
+
 @section('content')
-
     <div class=" main_container col-md-9">
-        <section class="about_person_area pad" id="about">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="person_img">
-                        <img src="{{asset('uploading/' . $user->image)}}" alt="{{$user->name}}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="person_details">
-                        <h3><span>{{$user->name}}</span></h3>
-                        <h4>{{$user->short_bio}}</h4>
-                        @auth
-                            @if( request()->route()->parameter('id') != auth()->user()->id)
+        <div class="container">
+            <div class="mag-inner">
+                <div class="col-md-10 mag-innert-left">
+                    <!--/business-->
+                    <div class="live-market">
+                        <h3 class="tittle"><i class="glyphicon glyphicon-user"></i><span>Bio</span></h3>
+                        <div class="bull">
+                            <a href="#"><img src="{{image_url($user->image)}}" alt=""></a>
+                        </div>
+                        <div class="bull-text">
+                            <a class="bull1">{{$user->name}}</a>
+                            <p>  @auth
+                                    @if( request()->route()->parameter('id') != auth()->user()->id)
 
-                                <button class="btn btn-danger follow" id="follow" data-id="{{$user->id}}"
-                                        data-status=
-                                        @if($user->isFollowedBy(auth()->user()->id))
-                                                "following">
-                                    @else
-                                        "follow">
+                                        <button class="btn btn-danger follow" id="follow" data-id="{{$user->id}}"
+                                                data-status=
+                                                @if($user->isFollowedBy(auth()->user()->id))
+                                                        "following">
+                                            @else
+                                                "follow">
+                                            @endif
+                                            @if($user->isFollowedBy(auth()->user()->id)) following @else follow <i
+                                                    class="fa fa-plus"></i>@endif
+
+                                        </button>
                                     @endif
-                                    @if($user->isFollowedBy(auth()->user()->id)) following @else follow <i
-                                            class="fa fa-plus"></i>@endif
-
-                                </button>
-                            @endif
-                            @if(request()->route()->parameter('id') == auth()->user()->id)
-                                <a href="{{url()->current()}}/edit" class="btn btn-danger">Edit
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                            @endif
-                        @else
-                            <a href="{{route('login')}}" class="btn btn-danger">follow
-                                <i class="fa fa-plus"></i>
-                            </a>
-                        @endauth
-
-                        <p class="lead">{{$user->about}}</p>
-                        <div class="person_information">
+                                    @if(request()->route()->parameter('id') == auth()->user()->id)
+                                        <a href="{{url()->current()}}/edit" class="btn btn-danger">Edit
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    @endif
+                                @else
+                                    <a href="{{route('login')}}" class="btn btn-danger">follow
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                @endauth
+                            </p>
                             <ul>
-                                <li><a href="#">Country : {{$user->country}}</a></li>
-                                <li><a href="{{$user->site}}">website : {{$user->site}}</a></li>
+                                <li><a href="#"><h4>{{$user->short_bio}}</h4></a></li>
+                                <li>{{$user->about}}</li>
+                            </ul>
+                            <div class="person_information">
+                                <ul>
+                                    <li><a href="#">Country : {{$user->country}}</a></li>
+                                    <li><a href="{{$user->site}}">website : {{$user->site}}</a></li>
+                                </ul>
+                            </div>
+                            <ul class="social_icon list-unstyled list-inline">
+                                <li><a href="{{$user->facebook}}" target="_blank"><i
+                                                class="fa fa-facebook fa-2x"></i></a></li>
+                                <li><a href="{{$user->twitter}}" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+                                </li>
+                                <li><a href="{{$user->instgram}}" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+                                </li>
+                                <li><a href="{{$user->twitter}}" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
+                                </li>
                             </ul>
                         </div>
-                        <ul class="social_icon">
-                            <li><a href="{{$user->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="{{$user->twitter}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="{{$user->instgram}}" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="{{$user->twitter}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                        </ul>
+                        <div class="clearfix"></div>
                     </div>
+
+                    <div class="clearfix"></div>
                 </div>
             </div>
-        </section>
+            <div class="clearfix"></div>
+        </div>
+        <div class="mag-bottom">
+            <h3 class="tittle bottom"><i class="glyphicon glyphicon-globe"></i><span>Posts</span>
+                <a class="tittle  pull-right" href="{{URL::current() . '/posts'}}">More</a>
+            </h3>
 
-        <section class="portfolio_area pad" id="posts">
-            <div class="main_title">
-                <h2 class="pull-left">
-                    <a href="{{URL::current() . '/posts'}}">Posts</a></h2>
-            </div>
+
             <div class="portfolio_list_inner">
                 @foreach($posts as $post)
                     @include('front.loads.posts')
                 @endforeach
             </div>
-        </section>
-        <section class="portfolio_area pad" id="reviews">
-            <div class="main_title">
-                <h2 class="pull-left">
-                    <a href="{{URL::current() . '/reviews'}}"> Reviews</a></h2>
-            </div>
+        </div>
+        <div class="mag-bottom">
+            <h3 class="tittle bottom"><i class="glyphicon glyphicon-globe"></i><a
+                        href="{{URL::current() . '/reviews'}}">Reviews</a>
+            </h3>
+
             <div class="portfolio_list_inner">
 
                 @foreach($reviews as $review)
@@ -129,12 +145,14 @@
                     </article>
                 @endforeach
             </div>
-        </section>
+        </div>
     </div>
 
 
 @endsection
 @section('js')
+    <script src="{{asset('js/jquery.morelines.min.js')}}"></script>
+
     <script type="text/javascript">
 
         $('.follow').on('click', function (e) {

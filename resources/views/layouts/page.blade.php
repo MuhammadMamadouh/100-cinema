@@ -2,13 +2,15 @@
 <html>
 <head>
     <title>@yield('title')</title>
+    @yield('css')
     <link href="{{asset('public/css/bootstrap.css')}}" rel='stylesheet' type='text/css'/>
     <!-- Custom Theme files -->
+    <link href="{{asset('public/css/flexslider.css')}}" rel="stylesheet" type="text/css" media="all"/>
     <link href="{{asset('public/css/style.css')}}" rel="stylesheet" type="text/css" media="all"/>
     <!-- Custom Theme files -->
     <script src="{{asset('public/js/jquery.min.js')}}"></script>
     <link rel='stylesheet' href="{{asset('blog/css/font-awesome.min.css') }}">
-@yield('css')
+
 <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -30,7 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="full">
     <div class="menu">
         <ul>
-            <li><a href="index.html">
+            <li><a href="{{url('/')}}">
                     <div class="hm"><i class="home1"></i><i class="home2"></i></div>
                 </a></li>
             @auth
@@ -73,11 +75,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a class="nav-link"
                                    href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
+
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="fa fa-bell">
-                                    <span class="badge" id="new-notifications">
+                                    <span class="badge badge-danger" id="new-notifications">
                                         {{count(auth()->user()->unreadNotifications)}}
                                     </span>
                                 </span>
@@ -102,7 +105,102 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <div class="clearfix"></div>
             </div>
+            @guest()
+                <div id="login" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal">&times;
+                                </button>
+                                <h4 class="modal-title">Login</h4>
+                            </div>
 
+                            <div class="modal-body">
+                                {!! Form::open(['route' => 'login', 'method'=>'post']) !!}
+
+                                <div class="form-group row">
+                                    <label for="email"
+                                           class="col-sm-12 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                                    <div class="col-md-12">
+                                        <input id="email" type="email"
+                                               class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                               name="email"
+                                               value="{{ old('email') }}"
+                                               required autofocus>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password"
+                                           class="col-md-12 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                                    <div class="col-md-12">
+                                        <input id="password" type="password"
+                                               class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                               name="password" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 offset-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   name="remember"
+                                                   id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                            <label class="form-check-label"
+                                                   for="remember">
+                                                {{ __('Remember Me') }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit"
+                                                class="btn btn-primary">
+                                            {{ __('Login') }}
+                                        </button>
+
+                                        <a class="btn btn-link"
+                                           href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <h3 class="h3">- OR -</h3>
+
+                                    <div class="card-body">
+
+                                        <a href="{{url('login/facebook')}}"
+                                           class="btn btn-block btn-primary btn-facebook"><i
+                                                    class="fa fa-facebook"></i>
+                                            Sign in using
+                                            Facebook</a>
+                                        <a href="{{url('login/google')}}"
+                                           class="btn btn-block btn-danger btn-google"><i
+                                                    class="fa fa-google-plus"></i>
+                                            Sign in using
+                                            Google+</a>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                            <span class="help-block pull-left">
+                                <strong id="edit-error"></strong>
+                            </span>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endguest
             @include('messages')
             @yield('content')
         </div>
@@ -136,12 +234,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 </script>
 {{--<script type="text/javascript" src="{{asset('public/js/bootstrap.js')}}"></script>--}}
-<script type="text/javascript" src="{{asset('public/js/jquery.flexisel.js')}}"></script>
+
 <script type="text/javascript" src="{{asset('public/js/sweet-alert.js')}}"></script>
 
 
 <script src="{{asset('blog/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{asset('blog/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{asset('public/js/jquery.flexisel.js')}}"></script>
 <script src="{{asset('blog/js/plugins.js') }}"></script>
 <script src="{{ asset('js/toastr.min.js') }}"></script>
 <script src="{{asset('js/jquery.morelines.min.js')}}"></script>
@@ -291,23 +390,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 
 
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
+    $('#search_bar').on('keyup', function () {
+        let input = $(this).val().trim();
+        if (input !== '') {
+            let query = input.replace(' ', '+');
+            $('#searchMenu').load('{{url('/')}}/search?query=' + query)
+        }
+    })
+
 </script>
 @yield('js')
 </body>

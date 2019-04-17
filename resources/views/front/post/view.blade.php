@@ -16,7 +16,7 @@
                             <li><a href="#">@if(isset($post->category->name)){{$post->category->name}}@endif</a></li>
                             <li>{{$post->created_at}}</li>
                             <li><a href="#">@if(isset($post->user->name)){{$post->user->name}}@endif</a></li>
-                            <li><a href="{{route('posts.edit', $post->slug)}}">{{$post->comments->count()}} Comments</a>
+                            <li><a href="{{route('posts.edit', $post->id)}}">Edit</a>
                             </li>
                         </ul>
                     </div>
@@ -29,90 +29,31 @@
                         <h3>{{$post->comments->count()}} Comments</h3>
                     </div>
                     <div class="clearfix"></div>
+                    @auth
+                        <div class="reply-section">
+                            <div class="reply-section-head">
+                                <div class="reply-section-head-text">
+                                    <h3>Leave Reply</h3>
+                                </div>
+                            </div>
+                            <div class="blog-form">
+                                <textarea title="add comment" class="form-control" id="commentBox"
+                                          name="body"></textarea>
+                            </div>
+                        </div>
+                    @endauth
                 </div>
+
                 <div class="comments-section-grids" id="comments">
                     @foreach($comments as $comment )
-                        <div class="comments-section-grid">
-                            <div class="col-md-2 comments-section-grid-image">
-                                <img src="{{image_url($comment->user->image)}}" class="img-responsive" alt=""/>
-                            </div>
-                            <div class="col-md-10 comments-section-grid-text">
-                                <h4><a href="#">{{$comment->user->name}}</a></h4>
-                                <label>{{$comment->created_at->diffForHumans()}} </label>
-                                <p>{{$comment->body}}.</p>
-                                <span><a href="#">Reply</a></span>
-                                <i class="rply-arrow"></i>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        @include('front.post.comment')
                     @endforeach
-                    <div class="comments-section-grid comments-section-middle-grid">
-                        <div class="col-md-2 comments-section-grid-image">
-                            <img src="{{asset('images/beauty.jpg')}}" class="img-responsive" alt=""/>
-                        </div>
-                        <div class="col-md-10 comments-section-grid-text">
-                            @auth
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button"
-                                            data-toggle="dropdown">Dropdown Example
-                                        <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">HTML</a></li>
-                                        <li><a href="#">CSS</a></li>
-                                        <li><a href="#">JavaScript</a></li>
-                                    </ul>
-                                </div>
-
-                            @endif
-                            <h4><a href="#">MARWA ELGENDY</a></h4>
-                            <label>5/4/2014 at 22:00 </label>
-                            <p>But I must explain to you how all this idea denouncing pleasure and praising pain was
-                                born and I will give you a complete account of the system, and expound but because
-                                those
-                                who do not know how to pursue pleasure rationally encounter consequences.</p>
-                            <span><a href="#">Reply</a></span>
-                            <i class="rply-arrow"></i>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
+                    {{$comments->links()}}
                 </div>
             </div>
-        @auth
-            <!-- comments-section-ends -->
-                <div class="reply-section">
-                    <div class="reply-section-head">
-                        <div class="reply-section-head-text">
-                            <h3>Leave Reply</h3>
-                        </div>
-                    </div>
-                    <div class="blog-form">
 
-                        {!! Form::open(['url' => route('addComment', $post->id), 'method'=> 'post', 'id'=> 'add-comment']) !!}
-                        {{--<input type="hidden" name="post_id" value="{{$post->id}}">--}}
-                        {{--<input type="hidden" name="user_id"--}}
-                        {{--value="{{\Auth::user()->id}}">--}}
-                        <textarea class="form-control" id="commentBox" name="body"></textarea>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            @endauth
         </div>
         <div class="col-md-4 mag-inner-right">
-            <div class="connect">
-                <h4 class="side">STAY CONNECTED</h4>
-                <ul class="stay">
-                    <li class="c5-element-facebook"><a href="#"><span class="icon"></span><h5>700</h5><span
-                                    class="text">Followers</span></a></li>
-                    <li class="c5-element-twitter"><a href="#"><span class="icon1"></span><h5>201</h5><span
-                                    class="text">Followers</span></a></li>
-                    <li class="c5-element-gg"><a href="#"><span class="icon2"></span><h5>111</h5><span class="text">Followers</span></a>
-                    </li>
-                    <li class="c5-element-dribble"><a href="#"><span class="icon3"></span><h5>99</h5><span
-                                    class="text">Followers</span></a></li>
-
-                </ul>
-            </div>
             <h4 class="side">Popular Posts</h4>
             <div class="edit-pics">
                 <div class="editor-pics">
@@ -169,25 +110,42 @@
         <div class="clearfix"></div>
     </div>
     <!--//end-mag-inner-->
+    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+         aria-labelledby="editModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModal">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '#', 'method'=> 'put','id'=>'frm-update']) !!}
+                    <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
+                        {!! Form::label('body') !!}
+                        {!! Form::textarea('body','',['class'=>'form-control input'], ['id'=> 'body']) !!}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger pull-right">Save changes
+                        </button>
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('js')
     <script>
         $('#commentBox').on('keypress', function (e) {
-            if (e.keyCode == 13) {
+            let comment = $('#commentBox').val().trim();
+
+            if (e.keyCode === 13 && comment !== '') {
                 e.preventDefault();
-                var form = $('#add-comment');
-                var data = form.serialize();
-                var url = form.attr('action');
-                var post = form.attr('method');
-                // axios.post(url, {
-                //     data: data,
-                // })
-                //     .then(function (response) {
-                //         console.log(response);
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+
                 $.ajax({
                     type: 'POST',
                     url: '{{route('addComment', $post->id)}}',
@@ -209,6 +167,120 @@
                         $('#commentBox').text('');
                     })
 
+            }
+        });
+
+        $('.pagination .page-link').on('click', function (e) {
+            e.preventDefault();
+            $('#load a').css('color', '#dfecf6');
+            $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+
+            let url = $(this).attr('href');
+            getComments(url);
+            // window.history.pushState("", "", url);
+        });
+
+        function getComments(url) {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                $('#comments').append(data);
+            }).fail(function () {
+                alert('comments could not be loaded.');
+            });
+        }
+
+
+        let body = $('body');
+        body.delegate('.comment-menue .edit-comment', 'click', function () {
+            let id = $(this).attr('id');
+            $.ajax({
+                url: '{{url("comments")}}/' + id,
+                type: 'GET',
+                dataType: 'JSON',
+                beforeSend: function () {
+
+                },
+                success: (function (results) {
+                    let review = results.comment;
+                    $('#frm-update #body').val(review.body);
+                    $('#frm-update').attr('action', '{{url('comments')}}/' + review.id);
+                }),
+                error: (function (results) {
+                    $.each(results.responseJSON.errors, function (index, val) {
+                        toastr.info(val)
+                    });
+                }),
+            });
+
+            $('#frm-update').on('submit', function (e) {
+
+                e.preventDefault();
+
+                let form = $('#frm-update');
+
+                let url = form.attr('action');
+
+                let data = $(this).serialize();
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'PUT',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+
+                    },
+                    success: (function (results) {
+                        console.log(results);
+                        $('#edit_modal').modal('hide').fadeOut(1500);
+                        form.each(function () {
+                            this.reset();
+                        });
+                        if (results.comment) {
+                            $('#review-' + id).html(results.review);
+
+                        }
+                    }),
+                    error: (function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    }),
+                });
+            });
+        });
+
+        body.delegate('.comment-menue .delete-comment', 'click', function (e) {
+            e.preventDefault();
+            if (confirm('Are You Sure?')) {
+                let id = $(this).attr('id');
+                let url = '{{url('comments')}}/' + id;
+                $.ajax({
+                    url: url,
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    },
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        toastr.info('Loading...');
+                    },
+                    success: function (results) {
+                        $('#comment-' + id).fadeOut(2000).remove();
+                        if (results.success) {
+                            toastr.info(results.success);
+                        }
+                        if (results.post) {
+                            toastr.info(results.success);
+                        }
+                    },
+                    error: function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    },
+                })
             }
         });
 

@@ -52,7 +52,7 @@ class PostsDataTable extends DataTable
                     [
                         'text' => '<i class="fa fa-plus"></i> ' . 'New post', 'className' => 'btn btn-info', "action" => "function(){
 							
-							$('#add_modal').modal('show')
+							window.location.href = 'posts/create'
 						}"],
                     ['extend' => 'print', 'className' => 'btn btn-primary', 'text' => '<i class="fa fa-print"></i>'],
                     ['extend' => 'csv', 'className' => 'btn btn-info', 'text' => '<i class="fa fa-file"></i> ' . trans('admin.ex_csv')],

@@ -1,30 +1,22 @@
-@extends('layouts.blog')
+@extends('layouts.page')
 <!-- Main content -->
 @section('content')
-    <div class="main_container col-md-9">
-        <div class="content_inner_bg row m0">
-            <section class="portfolio_area pad" id="portfolio">
-                <div class="main_title">
-                    <h2 class="pull-left">Persons with Job: <span>{{$job->name}}</span></h2>
-                </div>
 
-                <div class="row">
-                    <div class="portfolio_list_inner">
-                        @foreach($casts as $cast)
-                            <div class="col-md-4 photo marketing">
-                                <div class="portfolio_item">
-                                    <div class="portfolio_img">
-                                        <img src="{{asset('storage/' . $cast->image)}}" alt="{{$cast->name}}">
-                                    </div>
-                                    <div class="portfolio_title">
-                                        <a href="{{url("crew/$cast->id")}}"><h4>{{$cast->name}}</h4></a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+    <div class="latest-articles">
+        <h3 class="tittle">Job: {{ strtoupper($job->name) }}</h3>
+        <div class="world-news-grids">
+            @foreach($casts as $cast)
+                <div class="col-md-3">
+                    <a class="play-icon popup-with-zoom-anim"
+                       href="#"><img src="{{image_url($cast->image)}}" class="img-thumbnail"
+                                     title="{{$cast->name}}"/></a>
+
+                    <a class="button play-icon popup-with-zoom-anim"
+                       href="{{url("crew/$cast->id")}}">{{$cast->name}}</a>
                 </div>
-            </section>
+            @endforeach
+            <div class="clearfix"></div>
         </div>
     </div>
+
 @endsection

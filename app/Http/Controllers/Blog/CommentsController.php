@@ -9,6 +9,20 @@ use App\Models\Post;
 class CommentsController extends Controller
 {
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $comment = Comment::find($id);
+        return response()->json(['comment' => $comment]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,17 +49,6 @@ class CommentsController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
-    }
 
     /**
      * Update the specified resource in storage.

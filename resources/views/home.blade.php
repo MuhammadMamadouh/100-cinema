@@ -13,7 +13,7 @@
             <div class="col-md-6 ">
                 <h2 class="tittle"><i class="glyphicon glyphicon-certificate"> </i>Latest Articles</h2>
                 <div class="col-md-6 tech-img">
-                    <img src="public/images/tech.jpg" class="img-responsive" alt=""/>
+                    <img src="{{asset('public/images/tech.jpg')}}" class="img-responsive" alt=""/>
                 </div>
             </div>
             <div class="col-md-6 tech-text">
@@ -25,7 +25,7 @@
 
                         </div>
                         <div class="col-md-9 item-details">
-                            <h5 class="inner two"><a href="{{route('posts.show',$post->slug)}}">{{$post->title}}</a>
+                            <h5 class="inner two"><a href="{{route('posts.show',$post->id)}}">{{$post->title}}</a>
                             </h5>
                             <div class="td-post-date two">{{$post->created_at->diffForHumans()}}</div>
                             {{--<a href="{{route()}}" class="btn-outline-dark">readmore</a>--}}
@@ -67,8 +67,8 @@
         <!--//articles-->
     </div>
     <!-- pop-up-box -->
-    <link href="public/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
-    <script src="public/js/jquery.magnific-popup.js" type="text/javascript"></script>
+    <link href="{{asset('public/css/popuo-box.css')}}" rel="stylesheet" type="text/css" media="all"/>
+    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.popup-with-zoom-anim').magnificPopup({

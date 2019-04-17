@@ -19,9 +19,9 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
         $jobs = $cast->jobs();
-        $movies = $cast->movies();
+        $movies = $cast->movies()->limit(3)->get();
         $images = $cast->media()->limit(3)->get();
-        return view('front.crew.view', compact('cast', 'jobs', 'movies', 'images'));
+        return view('front.crew.view', compact('cast', 'jobs', 'movies', 'bestMovie', 'images'));
     }
 
     /**
@@ -32,7 +32,7 @@ class CastController extends Controller
      */
     public function media($id)
     {
-        $cast = Cast::find($id);
+        $cast = Cast::findOrFail($id);
         $media = $cast->media;
         return view('front.crew.media', compact('cast', 'media'));
     }

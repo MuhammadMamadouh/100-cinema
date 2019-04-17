@@ -1,11 +1,11 @@
-@extends('layouts.blog')
-<!-- Main content -->
+@extends('layouts.page')
+@section('title', $cast->name . '-' . config('app.name'))
 @section('content')
     <div class="main_container  col-md-9">
         <div class="content_inner_bg ">
             <section class="about_person_area pad" id="about">
                 <div class="person_details">
-                    <h3><span><a href="{{url("crew/$cast->id")}}">{{$cast->name}}</a> </span> Media</h3>
+                    <h3><span><a href="{{url("crew/$cast->id")}}">{{$cast->name}}</a></span> Media</h3>
                 </div>
                 <div id="main_area">
                     <!-- Slider -->
@@ -14,7 +14,7 @@
                             <!-- Bottom switcher of slider -->
                             <ul class="hide-bullets">
                                 @for($image=0; $image<count($media); $image++)
-                                    <li class="col-sm-3">
+                                    <li class="col-md-4">
                                         <a class="thumbnail" id="carousel-selector-{{$image}}">
                                             <img src="{{asset('storage/'.$media[$image]->path)}}"
                                                  alt="{{$cast->name}}">

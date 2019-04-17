@@ -1,4 +1,4 @@
-@extends('layouts.blog')
+@extends('layouts.page')
 <!-- Main content -->
 @section('title',  '-100Cinema')
 @section('content')

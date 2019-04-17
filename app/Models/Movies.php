@@ -14,14 +14,6 @@ class Movies extends Model
         'poster',
     ];
 
-    /**
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'id';
-    }
 
     /**
      * Get Movies with specific attribute
@@ -60,21 +52,16 @@ class Movies extends Model
     {
         return $this->belongsToMany('App\Models\Cast', 'cast_of_movies')->where('job_id', 1)->limit($limit);
     }
+
     /**
      * get Directors of a specified movie
      *
-     * @return \Illuminate\Support\Collection
+     * @param null $limit
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function directors()
+    public function directors($limit = null)
     {
-        $movie = $this->getKey();
-        return DB::table('cast_of_movies')
-            ->join('job', 'cast_of_movies.job_id', '=', 'job.id')
-            ->join('cast', 'cast_of_movies.cast_id', '=', 'cast.id')
-            ->select('cast.id as cast_id', 'cast.name', 'cast.image', 'job.name as job_name')
-            ->where('cast_of_movies.movies_id', '=', $movie)
-            ->where('cast_of_movies.job_id', '=', 2)
-            ->get();
+        return $this->belongsToMany('App\Models\Cast', 'cast_of_movies')->where('job_id', 2)->limit($limit);
     }
 
     /**
@@ -90,7 +77,7 @@ class Movies extends Model
 
     /**
      * get Directors of a specified movie
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function reviews()
     {

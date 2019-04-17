@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewsController extends Controller
 {
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $review = Review::find($id);
+        return response()->json(['review' => $review]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -33,7 +45,7 @@ class ReviewsController extends Controller
                 'rate' => $rate,
             ]);
             $new_review = $this->addedReview($review);
-            return response()->json(['review' => $new_review]);
+            return response()->json(['comment' => $new_review]);
         }
     }
 
@@ -58,7 +70,7 @@ class ReviewsController extends Controller
     {
         $data = $this->validate(request(), [
             'review' => 'required|string',
-            'rate' => 'required'
+            'rate' => 'nullable'
 
         ]);
         Review::where('id', $id)->update($data);

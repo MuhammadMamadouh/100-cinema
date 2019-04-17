@@ -26,6 +26,15 @@ class MoviesController extends Controller
         return $movies->render('admin.movies.index', ['title' => '']);
     }
 
+    /**
+     * Create New Row
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $title = 'Create Movie';
+        return view('admin.movies.edit-create', compact('title'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -59,40 +68,48 @@ class MoviesController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Movies $movie)
+    {
+//        $movie = Movies::find($id);
+        $title = "Edit Movie " . strtoupper($movie->title);
+        return view('admin.movies.edit-create', compact('movie', 'title'));
+    }
+
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Movies $movie)
     {
-        //
-        $movie = Movies::find($id);
-        if ($movie) {
-            $data = $this->validate(request(), [
-                'title' => 'required|string',
-                'playtime' => 'required|integer|min:2',
-                'language' => 'nullable|min:6',
-                'country' => 'string|required',
-                'story' => 'string|nullable',
-                'trailer' => 'string|nullable',
-                'year' => 'integer|required|',
-                'poster' => v_image(),
-            ]);
-            if (!empty($data['poster'])) {
-                Storage::delete('movies/' . $movie->poster);
-                $data['poster'] = $request->file('poster')->storeAs('movies', time() . '.' . $request->file('poster')->extension());
-            }
-            if (!empty($data['trailer'])) {
-                $trailer = explode('v=', $request->trailer);
-                $data['trailer'] = $trailer[1];
-            }
-            Movies::where('id', $id)->update($data);
-            return response(['success' => 'Movie has been updated successfully']);
-        } else {
-            return response(['errors' => 'something error']);
+        $data = $this->validate(request(), [
+            'title' => 'required|string',
+            'playtime' => 'required|integer|min:2',
+            'language' => 'nullable|min:6',
+            'country' => 'string|required',
+            'story' => 'string|nullable',
+            'trailer' => 'string|nullable',
+            'year' => 'integer|required|',
+            'poster' => v_image(),
+        ]);
+        if (!empty($data['poster'])) {
+            Storage::delete($movie->poster);
+            $data['poster'] = $request->file('poster')->storeAs('movies', time() . '.' . $request->file('poster')->extension());
         }
+        if (!empty($data['trailer'])) {
+            $trailer = explode('v=', $request->trailer);
+            $data['trailer'] = $trailer[1];
+        }
+        $movie->update($data);
+        return redirect(aurl('movies'));
     }
 
     /**
@@ -101,9 +118,8 @@ class MoviesController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Movies $movie)
     {
-        $movie = Movies::find($id);
         if ($movie) {
             Storage::delete('movies/' . $movie->poster);
             $movie->delete();

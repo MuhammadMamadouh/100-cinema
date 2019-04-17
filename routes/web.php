@@ -22,10 +22,6 @@ Route::get('login/google', 'Auth\LoginController@googleRedirectToProvider');
 Route::get('login/google/callback', 'Auth\LoginController@googleHandleProviderCallback');
 
 
-Route::get('/test', function () {
-    auth()->user()->notify(new \App\Notifications\Notify());
-});
-
 Route::get('readAllNotify', function () {
     auth()->user()->unreadNotifications->markAsRead();
     return redirect()->back();
@@ -47,7 +43,7 @@ Route::group(['namespace' => 'Blog'], function () {
     // ==============================================
     Route::group(['prefix' => 'movie'], function () {
         Route::get('{id}', 'MoviesController@show');
-        Route::get('{id}/crew', 'MoviesController@crew');
+        Route::get('{id}/crew', 'MoviesController@crew')->name('movie.crew');
         Route::get('category/{name}', 'MoviesController@viewMoviesByCategory');
         Route::post('addReview', 'MoviesController@addReview')->name('addReview');
         Route::get('{id}/reviews', 'MoviesController@reviews')->name('reviews');
@@ -79,9 +75,9 @@ Route::group(['namespace' => 'Blog'], function () {
     //               CREW LINKS
     // ==============================================
     Route::group(['prefix' => 'crew'], function () {
-        Route::get('{id}', 'CastController@show');
+        Route::get('{id}', 'CastController@show')->name('crew.show');
         Route::get('job/{name}', 'CastController@viewCastsByJob');
-        Route::get('{id}/media', 'CastController@media');
+        Route::get('{id}/media', 'CastController@media')->name('crew.media');
     });
 
     // ==============================================

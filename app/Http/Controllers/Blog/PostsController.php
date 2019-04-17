@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
@@ -105,28 +101,26 @@ class PostsController extends Controller
     public function update($id)
     {
 
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         if ($post) {
             $data = $this->validate(request(), [
-                'user_id' => 'required',
                 'title' => 'required|string',
                 'details' => 'required',
                 'image' => v_image(),
             ]);
-            if ($data['user_id'] === auth()->user()->id) {
-                if (!empty($data['image'])) {
-                    $data['image'] = up()->upload([
-                        'file' => 'image',
-                        'path' => 'posts',
-                        'upload_type' => 'single',
-                        'deleted_file' => Post::find($id)->image,
-                        'new_name' => time() . '.' . request()->file('image')->extension(),
-                    ]);
-                }
-
-                Post::where('id', $id)->update($data);
-                return back()->with('successfully updated');
+//            if ($post->id === auth()->user()->id) {
+            if (!empty($data['image'])) {
+                $data['image'] = up()->upload([
+                    'file' => 'image',
+                    'path' => 'posts',
+                    'upload_type' => 'single',
+                    'deleted_file' => $post->image,
+                    'new_name' => time() . '.' . request()->file('image')->extension(),
+                ]);
             }
+            $post->update($data);
+            return redirect('/')->with('successfully updated');
+//            }
         } else {
             abort(500);
         }

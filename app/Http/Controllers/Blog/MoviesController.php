@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\Movies;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 
 class MoviesController extends Controller
@@ -21,13 +20,12 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
-        $movie = Movies::find($id);
+
+        $movie = Movies::findOrFail($id);
         $reviews = $movie->reviews()->orderBy('created_at', 'desc')->simplePaginate(5);
         if (\request()->ajax()) {
             return $this->reviews($id);
         }
-        $actors = $movie->actors(3);
-        $directors = $movie->directors();
         $movieCategories = $movie->categories;
         $categories = Category::all();
         $avgRating = floor($movie->averageRate());
@@ -40,9 +38,11 @@ class MoviesController extends Controller
      * Add review to a specified work.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Throwable
      */
     public function addReview()
     {
+        return request();
         $movie = \request()->movie;
         $review = \request()->review;
         $rate = \request()->rate;
@@ -77,24 +77,6 @@ class MoviesController extends Controller
 
 
     /**
-     * add Categories to a movie
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function addCategory()
-    {
-        $movie_id = \request()->movie_id;
-        $categories = \request()->categotries;
-        DB::table('movies_category')->where('movies_id', $movie_id)->delete();
-        foreach ($categories as $category) {
-            DB::table('movies_category')->insert([
-                'movies_id' => $movie_id,
-                'category_id' => $category,
-            ]);
-        }
-        return back();
-    }
-
-    /**
      * Category of movies
      * @param $name
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -102,7 +84,7 @@ class MoviesController extends Controller
     public function viewMoviesByCategory($name)
     {
         $category = Category::where('name', $name)->first();
-        $movies = Category::find($category->id)->movies;
+        $movies = Category::findOrFail($category->id)->movies;
 
 //        $movies = Category::where('name', $name)->movies();
         return view('front.movies.category', compact('movies', 'category'));
@@ -115,10 +97,17 @@ class MoviesController extends Controller
      */
     public function crew($id)
     {
-        $crew = Movies::find($id)->getCrewJob();
-        return view('front.movies.crew', compact('crew'));
+        $movie = Movies::findOrFail($id);
+        $crew = $movie->getCrewJob();
+        return view('front.movies.crew', compact('movie', 'crew'));
     }
 
+    /**
+     * Get Movies with specific attribute
+     * @param $attr
+     * @param $value
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getMovies($attr, $value)
     {
         $movies = Movies::getMovieWhich($attr, $value);

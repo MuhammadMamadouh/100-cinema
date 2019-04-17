@@ -11,12 +11,12 @@ class UserController extends Controller
     /**
      * show user's profile that holds his information
      * @param $id
-     * @return \View
+     * @return
      */
     public function profile($id)
     {
         // Validate the value...
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if ($user) {
             $posts = $user->posts()->orderBy('created_at', 'desc')->limit(2)->get();
             $reviews = $user->reviews()->limit(3)->get();
@@ -123,17 +123,13 @@ class UserController extends Controller
     public function deleteFollow()
     {
 
-        $user = User::find(\request()->id);
-        if ($user) {
-            try {
-                $user->deleteFollower($user->id);
-                return response(['success' => 'success']);
+        $user = User::findOrFail(\request()->id);
+        try {
+            $user->deleteFollower($user->id);
+            return response(['success' => 'success']);
 
-            } catch (\Illuminate\Database\QueryException $exception) {
-                return response(['exception' => $exception->getMessage()]);
-            }
-        } else {
-            return back()->with('this user does not exist');
+        } catch (\Illuminate\Database\QueryException $exception) {
+            return response(['exception' => $exception->getMessage()]);
         }
     }
 

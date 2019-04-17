@@ -8,45 +8,24 @@ use Illuminate\Support\Facades\DB;
 class Cast extends Model
 {
     protected $table = 'cast';
-    protected $fillable = [
-        'name',
-        'about',
-        'gender',
-        'country',
-        'date_of_birth',
-        'image',
+    protected $fillable = ['name', 'about', 'gender',
+        'country', 'date_of_birth', 'image',
     ];
 
-    public static function insertCastJob($cast_id, $job_id)
-    {
-        DB::table('cast_jobs')->insert([
-            'cast_id' => $cast_id,
-            'job_id' => $job_id,
-        ]);
-    }
 
+    /**
+     * Get Jobs of specific person
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function jobs()
     {
-//        return $this->belongsToMany('App\Models\Job', 'cast_jobs', 'cast_id','job_id');
-        $cast_id = $this->getKey();
-        return DB::table('cast_jobs')
-            ->join('job', 'cast_jobs.job_id', 'job.id')
-            ->select('job.name as job_name')
-            ->where('cast_jobs.cast_id', '=', $cast_id)
-            ->get();
+        return $this->belongsToMany('App\Models\Job', 'cast_jobs', 'cast_id', 'job_id');
     }
 
-    public function getCastWithJobs()
-    {
-        $cast_id = $this->getKey();
-        return DB::table('cast_jobs')
-            ->join('cast', 'cast_jobs.cast_id', 'cast.id')
-            ->join('job', 'cast_jobs.job_id', 'job.id')
-            ->select('cast.*', 'job.name as job_name')
-            ->where('cast_jobs.cast_id', '=', $cast_id)
-            ->get();
-    }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getAllCastsWithJobs()
     {
         return DB::table('cast_jobs')
@@ -59,32 +38,23 @@ class Cast extends Model
     /**
      * Movies of specific person of crew
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function movies()
     {
-        $cast_id = $this->getKey();
-        return DB::table('cast_of_movies')
-            ->join('job', 'cast_of_movies.job_id', '=', 'job.id')
-            ->join('movies', 'cast_of_movies.movies_id', '=', 'movies.id')
-            ->select('movies.id as movie_id', 'movies.title', 'movies.poster', 'movies.year', 'job.*')
-            ->where('cast_of_movies.cast_id', '=', $cast_id)
-            ->get();
+
+        return $this->belongsToMany('App\Models\Movies', 'cast_of_movies', 'cast_id', 'movies_id');
     }
+
 
     /**
      * Get Media Of Specific Person Of Crew
      *
      * @param null $limit
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function media($limit = null)
     {
-        $cast_id = $this->getKey();
-//        return DB::table('cast_media')->where('cast_id', $cast_id)
-//            ->limit($limit)
-//            ->get();
-
         return $this->hasMany('App\Models\CastMedia', 'cast_id');
     }
 

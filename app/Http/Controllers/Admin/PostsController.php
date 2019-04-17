@@ -19,6 +19,17 @@ class PostsController extends Controller
     {
         return $post->render('admin.posts.index', ['title' => '']);
     }
+
+
+    public function create()
+    {
+        $post = new Post();
+        $attributes = $post->getFillable();
+        return view('admin.posts.edit-create', compact('attributes'));
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -60,11 +71,10 @@ class PostsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function edit($id)
+    public function edit($id)
     {
         $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit-create', compact('post'));
     }
 
     /**

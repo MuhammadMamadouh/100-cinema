@@ -52,9 +52,9 @@ class HomeController extends Controller
     public function search()
     {
         $query = \request('query');
-        $cast = Cast::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->limit(3)->get();
-        $movies = Movies::where('title', 'like', '%' . $query . '%')->select('id', 'title', 'poster')->limit(3)->get();
-        $users = User::where('name', 'like', '%' . $query . '%')->select('id', 'name', 'image')->limit(3)->get();
+        $cast = Cast::where('name', 'like', "%$query%")->select('id', 'name', 'image')->limit(3)->get();
+        $movies = Movies::where('title', 'like', "%$query%")->select('id', 'title', 'poster')->limit(3)->get();
+        $users = User::where('name', 'like', "%$query%")->select('id', 'name', 'image')->limit(3)->get();
         return view('search', compact('cast', 'movies', 'users'));
     }
 

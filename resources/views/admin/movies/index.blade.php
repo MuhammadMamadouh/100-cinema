@@ -1,7 +1,8 @@
 @extends('adminlte::page')
 <!-- Main content -->
+@section('title', 'Movies')
 @section('content')
-    @include('admin.movies.create')
+
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"> Movies </h3>

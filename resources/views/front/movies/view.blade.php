@@ -1,21 +1,6 @@
 @extends('layouts.page')
 @section('title', strtoupper($movie->title))
-@section('header')
-    <div class="top-header span_top">
-        <div class="logo">
-            <a href="index.html"><img src="images/logo.png" alt=""/></a>
-            <p>Movie Theater</p>
-        </div>
-        <div class="search v-search">
-            <form>
-                <input type="text" value="Search.." onfocus="this.value = '';"
-                       onblur="if (this.value == '') {this.value = 'Search..';}"/>
-                <input type="submit" value="">
-            </form>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-@endsection
+
 @section('content')
 
     <div class="reviews-section">
@@ -23,10 +8,10 @@
         <div class="col-md-9 reviews-grids">
             <div class="review">
                 <div class="movie-pic">
-                    <a href="single.html"><img src="{{asset('storage/'.$movie->poster)}}" alt=""/></a>
+                    <a href="#"><img src="{{image_url($movie->poster)}}" alt=""/></a>
                 </div>
                 <div class="review-info">
-                    <a class="span" href="single.html">{{strtoupper($movie->title)}} <i>Movie Review</i></a>
+                    <a class="span" href="#">{{strtoupper($movie->title)}} <i>Movie Review</i></a>
                     <p class="dirctr"><a href="">Reagan Gavin Rasquinha, </a>TNN, Mar 12, 2015, 12.47PM IST</p>
                     <p class="ratingview">Critic's Rating:</p>
                     <div class="rating">
@@ -69,151 +54,96 @@
                             <a href="#">REVIEW THIS MOVIE</a>
                         </div>
                         <div class="wt text-center">
-                            <a href="#">WATCH THIS TRAILER</a>
+                            <a href="#" class="play-icon popup-with-zoom-anim"
+                               href="#small-dialog">WATCH THIS TRAILER</a>
                         </div>
+                        <div id="small-dialog" class="mfp-hide">
+                            <iframe src="https://www.youtube.com/embed/{{$movie->trailer}}" frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+
                         <div class="clearfix"></div>
                     </div>
                     <p class="info">CAST:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        @forelse($movie->actors as $actor)
-                            {{$actor->name}}
+                        @forelse($movie->actors()->limit(3)->get() as $actor)
+                            <a href='{{route("crew.show",$actor->id)}}'>{{$actor->name}}</a>
+
+                        @empty
+                            have not actors yet
+                        @endforelse
+                        <a href="{{route('movie.crew', $movie)}}"> ... more</a>
+                    </p>
+                    <p class="info">DIRECTION:
+                        &nbsp;&nbsp;&nbsp;&nbsp; @forelse($movie->directors as $actor)
+                            <a href='{{route("crew.show",$actor->id)}}'>{{$actor->name}}</a>
                         @empty
                             have not actors yet
                         @endforelse
                     </p>
-                    <p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;Glenn Ficarra, John Requa</p>
                     <p class="info">GENRE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Crime</p>
-                    <p class="info">DURATION:&nbsp;&nbsp;&nbsp; &nbsp; 1 hour 45 minutes</p>
+                        @forelse($movie->categories as $category)
+                            <a href="{{url("movie/category/$category->name")}}">{{$category->name}}</a>
+                        @empty
+                            have not category yet
+                        @endforelse
+                    </p>
+                    <p class="info">DURATION:&nbsp;&nbsp;&nbsp; &nbsp; {{$movie->playtime}} min</p>
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div class="single">
-                <h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
-                <p>STORY:<i>{{$movie->story}}</i></p>
+
+                <p>STORY</p>:{{$movie->story}}
             </div>
-            <div class="best-review">
-                <h4>Best Reader's Review</h4>
-                <p>Excellent Movie and great performance by Lorem, one of the finest thriller of recent like Aldus
-                    PageMaker including versions of Lorem Ipsum.</p>
-                <p><span>Neeraj Upadhyay (Noida)</span> 16/03/2015 at 12:14 PM</p>
-            </div>
-            <div class="story-review">
-                <h4>REVIEW:</h4>
-                <p>So,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                    the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                    type and scrambled it to make a type specimen book. It has survived not only five centuries, but
-                    also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in
-                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                    with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <div class="reply-section">
+                <div class="reply-section-head">
+                    <div class="reply-section-head-text">
+                        <h3>add your AWSOME review</h3>
+                    </div>
+                </div>
+                <div class="blog-form">
+                    <textarea title="add comment" class="form-control" id="commentBox"></textarea>
+                </div>
             </div>
             <!-- comments-section-starts -->
             <div class="comments-section">
                 <div class="comments-section-head">
                     <div class="comments-section-head-text">
-                        <h3>25 Comments</h3>
+                        <h3 id="total-comments">{{$movie->reviews->count()}} reviews</h3>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="comments-section-grids">
+                <div class="comments-section-grids" id="comments">
                     @foreach($reviews as $review )
-                        <div class="comments-section-grid">
-                            <div class="col-md-2 comments-section-grid-image">
-                                <img src="{{\Storage::url($review->user->avatar)}}" class="img-responsive" alt=""/>
-                            </div>
-                            <div class="col-md-10 comments-section-grid-text">
-                                <h4><a href="#">{{$review->user->name}}</a></h4>
-                                <label>{{$review->created_at->diffForHumans()}} </label>
-                                <p>{{$review->review}}.</p>
-                                <span><a href="#">Reply</a></span>
-                                <i class="rply-arrow"></i>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        @include('front.movies.review')
                     @endforeach
-                    <div class="comments-section-grid comments-section-middle-grid">
-                        <div class="col-md-2 comments-section-grid-image">
-                            <img src="{{asset('images/beauty.jpg')}}" class="img-responsive" alt=""/>
-                        </div>
-                        <div class="col-md-10 comments-section-grid-text">
-                            <h4><a href="#">MARWA ELGENDY</a></h4>
-                            <label>5/4/2014 at 22:00 </label>
-                            <p>But I must explain to you how all this idea denouncing pleasure and praising pain was
-                                born and I will give you a complete account of the system, and expound but because
-                                those
-                                who do not know how to pursue pleasure rationally encounter consequences.</p>
-                            <span><a href="#">Reply</a></span>
-                            <i class="rply-arrow"></i>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="comments-section-grid">
-                        <div class="col-md-2 comments-section-grid-image">
-                            <img src="images/stylish.jpg" class="img-responsive" alt=""/>
-                        </div>
-                        <div class="col-md-10 comments-section-grid-text">
-                            <h4><a href="#">MARWA ELGENDY</a></h4>
-                            <label>5/4/2014 at 22:00 </label>
-                            <p>But I must explain to you how all this mistaken idea of denouncing pleasure and
-                                praising
-                                pain was born and I will give you a complete account of the system, and expound but
-                                because those who do not know how to pursue pleasure rationally encounter
-                                consequences.</p>
-                            <span><a href="#">Reply</a></span>
-                            <i class="rply-arrow"></i>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
                 </div>
+                {{$reviews->links()}}
             </div>
             <!-- comments-section-ends -->
-            <div class="reply-section">
-                <div class="reply-section-head">
-                    <div class="reply-section-head-text">
-                        <h3>Leave Reply</h3>
-                    </div>
-                </div>
-                <div class="blog-form">
-                    <form action="{{url('reviews')}}" method='post' id='addReview'>
-                        @csrf
-                        <input type="hidden" name="movie" value="{{$movie->id}}">
-                        <input type="text" class="text" value="Enter Name" onfocus="this.value = '';"
-                               onblur="if (this.value == '') {this.value = 'Enter Name';}">
-                        <input type="text" class="text" value="Enter Email" onfocus="this.value = '';"
-                               onblur="if (this.value == '') {this.value = 'Enter Email';}">
-                        <input type="text" class="text" name="review" value="Subject" onfocus="this.value = '';"
-                               onblur="if (this.value == '') {this.value = 'Subject';}">
-                        <textarea></textarea>
-                        <input type="submit" value="SUBMIT COMMENT">
-                    </form>
-                </div>
-            </div>
         </div>
         <div class="col-md-3 side-bar">
             <div class="featured">
                 <h3>Featured Today in Movie Reviews</h3>
                 <ul>
                     <li>
-                        <a href="single.html"><img src="images/f1.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
                         <p>lorem movie review</p>
                     </li>
                     <li>
-                        <a href="single.html"><img src="images/f2.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
                         <p>lorem movie review</p>
                     </li>
                     <li>
-                        <a href="single.html"><img src="images/f3.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
                         <p>lorem movie review</p>
                     </li>
                     <li>
-                        <a href="single.html"><img src="images/f4.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
                         <p>lorem movie review</p>
                     </li>
                     <li>
-                        <a href="single.html"><img src="images/f5.jpg" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <li>
-                        <a href="single.html"><img src="images/f6.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
                         <p>lorem movie review</p>
                     </li>
                     <div class="clearfix"></div>
@@ -224,7 +154,7 @@
                 <h3>Featured Today in Entertainment</h3>
                 <ul>
                     <li class="ent">
-                        <a href="single.html"><img src="images/f6.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
                     </li>
                     <li>
                         <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
@@ -234,7 +164,7 @@
                 </ul>
                 <ul>
                     <li class="ent">
-                        <a href="single.html"><img src="images/f5.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
                     </li>
                     <li>
                         <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
@@ -244,7 +174,7 @@
                 </ul>
                 <ul>
                     <li class="ent">
-                        <a href="single.html"><img src="images/f3.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
                     </li>
                     <li>
                         <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
@@ -254,7 +184,7 @@
                 </ul>
                 <ul>
                     <li class="ent">
-                        <a href="single.html"><img src="images/f4.jpg" alt=""/></a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
                     </li>
                     <li>
                         <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
@@ -262,32 +192,14 @@
                     </li>
                     <div class="clearfix"></div>
                 </ul>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="images/f2.jpg" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
 
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="images/f1.jpg" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
-
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
             </div>
             <div class="might">
                 <h4>You might also like</h4>
                 <div class="might-grid">
                     <div class="grid-might">
-                        <a href="single.html"><img src="images/mi.jpg" class="img-responsive" alt=""> </a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
+                                                   alt=""> </a>
                     </div>
                     <div class="might-top">
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -297,7 +209,8 @@
                 </div>
                 <div class="might-grid">
                     <div class="grid-might">
-                        <a href="single.html"><img src="images/mi1.jpg" class="img-responsive" alt=""> </a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
+                                                   alt=""> </a>
                     </div>
                     <div class="might-top">
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -307,7 +220,8 @@
                 </div>
                 <div class="might-grid">
                     <div class="grid-might">
-                        <a href="single.html"><img src="images/mi2.jpg" class="img-responsive" alt=""> </a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
+                                                   alt=""> </a>
                     </div>
                     <div class="might-top">
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -317,7 +231,19 @@
                 </div>
                 <div class="might-grid">
                     <div class="grid-might">
-                        <a href="single.html"><img src="images/mi3.jpg" class="img-responsive" alt=""> </a>
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
+                                                   alt=""> </a>
+                    </div>
+                    <div class="might-top">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <a href="single.html">Lorem Ipsum <i> </i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="might-grid">
+                    <div class="grid-might">
+                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
+                                                   alt=""> </a>
                     </div>
                     <div class="might-top">
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -351,15 +277,14 @@
 
         <div class="clearfix"></div>
     </div>
-    </div>
     <div class="review-slider">
         <ul id="flexiselDemo1">
-            <li><img src="images/r1.jpg" alt=""/></li>
-            <li><img src="images/r2.jpg" alt=""/></li>
-            <li><img src="images/r3.jpg" alt=""/></li>
-            <li><img src="images/r4.jpg" alt=""/></li>
-            <li><img src="images/r5.jpg" alt=""/></li>
-            <li><img src="images/r6.jpg" alt=""/></li>
+            <li><img src="{{asset('public/images/r1.jpg')}}" alt=""/></li>
+            <li><img src="{{asset('public')}}/images/r2.jpg" alt=""/></li>
+            <li><img src="public/images/r3.jpg" alt=""/></li>
+            <li><img src="public/images/r4.jpg" alt=""/></li>
+            <li><img src="public/images/r5.jpg" alt=""/></li>
+            <li><img src="public/images/r6.jpg" alt=""/></li>
         </ul>
         <script type="text/javascript">
             $(window).load(function () {
@@ -390,4 +315,193 @@
         </script>
 
     </div>
+
+    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
+         aria-labelledby="editModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModal">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['url' => '#', 'method'=> 'put','id'=>'frm-update']) !!}
+                    <div class="form-group has-feedback {{ $errors->has('title') ? 'has-error' : '' }}">
+                        {!! Form::label('review') !!}
+                        {!! Form::textarea('review','',['class'=>'form-control input']) !!}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger pull-right">Save changes
+                        </button>
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('js')
+    <link href="{{asset('public/css/popuo-box.css')}}" rel="stylesheet" type="text/css" media="all"/>
+    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
+    <script>
+        $('.popup-with-zoom-anim').magnificPopup({
+            type: 'inline',
+            fixedContentPos: false,
+            fixedBgPos: true,
+            overflowY: 'auto',
+            closeBtnInside: true,
+            preloader: false,
+            midClick: true,
+            removalDelay: 300,
+            mainClass: 'my-mfp-zoom-in'
+        });
+        $('.pagination .page-link').on('click', function (e) {
+            e.preventDefault();
+            $('#load a').css('color', '#dfecf6');
+            $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+
+            var url = $(this).attr('href');
+            getReviews(url);
+            // window.history.pushState("", "", url);
+        });
+
+        function getReviews(url) {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                $('#comments').append(data);
+            }).fail(function () {
+                alert('Reviews could not be loaded.');
+            });
+        }
+
+        $('#commentBox').on('keypress', function (e) {
+            let review = $('#commentBox').val().trim();
+
+            if (e.keyCode === 13 && review !== '') {
+                e.preventDefault();
+                if (review === '') return;
+                $.ajax({
+                    type: 'POST',
+                    url: '{{route('reviews.store')}}',
+                    data: {
+                        review: review,
+                        movie: '{{$movie->id}}',
+                        _token: '{{csrf_token()}}',
+                    },
+                    dataType: 'json'
+                })
+                    .done(function (data) {
+                        $('#commentBox').text('');
+                        $('#comments').prepend(data.comment);
+                    })
+                    .fail(function (data) {
+                        $('#commentBox').text('');
+                    })
+
+            }
+        });
+
+        let body = $('body');
+        body.delegate('.comment-menue .edit-comment', 'click', function () {
+            let id = $(this).attr('id');
+            console.log(id);
+            $.ajax({
+                url: '{{url("reviews")}}/' + id,
+                data: '',
+                type: 'GET',
+                dataType: 'JSON',
+                beforeSend: function () {
+
+                },
+                success: (function (results) {
+                    console.log(results.review);
+                    let review = results.review;
+                    $('#frm-update #review').val(review.review);
+                    $('#frm-update').attr('action', '{{url('reviews')}}/' + review.id);
+
+                }),
+                error: (function (results) {
+                    $.each(results.responseJSON.errors, function (index, val) {
+                        toastr.info(val)
+                    });
+                }),
+            });
+
+            $('#frm-update').on('submit', function (e) {
+
+                e.preventDefault();
+
+                let form = $('#frm-update');
+
+                let url = '{{url("reviews")}}/' + id;
+
+                let data = $(this).serialize();
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'PUT',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+
+                    },
+                    success: (function (results) {
+                        console.log(results);
+                        $('#edit_modal').modal('hide').fadeOut(1500);
+                        form.each(function () {
+                            this.reset();
+                        });
+                        if (results.review) {
+                            $('#review-' + id).html(results.review);
+
+                        }
+                    }),
+                    error: (function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    }),
+                });
+            });
+        });
+
+        body.delegate('.comment-menue .delete-comment', 'click', function (e) {
+            e.preventDefault();
+            if (confirm('Are You Sure?')) {
+                var id = $(this).attr('id');
+                var url = '{{url('reviews')}}/' + id;
+                $.ajax({
+                    url: url,
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    },
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        toastr.info('Loading...');
+                    },
+                    success: function (results) {
+                        $('#comment-' + id).fadeOut(2000).remove();
+                        if (results.success) {
+                            toastr.info(results.success);
+                        }
+                        if (results.post) {
+                            toastr.info(results.success);
+                        }
+                    },
+                    error: function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    },
+                })
+            }
+        });
+
+    </script>
 @endsection

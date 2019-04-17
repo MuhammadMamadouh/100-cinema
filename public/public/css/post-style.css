@@ -771,6 +771,7 @@ div#example1 {
 }
 
 .nbs-flexisel-item img {
+    height: 250px;
     width: 93%;
     cursor: pointer;
     position: relative;

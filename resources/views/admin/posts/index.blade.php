@@ -2,7 +2,6 @@
 @section('title', 'posts')
 <!-- Main content -->
 @section('content')
-    @include('admin.posts.create')
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"> Posts </h3>

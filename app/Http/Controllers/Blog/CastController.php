@@ -21,7 +21,7 @@ class CastController extends Controller
         $jobs = $cast->jobs();
         $movies = $cast->movies()->limit(3)->get();
         $images = $cast->media()->limit(3)->get();
-        return view('front.crew.view', compact('cast', 'jobs', 'movies', 'bestMovie', 'images'));
+        return view('front.crew.view', compact('cast', 'jobs', 'movies', 'images'));
     }
 
     /**

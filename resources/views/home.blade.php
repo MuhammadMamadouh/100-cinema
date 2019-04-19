@@ -6,14 +6,21 @@
 @section('title', config('app.name'))
 <!--//end-banner-->
 @section('content')
-
-    <div class="col-md-12 mag-innert-left">
+    <div class=" mag-innert-left">
         <!--/start-Technology-->
         <div class="technology">
             <div class="col-md-6 ">
-                <h2 class="tittle"><i class="glyphicon glyphicon-certificate"> </i>Latest Articles</h2>
-                <div class="col-md-6 tech-img">
-                    <img src="{{asset('public/images/tech.jpg')}}" class="img-responsive" alt=""/>
+                <h2 class="tittle"><i class="glyphicon glyphicon-certificate"> </i>Most Commented Articles</h2>
+                <div class="col-md-12 tech-img">
+                    <img src="{{image_url($mostCommented->image)}}" class="img-responsive" alt=""/>
+
+                    <div class="col-md-9 item-details">
+                        <h5 class="inner two"><a
+                                    href="{{route('posts.show',$mostCommented->id)}}">{{$mostCommented->title}}</a>
+                        </h5>
+                        <div class="td-post-date two">{{$mostCommented->created_at->diffForHumans()}}</div>
+                        {{--<a href="{{route()}}" class="btn-outline-dark">readmore</a>--}}
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 tech-text">
@@ -36,6 +43,19 @@
             </div>
             <div class="clearfix"></div>
         </div>
+        <div class="movies">
+            <h2 class="tittle"><i class="glyphicon glyphicon-certificate"> </i>Latest movies</h2>
+            <ul id="flexiselDemo1">
+                @foreach($movies as $movie)
+                    <li>
+                        <a href="{{url("movie/$movie->id")}}"><img src="{{image_url($movie->poster)}}"
+                                                                   alt="{{$movie->title}}"/></a>
+                    </li>
+                @endforeach
+            </ul>
+
+
+        </div>
         <!--//latest-articles-->
         <div class="latest-articles">
             <h3 class="tittle"><i class="glyphicon glyphicon-file"></i>Videos From Youtube</h3>
@@ -47,11 +67,30 @@
                                         src="{{$video->snippet->thumbnails->high->url}}" class="img-thumbnail"
                                         title="allbum-name"/></a>
                             <h5>{{$video->snippet->title}}</h5>
-                            {{--<ul class="list-unstyled ">--}}
-                            {{--<li><span><i class="glyphicon-thumbs-up" title="image-name"/></span></li>--}}
-                            {{--<li><a href="#"><img src="images/views.png" title="image-name"/></a></li>--}}
-                            {{--<li><a href="#"><img src="images/link.png" title="image-name"/></a></li>--}}
-                            {{--</ul>--}}
+                            <a class="button play-icon popup-with-zoom-anim"
+                               href="#small-dialog-{{$video->id->videoId}}">Watch now</a>
+                        </div>
+                        <div id="small-dialog-{{$video->id->videoId}}" class="mfp-hide">
+                            <iframe src="https://www.youtube.com/embed/{{$video->id->videoId}}" frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+                    @endif
+                @endforeach
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!--//articles-->
+        <!--//latest-articles-->
+        <div class="latest-articles">
+            <h3 class="tittle"><i class="glyphicon glyphicon-file"></i>Videos From our channels</h3>
+            <div class="world-news-grids">
+                @foreach($channelVideo as $video)
+                    @if(isset($video->id->videoId))
+                        <div class="col-md-3">
+                            <a class="play-icon popup-with-zoom-anim" href="#small-dialog-{{$video->id->videoId}}"><img
+                                        src="{{$video->snippet->thumbnails->high->url}}" class="img-thumbnail"
+                                        title="allbum-name"/></a>
+                            <h5>{{$video->snippet->title}}</h5>
                             <a class="button play-icon popup-with-zoom-anim"
                                href="#small-dialog-{{$video->id->videoId}}">Watch now</a>
                         </div>
@@ -66,9 +105,11 @@
         </div>
         <!--//articles-->
     </div>
-    <!-- pop-up-box -->
+
+@endsection
+@section('js')
     <link href="{{asset('public/css/popuo-box.css')}}" rel="stylesheet" type="text/css" media="all"/>
-    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
+
     <script>
         $(document).ready(function () {
             $('.popup-with-zoom-anim').magnificPopup({
@@ -77,11 +118,38 @@
                 fixedBgPos: true,
                 overflowY: 'auto',
                 closeBtnInside: true,
-                preloader: false,
+                preloader: true,
                 midClick: true,
                 removalDelay: 300,
                 mainClass: 'my-mfp-zoom-in'
             });
         });
+
+        $(window).load(function () {
+
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 6,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: false,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 3
+                    }
+                }
+            });
+        });
     </script>
+    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
 @endsection

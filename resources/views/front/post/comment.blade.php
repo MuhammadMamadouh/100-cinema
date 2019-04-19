@@ -1,26 +1,24 @@
 <div class="comments-section-grid" id="comment-{{$comment->id}}">
 
-    @auth
-        @if($comment->user->id === auth()->user()->id)
-            <div class="btn-group pull-right comment-menue">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="edit-comment" id="{{$comment->id}}" data-toggle="modal"
-                           data-target="#edit_modal"><i
-                                    class="fa fa-pencil-square-o"></i>Edit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#" class="delete-comment" id="{{$comment->id}}"><i
-                                    class="fa fa-trash-o"></i>Delete</a>
-                    </li>
-                </ul>
-            </div>
+    @can('delete-comment',$comment)
+        <div class="btn-group pull-right comment-menue">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" class="edit-comment" id="{{$comment->id}}" data-toggle="modal"
+                       data-target="#edit_modal"><i
+                                class="fa fa-pencil-square-o"></i>Edit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" class="delete-comment" id="{{$comment->id}}"><i
+                                class="fa fa-trash-o"></i>Delete</a>
+                </li>
+            </ul>
+        </div>
 
-        @endif
-    @endauth
+    @endcan
     <div class="col-md-2 comments-section-grid-image">
         <img src="{{image_url($comment->user->image)}}" class="img-responsive" alt=""/>
     </div>

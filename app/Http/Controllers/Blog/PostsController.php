@@ -9,9 +9,20 @@ use App\Notifications\Notify;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy', 'saveLike']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -39,6 +50,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $this->validate(request(), [
             'title' => 'required|string',
             'slug' => 'required|unique:posts',
@@ -86,10 +98,15 @@ class PostsController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Post $post)
     {
-        return view('front.post.create', compact('post'));
+        // The current user can update the post...
+        if (Gate::allows('update-post', $post)) {
+
+            return view('front.post.create', compact('post'));
+        }
     }
 
     /**
@@ -102,7 +119,9 @@ class PostsController extends Controller
     {
 
         $post = Post::findOrFail($id);
-        if ($post) {
+        // The current user can update the post...
+        if (Gate::allows('update-post', $post)) {
+
             $data = $this->validate(request(), [
                 'title' => 'required|string',
                 'details' => 'required',
@@ -134,11 +153,16 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
+        $post = Post::findOrFail($id);
 
-        return response(['success' => 'deleted successfully']);
+        // The current user can update the post...
+        if (Gate::allows('delete-post', $post)) {
+
+            $post->delete();
+
+            return redirect(url('/'));
+        }
     }
-
 
     /**
      * Get count of Likes pf specified post

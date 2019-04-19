@@ -11,7 +11,7 @@
     <script src="{{asset('public/js/jquery.min.js')}}"></script>
     <link rel='stylesheet' href="{{asset('blog/css/font-awesome.min.css') }}">
 
-<!-- Custom Theme files -->
+    <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Cinema Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
@@ -44,10 +44,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <li><a class="active" href="{{route('posts.create')}}" title="create post">
                     <div class="cat"><i class="fa fa-pencil-square-o fa-3x"></i></div>
                 </a></li>
-            <li><a href="404.html">
-                    <div class="bk"><i class="booking"></i><i class="booking1"></i></div>
-                </a></li>
-            <li><a href="contact.html">
+            @auth
+                <li>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        <div class="bk"><i class="fa fa-power-off fa-3x"></i></div>
+
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                          style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            @endauth
+            <li><a href="#">
                     <div class="cnt"><i class="contact"></i><i class="contact1"></i></div>
                 </a></li>
         </ul>
@@ -55,6 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <div class="main">
         <div class="review-content">
+
             <div class="top-header span_top">
                 <div class="logo">
                     <a href="{{url('/')}}">
@@ -62,6 +75,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </a>
                     <p>{{config('app.name')}}</p>
                 </div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ournavbar"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="ournavbar">
 
                     <ul class="nav navbar-nav navbar-right">
@@ -88,7 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <ul class="dropdown-menu col-md-7 notifications-menu" role="menu"></ul>
                             </li>
                         @endguest
-                        <div class="col-md-8 dropdown search-box ">
+                        <li class="dropdown search-box ">
                             <form class="form-inline" id="searchForm" method="get" action="{{url('/search')}}"
                                   role="search">
                                 <li class="dropdown">
@@ -100,7 +120,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <ul class="dropdown-menu" id="searchMenu"></ul>
                                 </li>
                             </form>
-                        </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -241,26 +261,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('blog/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{asset('blog/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{asset('public/js/jquery.flexisel.js')}}"></script>
-<script src="{{asset('blog/js/plugins.js') }}"></script>
+{{--<script src="{{asset('blog/js/plugins.js') }}"></script>--}}
 <script src="{{ asset('js/toastr.min.js') }}"></script>
 <script src="{{asset('js/jquery.morelines.min.js')}}"></script>
 {!! Toastr::render() !!}
-<script src="{{asset('blog/js/wow.min.js') }}"></script>
-<script>new WOW().init();</script>
-<script src="{{asset('blog/js/jquery.nicescroll.min.js') }}"></script>
+{{--<script src="{{asset('blog/js/jquery.nicescroll.min.js') }}"></script>--}}
 
 <script src="{{ asset('js/bootstrap-rating-input.js') }}"></script>
 <script src="{{ asset('js/bootstrap-rating.js') }}"></script>
 {{--<script src="{{ asset('js/myFunctions.js') }}"></script>--}}
-<script src="{{ asset('js/pusher.js') }}"></script>
+
 <script>
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
     $(document).ready(function () {
 
+        $('textarea').on('keyup', function () {
+            let el = this;
+            setTimeout(function () {
+                el.style.cssText = 'height:auto; padding:0';
+                el.style.cssText = '-moz-box-sizing:content-box';
+                el.style.cssText = 'height:' + el.scrollHeight + 'px'
+            }, 0)
+        });
         $('#frm-insert').on('submit', function (e) {
 
             e.preventDefault();

@@ -12,47 +12,45 @@
                 </div>
                 <div class="review-info">
                     <a class="span" href="#">{{strtoupper($movie->title)}} <i>Movie Review</i></a>
-                    <p class="dirctr"><a href="">Reagan Gavin Rasquinha, </a>TNN, Mar 12, 2015, 12.47PM IST</p>
-                    <p class="ratingview">Critic's Rating:</p>
-                    <div class="rating">
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                    </div>
-                    <p class="ratingview">
-                        &nbsp{{5}}/5
-                    </p>
+                    <p class="dirctr"><a href=""></a></p>
+                    {{--<p class="ratingview">Critic's Rating:</p>--}}
+                    {{--<div class="rating">--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--</div>--}}
+                    {{--<p class="ratingview">--}}
+                    {{--&nbsp{{5}}/5--}}
+                    {{--</p>--}}
                     <div class="clearfix"></div>
-                    <p class="ratingview c-rating">Avg Readers' Rating:</p>
-                    <div class="rating c-rating">
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                        <span>☆</span>
-                    </div>
-                    <p class="ratingview c-rating">
-                        &nbsp; 3.3/5</p>
-                    <div class="clearfix"></div>
+                    {{--<p class="ratingview c-rating">Avg Readers' Rating:</p>--}}
+                    {{--<div class="rating c-rating">--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--<span>☆</span>--}}
+                    {{--</div>--}}
+                    {{--<p class="ratingview c-rating">--}}
+                    {{--&nbsp; 3.3/5</p>--}}
+                    {{--<div class="clearfix"></div>--}}
                     <div class="yrw">
-                        <div class="dropdown-button">
-                            <select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-                                <option value="0">Your rating</option>
-                                <option value="1">1.Poor</option>
-                                <option value="2">1.5(Below average)</option>
-                                <option value="3">2.Average</option>
-                                <option value="4">2.5(Above average)</option>
-                                <option value="5">3.Watchable</option>
-                                <option value="6">3.5(Good)</option>
-                                <option value="7">4.5(Very good)</option>
-                                <option value="8">5.Outstanding</option>
-                            </select>
-                        </div>
-                        <div class="rtm text-center">
-                            <a href="#">REVIEW THIS MOVIE</a>
-                        </div>
+                        {{--<div class="dropdown-button">--}}
+                        {{--<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>--}}
+                        {{--<option value="0">Your rating</option>--}}
+                        {{--<option value="1">1.Poor</option>--}}
+                        {{--<option value="2">1.5(Below average)</option>--}}
+                        {{--<option value="3">2.Average</option>--}}
+                        {{--<option value="4">2.5(Above average)</option>--}}
+                        {{--<option value="5">3.Watchable</option>--}}
+                        {{--<option value="6">3.5(Good)</option>--}}
+                        {{--<option value="7">4.5(Very good)</option>--}}
+                        {{--<option value="8">5.Outstanding</option>--}}
+                        {{--</select>--}}
+                        {{--</div>--}}
+
                         <div class="wt text-center">
                             <a href="#" class="play-icon popup-with-zoom-anim"
                                href="#small-dialog">WATCH THIS TRAILER</a>
@@ -95,17 +93,19 @@
 
                 <p>STORY</p>:{{$movie->story}}
             </div>
-            <div class="reply-section">
-                <div class="reply-section-head">
-                    <div class="reply-section-head-text">
-                        <h3>add your AWSOME review</h3>
+            @auth
+                <div class="reply-section">
+                    <div class="reply-section-head">
+                        <div class="reply-section-head-text">
+                            <h3>add your AWSOME review</h3>
+                        </div>
+                    </div>
+                    <div class="blog-form">
+                        <textarea title="add comment" class="form-control" id="commentBox"></textarea>
                     </div>
                 </div>
-                <div class="blog-form">
-                    <textarea title="add comment" class="form-control" id="commentBox"></textarea>
-                </div>
-            </div>
-            <!-- comments-section-starts -->
+        @endauth
+        <!-- comments-section-starts -->
             <div class="comments-section">
                 <div class="comments-section-head">
                     <div class="comments-section-head-text">
@@ -277,7 +277,7 @@
 
         <div class="clearfix"></div>
     </div>
-    <div class="review-slider">
+    <div class="">
         <ul id="flexiselDemo1">
             <li><img src="{{asset('public/images/r1.jpg')}}" alt=""/></li>
             <li><img src="{{asset('public')}}/images/r2.jpg" alt=""/></li>
@@ -343,165 +343,51 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('js')
     <link href="{{asset('public/css/popuo-box.css')}}" rel="stylesheet" type="text/css" media="all"/>
-    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
+
     <script>
-        $('.popup-with-zoom-anim').magnificPopup({
-            type: 'inline',
-            fixedContentPos: false,
-            fixedBgPos: true,
-            overflowY: 'auto',
-            closeBtnInside: true,
-            preloader: false,
-            midClick: true,
-            removalDelay: 300,
-            mainClass: 'my-mfp-zoom-in'
-        });
-        $('.pagination .page-link').on('click', function (e) {
-            e.preventDefault();
-            $('#load a').css('color', '#dfecf6');
-            $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
-
-            var url = $(this).attr('href');
-            getReviews(url);
-            // window.history.pushState("", "", url);
-        });
-
-        function getReviews(url) {
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                $('#comments').append(data);
-            }).fail(function () {
-                alert('Reviews could not be loaded.');
-            });
-        }
-
-        $('#commentBox').on('keypress', function (e) {
-            let review = $('#commentBox').val().trim();
-
-            if (e.keyCode === 13 && review !== '') {
-                e.preventDefault();
-                if (review === '') return;
-                $.ajax({
-                    type: 'POST',
-                    url: '{{route('reviews.store')}}',
-                    data: {
-                        review: review,
-                        movie: '{{$movie->id}}',
-                        _token: '{{csrf_token()}}',
-                    },
-                    dataType: 'json'
-                })
-                    .done(function (data) {
-                        $('#commentBox').text('');
-                        $('#comments').prepend(data.comment);
-                    })
-                    .fail(function (data) {
-                        $('#commentBox').text('');
-                    })
-
-            }
-        });
-
-        let body = $('body');
-        body.delegate('.comment-menue .edit-comment', 'click', function () {
-            let id = $(this).attr('id');
-            console.log(id);
-            $.ajax({
-                url: '{{url("reviews")}}/' + id,
-                data: '',
-                type: 'GET',
-                dataType: 'JSON',
-                beforeSend: function () {
-
-                },
-                success: (function (results) {
-                    console.log(results.review);
-                    let review = results.review;
-                    $('#frm-update #review').val(review.review);
-                    $('#frm-update').attr('action', '{{url('reviews')}}/' + review.id);
-
-                }),
-                error: (function (results) {
-                    $.each(results.responseJSON.errors, function (index, val) {
-                        toastr.info(val)
-                    });
-                }),
-            });
-
-            $('#frm-update').on('submit', function (e) {
-
-                e.preventDefault();
-
-                let form = $('#frm-update');
-
-                let url = '{{url("reviews")}}/' + id;
-
-                let data = $(this).serialize();
-
-                $.ajax({
-                    url: url,
-                    data: data,
-                    type: 'PUT',
-                    dataType: 'JSON',
-                    beforeSend: function () {
-
-                    },
-                    success: (function (results) {
-                        console.log(results);
-                        $('#edit_modal').modal('hide').fadeOut(1500);
-                        form.each(function () {
-                            this.reset();
-                        });
-                        if (results.review) {
-                            $('#review-' + id).html(results.review);
-
-                        }
-                    }),
-                    error: (function (results) {
-                        $.each(results.responseJSON.errors, function (index, val) {
-                            toastr.info(val)
-                        });
-                    }),
-                });
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: true,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
             });
         });
 
-        body.delegate('.comment-menue .delete-comment', 'click', function (e) {
-            e.preventDefault();
-            if (confirm('Are You Sure?')) {
-                var id = $(this).attr('id');
-                var url = '{{url('reviews')}}/' + id;
-                $.ajax({
-                    url: url,
-                    data: {
-                        _token: '{{csrf_token()}}',
-                    },
-                    type: 'DELETE',
-                    dataType: 'JSON',
-                    beforeSend: function () {
-                        toastr.info('Loading...');
-                    },
-                    success: function (results) {
-                        $('#comment-' + id).fadeOut(2000).remove();
-                        if (results.success) {
-                            toastr.info(results.success);
-                        }
-                        if (results.post) {
-                            toastr.info(results.success);
-                        }
-                    },
-                    error: function (results) {
-                        $.each(results.responseJSON.errors, function (index, val) {
-                            toastr.info(val)
-                        });
-                    },
-                })
-            }
-        });
+        $(window).load(function () {
 
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 6,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: false,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 3
+                    }
+                }
+            });
+        });
     </script>
+    <script src="{{asset('public/js/jquery.magnific-popup.js')}}" type="text/javascript"></script>
 @endsection

@@ -45,8 +45,11 @@
                 @endif
             </div>
         </div>
-        <img id="view-image" src="{{image_url($post->image)}}" class="img-thumbnail pull-right" height="200">
-
+        @if(isset($post))
+            <img id="view-image" src="{{image_url($post->image)}}" class="img-thumbnail pull-right" height="200">
+        @else
+            <img id="view-image" src="" class="img-responsive">
+        @endif
         @if(isset($post))
             <button type="submit" class="btn btn-primary">update</button>
         @else

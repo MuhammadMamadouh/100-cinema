@@ -16,8 +16,25 @@
                             <li><a href="#">@if(isset($post->category->name)){{$post->category->name}}@endif</a></li>
                             <li>{{$post->created_at}}</li>
                             <li><a href="#">@if(isset($post->user->name)){{$post->user->name}}@endif</a></li>
-                            <li><a href="{{route('posts.edit', $post->id)}}">Edit</a>
-                            </li>
+                            @can('update-post',$post)
+                                <li><a href="{{route('posts.edit', $post->id)}}">Edit</a></li>
+                            @endif
+                            @can('delete-post',$post)
+                                <li>
+                                    <a href="{{ url("posts/$post->id") }}"
+                                       onclick="event.preventDefault();
+                                       if (confirm('Are you sure?')){
+                                                     document.getElementById('delete-form').submit();}">
+                                        Delete
+                                    </a>
+
+                                    <form id="delete-form" action="{{ url("posts/$post->id") }}" method="post"
+                                          style="display: none;">
+                                        {{ method_field('DELETE') }}
+                                        @csrf
+                                    </form>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -158,7 +175,7 @@
                         $('#add-comment').each(function () {
                             this.reset();
                         });
-                        $('#commentBox').text('');
+                        $('#commentBox').val('');
                         $('#comments').prepend(data.comment);
                         console.log(data)
                     })
@@ -237,8 +254,8 @@
                         form.each(function () {
                             this.reset();
                         });
-                        if (results.comment) {
-                            $('#review-' + id).html(results.review);
+                        if (results.body) {
+                            $('#review-' + id).html(results.body);
 
                         }
                     }),

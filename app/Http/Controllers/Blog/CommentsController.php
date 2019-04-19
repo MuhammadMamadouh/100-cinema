@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\Models\Post;
 
 class CommentsController extends Controller
 {
@@ -64,7 +63,7 @@ class CommentsController extends Controller
         Comment::where('id', $id)->update($data);
 
         return response([
-            'body' => $data['comment']
+            'body' => $data['body']
         ]);
     }
 
@@ -76,28 +75,11 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
+
         Comment::find($id)->delete();
 
         return response(['success' => 'deleted successfully']);
     }
-
-    /**
-     * Remove the specified resources from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function multiDestroy()
-    {
-        if (is_array(request('item'))) {
-            Post::destroy(\request('item'));
-        } else {
-            Post::find(\request('item'))->delete();
-        }
-        session()->flash('success', trans('admin.deleted_record'));
-        return redirect(aurl('posts'));
-    }
-
 
     /**
      * new Added comment in HTML FORM
@@ -109,6 +91,4 @@ class CommentsController extends Controller
     {
         return view('front.post.comment', compact('comment'))->render();
     }
-
-
 }

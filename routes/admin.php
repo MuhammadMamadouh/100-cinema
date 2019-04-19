@@ -5,6 +5,7 @@
 //================== Admin Links ==================
 //=================================================
 
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     \Config::set('auth.defaults.guard', 'admin');

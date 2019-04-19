@@ -29,7 +29,10 @@ class MoviesController extends Controller
         $movieCategories = $movie->categories;
         $categories = Category::all();
         $avgRating = floor($movie->averageRate());
+
+
         return view('front.movies.view', compact(
+
             'movie', 'categories', 'movieCategories', 'avgRating', 'reviews'
         ));
     }

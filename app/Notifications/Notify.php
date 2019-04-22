@@ -26,7 +26,7 @@ class Notify extends Notification implements ShouldQueue
 
     /**
      * Define what kind of work did the actor do with post
-     * can be "LIKE" or "COMMENT"
+     * It can be "LIKE" or "COMMENT"
      * @var string
      */
     private $work;

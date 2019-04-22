@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Post;
+use App\Notifications\Notify;
+use App\User;
 
 class CommentsController extends Controller
 {
@@ -40,8 +43,8 @@ class CommentsController extends Controller
         $comment->body = $data['body'];
         $comment->save();
         // send notification to the author of the post commented on
-//        $post = Post::find($id);
-//        User::find($post->user_id)->notify(new Notify(auth()->id(), ' commented on ', $id));
+        $post = Post::find($id);
+        User::find($post->user_id)->notify(new Notify(auth()->id(), ' commented on ', $id));
 
         $addedComment = $this->addedComment($comment);
         return response()->json(['comment' => $addedComment]);

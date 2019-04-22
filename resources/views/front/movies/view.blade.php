@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="reviews-section">
+    <div class="reviews-section ">
         <h3 class="head">Movie Reviews</h3>
         <div class="col-md-9 reviews-grids">
             <div class="review">
@@ -122,169 +122,14 @@
             </div>
             <!-- comments-section-ends -->
         </div>
-        <div class="col-md-3 side-bar">
-            <div class="featured">
-                <h3>Featured Today in Movie Reviews</h3>
-                <ul>
-                    <li>
-                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <li>
-                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <li>
-                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <li>
-                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <li>
-                        <a href="single.html"><img src="{{asset('public/images/f1.jpg')}}" alt=""/></a>
-                        <p>lorem movie review</p>
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
 
-            <div class="entertainment">
-                <h3>Featured Today in Entertainment</h3>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
-
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
-
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
-
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-                <ul>
-                    <li class="ent">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" alt=""/></a>
-                    </li>
-                    <li>
-                        <a href="single.html">Watch ‘Bombay Velvet’ trailer during WC match</a>
-
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
-
-            </div>
-            <div class="might">
-                <h4>You might also like</h4>
-                <div class="might-grid">
-                    <div class="grid-might">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
-                                                   alt=""> </a>
-                    </div>
-                    <div class="might-top">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="single.html">Lorem Ipsum <i> </i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="might-grid">
-                    <div class="grid-might">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
-                                                   alt=""> </a>
-                    </div>
-                    <div class="might-top">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="single.html">Lorem Ipsum <i> </i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="might-grid">
-                    <div class="grid-might">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
-                                                   alt=""> </a>
-                    </div>
-                    <div class="might-top">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="single.html">Lorem Ipsum <i> </i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="might-grid">
-                    <div class="grid-might">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
-                                                   alt=""> </a>
-                    </div>
-                    <div class="might-top">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="single.html">Lorem Ipsum <i> </i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="might-grid">
-                    <div class="grid-might">
-                        <a href="single.html"><img src="{{asset('public/images/f6.jpg')}}" class="img-responsive"
-                                                   alt=""> </a>
-                    </div>
-                    <div class="might-top">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <a href="single.html">Lorem Ipsum <i> </i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <!---->
-            <div class="grid-top">
-                <h4>Archives</h4>
-                <ul>
-                    <li><a href="single.html">Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. </a></li>
-                    <li><a href="single.html">Lorem Ipsum has been the industry's standard dummy text ever since the
-                            1500s</a></li>
-                    <li><a href="single.html">When an unknown printer took a galley of type and scrambled it to make a
-                            type specimen book. </a></li>
-                    <li><a href="single.html">It has survived not only five centuries, but also the leap into electronic
-                            typesetting</a></li>
-                    <li><a href="single.html">Remaining essentially unchanged. It was popularised in the 1960s with the
-                            release of </a></li>
-                    <li><a href="single.html">Letraset sheets containing Lorem Ipsum passages, and more recently with
-                            desktop publishing </a></li>
-                    <li><a href="single.html">Software like Aldus PageMaker including versionsof Lorem Ipsum.</a></li>
-                </ul>
-            </div>
-            <!---->
-
-        </div>
-
+        @include('layouts.sidebar')
         <div class="clearfix"></div>
     </div>
     <div class="">
         <ul id="flexiselDemo1">
             <li><img src="{{asset('public/images/r1.jpg')}}" alt=""/></li>
             <li><img src="{{asset('public')}}/images/r2.jpg" alt=""/></li>
-            <li><img src="public/images/r3.jpg" alt=""/></li>
-            <li><img src="public/images/r4.jpg" alt=""/></li>
-            <li><img src="public/images/r5.jpg" alt=""/></li>
-            <li><img src="public/images/r6.jpg" alt=""/></li>
         </ul>
         <script type="text/javascript">
             $(window).load(function () {
@@ -361,10 +206,6 @@
                 removalDelay: 300,
                 mainClass: 'my-mfp-zoom-in'
             });
-        });
-
-        $(window).load(function () {
-
             $("#flexiselDemo1").flexisel({
                 visibleItems: 6,
                 animationSpeed: 1000,
@@ -386,6 +227,102 @@
                         visibleItems: 3
                     }
                 }
+            });
+            $('.pagination .page-link').on('click', function (e) {
+                e.preventDefault();
+                $('#load a').css('color', '#dfecf6');
+                $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+                let url = $(this).attr('href');
+                getReviews(url);
+
+            });
+
+            function getReviews(url) {
+                $.ajax({
+                    url: url
+                }).done(function (data) {
+                    $('#comments').append(data);
+                }).fail(function () {
+                    alert('Reviews could not be loaded.');
+                });
+            }
+
+            $('#commentBox').on('keypress', function (e) {
+                let review = $('#commentBox').val().trim();
+                if (e.keyCode === 13 && review !== '') {
+                    e.preventDefault();
+                    if (review === '') return;
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{route('reviews.store')}}',
+                        data: {
+                            review: review,
+                            movie: '{{$movie->id}}',
+                            _token: '{{csrf_token()}}',
+                        },
+                        dataType: 'json'
+                    })
+                        .done(function (data) {
+                            $('#commentBox').text('');
+                            $('#comments').prepend(data.comment);
+                        })
+                        .fail(function (data) {
+                            $('#commentBox').text('');
+                        })
+                }
+            });
+
+            let body = $('body');
+            body.delegate('.comment-menue .edit-comment', 'click', function () {
+                let id = $(this).attr('id');
+                $.ajax({
+                    url: '{{url("reviews")}}/' + id,
+                    data: '',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                    },
+                    success: (function (results) {
+                        console.log(results.review);
+                        let review = results.review;
+                        $('#frm-update #review').val(review.review);
+                        $('#frm-update').attr('action', '{{url('reviews')}}/' + review.id);
+                    }),
+                    error: (function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    }),
+                });
+            });
+            $('#frm-update').on('submit', function (e) {
+                e.preventDefault();
+                let form = $('#frm-update');
+                let url = '{{url("reviews")}}/' + id;
+                let data = $(this).serialize();
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'PUT',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                    },
+                    success: (function (results) {
+                        console.log(results);
+                        $('#edit_modal').modal('hide').fadeOut(1500);
+                        form.each(function () {
+                            this.reset();
+                        });
+                        if (results.review) {
+                            $('#review-' + id).html(results.review);
+                        }
+                    }),
+                    error: (function (results) {
+                        $.each(results.responseJSON.errors, function (index, val) {
+                            toastr.info(val)
+                        });
+                    }),
+                });
             });
         });
     </script>

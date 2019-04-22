@@ -53,9 +53,9 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'about' => 'string|nullable',
-            'image' => v_image(),
-            'site' => 'string|max:255',
-            'short_bio' => 'string|max:255',
+            'image' => v_image('nullable'),
+            'site' => 'nullable|url|max:255',
+            'short_bio' => 'nullable|string|max:255',
         ]);
     }
 

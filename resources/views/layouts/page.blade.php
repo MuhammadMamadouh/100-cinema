@@ -2,6 +2,9 @@
 <html>
 <head>
     <title>@yield('title')</title>
+    <link rel="icon"
+          href="https://previews.123rf.com/images/jemastock/jemastock1610/jemastock161003747/63995720-videocamera-and-pop-corn-icon-cinema-movie-video-film-and-entertainment-theme-colorful-design-vector.jpg">
+
     @yield('css')
     <link href="{{asset('public/css/bootstrap.css')}}" rel='stylesheet' type='text/css'/>
     <!-- Custom Theme files -->
@@ -29,49 +32,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <!-- header-section-starts -->
+
 <div class="full">
-    <div class="menu">
-        <ul>
-            <li><a href="{{url('/')}}">
-                    <div class="hm"><i class="home1"></i><i class="home2"></i></div>
-                </a></li>
-            @auth
-                <li><a href="{{route('profile', auth()->user()->id)}}">
-                        <div class="cat"></i><i class="fa fa-user fa-3x"></i></div>
-                    </a>
-                </li>
-            @endauth
-            <li><a class="active" href="{{route('posts.create')}}" title="create post">
-                    <div class="cat"><i class="fa fa-pencil-square-o fa-3x"></i></div>
-                </a></li>
-            @auth
-                <li>
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                        <div class="bk"><i class="fa fa-power-off fa-3x"></i></div>
 
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                          style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            @endauth
-            <li><a href="#">
-                    <div class="cnt"><i class="contact"></i><i class="contact1"></i></div>
-                </a></li>
-        </ul>
-    </div>
-
-    <div class="main">
+    <div class="">
         <div class="review-content">
 
             <div class="top-header span_top">
                 <div class="logo">
                     <a href="{{url('/')}}">
-                        <img src="public/images/logo.png" alt=""/>
+                        <img src="{{url('/')}}/public/images/logo.png" alt=""/>
                     </a>
                     <p>{{config('app.name')}}</p>
                 </div>
@@ -97,7 +67,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </li>
 
                         @else
-                            <li class="dropdown">
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ route('home') }}">Home</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="fa fa-bell">
                                     <span class="badge badge-danger" id="new-notifications">
@@ -107,19 +83,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </a>
                                 <ul class="dropdown-menu col-md-7 notifications-menu" role="menu"></ul>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">{{auth()->user()->name}} <span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('profile', auth()->user()->id)}}">profile</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                              style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
                         @endguest
                         <li class="dropdown search-box ">
                             <form class="form-inline" id="searchForm" method="get" action="{{url('/search')}}"
                                   role="search">
-                                <li class="dropdown">
-                                    <input type="search" class="form-control mr-sm-2 fa fa-search dropdown-toggle"
-                                           data-toggle="dropdown"
-                                           id="search_bar" name="query" autocomplete="off"
-                                           placeholder="Search" role="button"
-                                           aria-haspopup="true" aria-expanded="true">
-                                    <ul class="dropdown-menu" id="searchMenu"></ul>
-                                </li>
-                            </form>
+                        <li class="dropdown">
+                            <input type="search" class="form-control mr-sm-2 fa fa-search dropdown-toggle"
+                                   data-toggle="dropdown"
+                                   id="search_bar" name="query" autocomplete="off"
+                                   placeholder="Search" role="button"
+                                   aria-haspopup="true" aria-expanded="true">
+                            <ul class="dropdown-menu" id="searchMenu"></ul>
+                        </li>
+
+                        </form>
                         </li>
                     </ul>
                 </div>
@@ -288,58 +287,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 el.style.cssText = 'height:' + el.scrollHeight + 'px'
             }, 0)
         });
-        $('#frm-insert').on('submit', function (e) {
-
-            e.preventDefault();
-
-            let form = $('#frm-insert');
-
-            let url = form.attr('action');
-
-            let data = new FormData(form[0]);
-
-            let formResults = $('#add-error');
-
-            $.ajax({
-                url: url,
-                data: data,
-                type: 'POST',
-                dataType: 'json',
-                beforeSend: function () {
-                    formResults.removeClass().addClass('alert alert-info').html('Loading...');
-                },
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (results) {
-                    if (results.success) {
-                        formResults.removeClass().addClass('alert alert-success').html(results.success);
-                        $('#add_modal').modal('hide').fadeOut(1500);
-                        $('#msg').html(data.success).fadeOut(2000);
-                        toastr.success('well done');
-                        $('#posts').DataTable().draw(true);
-                        $('#frm-insert').each(function () {
-                            this.reset();
-                        });
-                    }
-                    if (results.redirectTo) {
-                        window.location.href = results.redirectTo;
-                    }
-
-                },
-                error: function (results) {
-                    console.log(results);
-                    if (results.responseJSON.errors) {
-                        $.each(results.responseJSON.errors, function (index, val) {
-                            toastr.info(val)
-                        });
-                    } else {
-                        toastr.info(results)
-                    }
-                    formResults.removeClass().addClass('alert alert-danger').html(results.responseJSON.message);
-                }
-            })
-        });
 
         /**
          * Auth user Likes a post
@@ -366,7 +313,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     } else if (data.deleted) {
                         likesCount--;
                         $('#likesCount-' + post_id).text(likesCount).css('color', 'black');
-                        liked.html('')
+                        liked.html('like')
                     } else if (data.redirect) {
                         window.location.href = data.redirect;
                     }
@@ -416,6 +363,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }, 10000);
     });
 
+    $('#markasread').on('click', function (e) {
+        console.log('clicked');
+        e.preventDefault();
+        $.ajax({
+            url: '{{url('readAllNotify')}}',
+            type: 'GET',
+            dataType: 'JSON',
+            beforeSend: function () {
+
+            },
+            success: (function (results) {
+                console.log(results)
+            }),
+            error: (function (results) {
+                console.log('error;');
+                console.log(results)
+            }),
+        });
+    });
 
     $('#search_bar').on('keyup', function () {
         let input = $(this).val().trim();

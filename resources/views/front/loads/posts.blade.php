@@ -105,26 +105,21 @@ $user = \App\User::find($post->user_id);
                 <span id="likesCount-{{$post->id}}">
                     {{$post->likes()->count()}}
                 </span>
-                <i class="fa fa-thumbs-up "></i>
+
                 <span id="liked-{{$post->id}}">
-                    @foreach($post->likes as $like)
-                        @if(auth()->check())
+                    @auth
+                        @foreach($post->likes as $like)
+
                             @if($like->user_id == auth()->user()->id)
                                 <b>Liked</b>
                                 @break
                             @endif
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endauth
                 </span>
             </a>
             <a href="{{route('posts.show', $post->id)}}" class="category col-md-6">
                 <span class="main">{{$post->comments->count()}} comments</span>
-            </a>
-            <a href="#" class="user col-md-4">
-                <iframe src="https://www.facebook.com/plugins/share_button.php?href=http://localhost/imdb/posts/{{$post->id}}&layout=button&size=small&mobile_iframe=true&appId=195198244755555&width=59&height=20"
-                        width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                        allowTransparency="true" allow="encrypted-media"></iframe>
-
             </a>
         </div>
     </div>

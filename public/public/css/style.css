@@ -49,6 +49,11 @@ label {
     border-left: 5px solid #2b2b2b;
 }
 
+.notifications-menu {
+    width: auto
+}
+
+
 .main {
     border-left: 104px solid #383838;
 }

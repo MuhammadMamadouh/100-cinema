@@ -4,8 +4,8 @@
     <link href="{{asset('public/css/post-style.css')}}" rel="stylesheet" type="text/css" media="all"/>
 @endsection
 @section('content')
-    <div class="mag-inner">
-        <div class="col-md-8 mag-innert-left">
+    <div class="mag-inner col-md-8 col-md-offset-1">
+        <div class=" mag-innert-left">
             <div class="banner-bottom-left-grids">
                 <div class="single-left-grid">
                     <img src="{{image_url($post->image)}}" width="730" height="470" alt="">
@@ -13,6 +13,24 @@
                     {!! nl2br($post->details ) !!}
                     <div class="single-bottom">
                         <ul>
+                            <li>
+                                <a class="user like" data-post_id="{{$post->id}}">
+                                    <span id="likesCount-{{$post->id}}">
+                                        {{$post->likes()->count()}}
+                                    </span>
+                                    @auth
+                                        <span id="liked-{{$post->id}}" style="cursor: pointer">
+                                                Like
+                                            @foreach($post->likes as $like)
+                                                @if($like->user_id == auth()->user()->id)
+                                                    <b>Liked</b>
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                         </span>
+                                    @endauth
+                                </a>
+                            </li>
                             <li><a href="#">@if(isset($post->category->name)){{$post->category->name}}@endif</a></li>
                             <li>{{$post->created_at}}</li>
                             <li><a href="#">@if(isset($post->user->name)){{$post->user->name}}@endif</a></li>
@@ -70,62 +88,9 @@
             </div>
 
         </div>
-        <div class="col-md-4 mag-inner-right">
-            <h4 class="side">Popular Posts</h4>
-            <div class="edit-pics">
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="../images/f4.jpg" class="img-responsive" alt=""/>
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner two"><a href="#">New iPad App to stimulate your Guitar</a></h5>
-                        <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a
-                                    href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="../images/f1.jpg" class="img-responsive" alt=""/>
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner two"><a href="#">New iPad App to stimulate your Guitar</a></h5>
-                        <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a
-                                    href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="../images/f1.jpg" class="img-responsive" alt=""/>
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner two"><a href="#">New iPad App to stimulate your Guitar</a></h5>
-                        <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a
-                                    href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="../images/f4.jpg" class="img-responsive" alt=""/>
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner two"><a href="#">New iPad App to stimulate your Guitar</a></h5>
-                        <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a
-                                    href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <!--//edit-pics-->
-        </div>
         <div class="clearfix"></div>
     </div>
+    @include('layouts.sidebar')
     <!--//end-mag-inner-->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog"
          aria-labelledby="editModal"
@@ -196,6 +161,7 @@
             getComments(url);
             // window.history.pushState("", "", url);
         });
+        $('.pagination .page-item[disabled=true]').attr('display', 'none');
 
         function getComments(url) {
             $.ajax({
